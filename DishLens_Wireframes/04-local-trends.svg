@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-label="Local trends">
+<title>Local trends - illustrative wireframe</title>
+<rect width="1600" height="1000" fill="#FAF9F6"/>
+<rect x="0" y="0" width="220" height="1000" rx="0" fill="white" stroke="#DEDAD4"/>
+<text x="24" y="63" font-family="Arial, sans-serif" font-size="31" font-weight="bold" fill="#292724">DishLens</text>
+<text x="24" y="90" font-family="Arial, sans-serif" font-size="14" font-weight="normal" fill="#706D67">Restaurant intelligence</text>
+<rect x="24" y="109" width="89" height="27" rx="6" fill="#F6EDE8" stroke="#F6EDE8"/>
+<text x="35" y="128" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#A85140">P0 / PILOT</text>
+<text x="27" y="193" font-family="Arial, sans-serif" font-size="17" font-weight="normal" fill="#706D67">Weekly briefing</text>
+<text x="27" y="248" font-family="Arial, sans-serif" font-size="17" font-weight="normal" fill="#706D67">Dish feedback</text>
+<text x="27" y="303" font-family="Arial, sans-serif" font-size="17" font-weight="normal" fill="#706D67">Compare dishes</text>
+<rect x="14" y="329" width="192" height="43" rx="7" fill="#F6EDE8" stroke="#F6EDE8"/>
+<text x="27" y="358" font-family="Arial, sans-serif" font-size="17" font-weight="bold" fill="#A85140">Local trends</text>
+<line x1="24" y1="421" x2="196" y2="421" stroke="#DEDAD4"/>
+<text x="24" y="459" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#706D67">DATA COVERAGE</text>
+<text x="24" y="493" font-family="Arial, sans-serif" font-size="16" font-weight="normal" fill="#292724">Imported demo</text>
+<text x="24" y="518" font-family="Arial, sans-serif" font-size="16" font-weight="normal" fill="#292724">snapshot</text>
+<text x="24" y="553" font-family="Arial, sans-serif" font-size="14" font-weight="normal" fill="#706D67">Sep 25, 2026</text>
+<text x="24" y="596" font-family="Arial, sans-serif" font-size="15" font-weight="normal" fill="#706D67">No live source</text>
+<text x="24" y="620" font-family="Arial, sans-serif" font-size="15" font-weight="normal" fill="#706D67">connections</text>
+<line x1="24" y1="814" x2="196" y2="814" stroke="#DEDAD4"/>
+<text x="24" y="852" font-family="Arial, sans-serif" font-size="17" font-weight="bold" fill="#292724">Demo Kitchen</text>
+<text x="24" y="877" font-family="Arial, sans-serif" font-size="14" font-weight="normal" fill="#706D67">One location</text>
+<text x="270" y="63" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#292724">What is gaining attention nearby?</text>
+<text x="270" y="98" font-family="Arial, sans-serif" font-size="17" font-weight="normal" fill="#706D67">Observed local social discussion, not a demand forecast</text>
+<rect x="1332" y="35" width="155" height="27" rx="6" fill="#F6EDE8" stroke="#F6EDE8"/>
+<text x="1343" y="54" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#A85140">ILLUSTRATIVE DATA</text>
+<text x="270" y="969" font-family="Arial, sans-serif" font-size="14" font-weight="normal" fill="#706D67">Wireframe only. All businesses, prices, counts, and comments are invented.</text>
+<rect x="270" y="125" width="332" height="40" rx="7" fill="white" stroke="#DEDAD4"/>
+<text x="285" y="151" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#292724">Area: selected NYC neighborhood</text>
+<rect x="621" y="132" width="255" height="27" rx="6" fill="#F6EDE8" stroke="#F6EDE8"/>
+<text x="632" y="151" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#A85140">AUG 28 - SEP 24 VS. JUL 31 - AUG 27</text>
+<rect x="270" y="198" width="303" height="110" rx="10" fill="white" stroke="#DEDAD4"/>
+<text x="290" y="226" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#706D67">CURRENT LOCAL MENTIONS</text>
+<text x="290" y="267" font-family="Arial, sans-serif" font-size="29" font-weight="bold" fill="#292724">400</text>
+<text x="290" y="294" font-family="Arial, sans-serif" font-size="14" font-weight="normal" fill="#706D67">Separate from dish-review imports</text>
+<rect x="592" y="198" width="303" height="110" rx="10" fill="white" stroke="#DEDAD4"/>
+<text x="612" y="226" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#706D67">PRIOR LOCAL MENTIONS</text>
+<text x="612" y="267" font-family="Arial, sans-serif" font-size="29" font-weight="bold" fill="#292724">400</text>
+<text x="612" y="294" font-family="Arial, sans-serif" font-size="14" font-weight="normal" fill="#706D67">Two complete 28-day windows</text>
+<rect x="914" y="198" width="303" height="110" rx="10" fill="white" stroke="#DEDAD4"/>
+<text x="934" y="226" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#706D67">VENUE BREADTH</text>
+<text x="934" y="267" font-family="Arial, sans-serif" font-size="29" font-weight="bold" fill="#292724">4 venues</text>
+<text x="934" y="294" font-family="Arial, sans-serif" font-size="14" font-weight="normal" fill="#706D67">Restaurant location, not user residence</text>
+<rect x="1237" y="198" width="303" height="110" rx="10" fill="white" stroke="#DEDAD4"/>
+<text x="1257" y="226" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#706D67">SOURCE COVERAGE</text>
+<text x="1257" y="267" font-family="Arial, sans-serif" font-size="29" font-weight="bold" fill="#292724">1 source</text>
+<text x="1257" y="294" font-family="Arial, sans-serif" font-size="14" font-weight="normal" fill="#706D67">Single-source social signal</text>
+<rect x="270" y="339" width="778" height="381" rx="10" fill="white" stroke="#DEDAD4"/>
+<rect x="294" y="360" width="226" height="27" rx="6" fill="#E8F0EB" stroke="#E8F0EB"/>
+<text x="305" y="379" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#35675D">SUPPORTED BY DEMO COUNTS</text>
+<text x="294" y="436" font-family="Arial, sans-serif" font-size="29" font-weight="bold" fill="#292724">Crispy chicken</text>
+<text x="294" y="470" font-family="Arial, sans-serif" font-size="19" font-weight="normal" fill="#292724">Topic share rose from 3% to 6% (+3 percentage points).</text>
+<text x="294" y="530" font-family="Arial, sans-serif" font-size="17" font-weight="bold" fill="#292724">Current</text>
+<rect x="401" y="508" width="362" height="28" rx="4" fill="#EFEEEA" stroke="#EFEEEA"/>
+<rect x="401" y="508" width="217.2" height="28" rx="4" fill="#A85140" stroke="#A85140"/>
+<text x="789" y="527" font-family="Arial, sans-serif" font-size="15" font-weight="normal" fill="#292724">6%  |  24 / 400 mentions</text>
+<text x="294" y="592" font-family="Arial, sans-serif" font-size="17" font-weight="bold" fill="#292724">Prior</text>
+<rect x="401" y="570" width="362" height="28" rx="4" fill="#EFEEEA" stroke="#EFEEEA"/>
+<rect x="401" y="570" width="108.6" height="28" rx="4" fill="#A85140" stroke="#A85140"/>
+<text x="789" y="589" font-family="Arial, sans-serif" font-size="15" font-weight="normal" fill="#292724">3%  |  12 / 400 mentions</text>
+<text x="401" y="631" font-family="Arial, sans-serif" font-size="14" font-weight="normal" fill="#706D67">Bar scale: 0% to 10% of eligible local mentions</text>
+<text x="294" y="684" font-family="Arial, sans-serif" font-size="17" font-weight="normal" fill="#706D67">Four venues / stable cohort / inspect examples before acting</text>
+<rect x="1068" y="339" width="472" height="381" rx="10" fill="white" stroke="#DEDAD4"/>
+<text x="1091" y="388" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#292724">What this does not tell you</text>
+<text x="1091" y="433" font-family="Arial, sans-serif" font-size="19" font-weight="normal" fill="#292724">More mentions do not establish more orders,</text>
+<text x="1091" y="461" font-family="Arial, sans-serif" font-size="19" font-weight="normal" fill="#292724">revenue, or customer demand.</text>
+<text x="1091" y="543" font-family="Arial, sans-serif" font-size="17" font-weight="normal" fill="#706D67">Promotions, selective reviews, and missing channels</text>
+<text x="1091" y="569" font-family="Arial, sans-serif" font-size="17" font-weight="normal" fill="#706D67">can influence the result. No statistical-significance</text>
+<text x="1091" y="595" font-family="Arial, sans-serif" font-size="17" font-weight="normal" fill="#706D67">claim.</text>
+<rect x="1091" y="650" width="258" height="40" rx="7" fill="white" stroke="#DEDAD4"/>
+<text x="1106" y="676" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#292724">Inspect source coverage</text>
+<rect x="270" y="745" width="1270" height="171" rx="10" fill="white" stroke="#DEDAD4"/>
+<rect x="294" y="765" width="220" height="27" rx="6" fill="#F6EDE8" stroke="#F6EDE8"/>
+<text x="305" y="784" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#A85140">EMERGING / SMALL BASELINE</text>
+<text x="294" y="829" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#292724">Chili crisp</text>
+<text x="294" y="862" font-family="Arial, sans-serif" font-size="17" font-weight="normal" fill="#292724">18 current mentions vs. 3 prior, across 3 current venues. Baseline too small for a growth claim.</text>
+<text x="294" y="898" font-family="Arial, sans-serif" font-size="15" font-weight="normal" fill="#706D67">If dates, locality, or coverage cannot be verified, the agent suppresses the trend comparison.</text>
+</svg>

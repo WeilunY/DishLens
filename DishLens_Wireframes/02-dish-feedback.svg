@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-label="Dish feedback">
+<title>Dish feedback - illustrative wireframe</title>
+<rect width="1600" height="1000" fill="#FAF9F6"/>
+<rect x="0" y="0" width="220" height="1000" rx="0" fill="white" stroke="#DEDAD4"/>
+<text x="24" y="63" font-family="Arial, sans-serif" font-size="31" font-weight="bold" fill="#292724">DishLens</text>
+<text x="24" y="90" font-family="Arial, sans-serif" font-size="14" font-weight="normal" fill="#706D67">Restaurant intelligence</text>
+<rect x="24" y="109" width="89" height="27" rx="6" fill="#F6EDE8" stroke="#F6EDE8"/>
+<text x="35" y="128" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#A85140">P0 / PILOT</text>
+<text x="27" y="193" font-family="Arial, sans-serif" font-size="17" font-weight="normal" fill="#706D67">Weekly briefing</text>
+<rect x="14" y="219" width="192" height="43" rx="7" fill="#F6EDE8" stroke="#F6EDE8"/>
+<text x="27" y="248" font-family="Arial, sans-serif" font-size="17" font-weight="bold" fill="#A85140">Dish feedback</text>
+<text x="27" y="303" font-family="Arial, sans-serif" font-size="17" font-weight="normal" fill="#706D67">Compare dishes</text>
+<text x="27" y="358" font-family="Arial, sans-serif" font-size="17" font-weight="normal" fill="#706D67">Local trends</text>
+<line x1="24" y1="421" x2="196" y2="421" stroke="#DEDAD4"/>
+<text x="24" y="459" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#706D67">DATA COVERAGE</text>
+<text x="24" y="493" font-family="Arial, sans-serif" font-size="16" font-weight="normal" fill="#292724">Imported demo</text>
+<text x="24" y="518" font-family="Arial, sans-serif" font-size="16" font-weight="normal" fill="#292724">snapshot</text>
+<text x="24" y="553" font-family="Arial, sans-serif" font-size="14" font-weight="normal" fill="#706D67">Sep 25, 2026</text>
+<text x="24" y="596" font-family="Arial, sans-serif" font-size="15" font-weight="normal" fill="#706D67">No live source</text>
+<text x="24" y="620" font-family="Arial, sans-serif" font-size="15" font-weight="normal" fill="#706D67">connections</text>
+<line x1="24" y1="814" x2="196" y2="814" stroke="#DEDAD4"/>
+<text x="24" y="852" font-family="Arial, sans-serif" font-size="17" font-weight="bold" fill="#292724">Demo Kitchen</text>
+<text x="24" y="877" font-family="Arial, sans-serif" font-size="14" font-weight="normal" fill="#706D67">One location</text>
+<text x="270" y="63" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#292724">Crispy chicken</text>
+<text x="270" y="98" font-family="Arial, sans-serif" font-size="17" font-weight="normal" fill="#706D67">Dish detail / Demo Kitchen / Menu version 2</text>
+<rect x="1332" y="35" width="155" height="27" rx="6" fill="#F6EDE8" stroke="#F6EDE8"/>
+<text x="1343" y="54" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#A85140">ILLUSTRATIVE DATA</text>
+<text x="270" y="969" font-family="Arial, sans-serif" font-size="14" font-weight="normal" fill="#706D67">Wireframe only. All businesses, prices, counts, and comments are invented.</text>
+<rect x="270" y="129" width="125" height="27" rx="6" fill="#F6EDE8" stroke="#F6EDE8"/>
+<text x="281" y="148" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#A85140">AUG 28 - SEP 24</text>
+<rect x="439" y="129" width="154" height="27" rx="6" fill="#F6EDE8" stroke="#F6EDE8"/>
+<text x="450" y="148" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#A85140">DELIVERY CONTEXT</text>
+<rect x="1330" y="122" width="210" height="40" rx="7" fill="white" stroke="#DEDAD4"/>
+<text x="1345" y="148" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#292724">Correct dish match</text>
+<rect x="270" y="189" width="410" height="110" rx="10" fill="white" stroke="#DEDAD4"/>
+<text x="290" y="217" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#706D67">DISH FEEDBACK</text>
+<text x="290" y="258" font-family="Arial, sans-serif" font-size="29" font-weight="bold" fill="#292724">64 comments</text>
+<text x="290" y="285" font-family="Arial, sans-serif" font-size="14" font-weight="normal" fill="#706D67">All known dining contexts</text>
+<rect x="700" y="189" width="410" height="110" rx="10" fill="white" stroke="#DEDAD4"/>
+<text x="720" y="217" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#706D67">DELIVERY CRISPNESS</text>
+<text x="720" y="258" font-family="Arial, sans-serif" font-size="29" font-weight="bold" fill="#292724">18 comments</text>
+<text x="720" y="285" font-family="Arial, sans-serif" font-size="14" font-weight="normal" fill="#706D67">Only comments explicitly discussing this aspect</text>
+<rect x="1130" y="189" width="410" height="110" rx="10" fill="white" stroke="#DEDAD4"/>
+<text x="1150" y="217" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#706D67">NEGATIVE CRISPNESS</text>
+<text x="1150" y="258" font-family="Arial, sans-serif" font-size="29" font-weight="bold" fill="#292724">9 of 18</text>
+<text x="1150" y="285" font-family="Arial, sans-serif" font-size="14" font-weight="normal" fill="#706D67">7 positive / 9 negative / 2 mixed</text>
+<rect x="270" y="329" width="745" height="512" rx="10" fill="white" stroke="#DEDAD4"/>
+<text x="294" y="376" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#292724">What the evidence suggests</text>
+<rect x="294" y="397" width="219" height="27" rx="6" fill="#F6EDE8" stroke="#F6EDE8"/>
+<text x="305" y="416" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#A85140">RECURRING DELIVERY THEME</text>
+<text x="294" y="464" font-family="Arial, sans-serif" font-size="23" font-weight="bold" fill="#292724">Some delivery customers describe a loss of crispness.</text>
+<text x="294" y="534" font-family="Arial, sans-serif" font-size="18" font-weight="normal" fill="#706D67">The comments identify a texture problem, but do not establish whether cooking,</text>
+<text x="294" y="561" font-family="Arial, sans-serif" font-size="18" font-weight="normal" fill="#706D67">holding time, packaging, or transit caused it.</text>
+<line x1="294" y1="619" x2="990" y2="619" stroke="#DEDAD4"/>
+<text x="294" y="661" font-family="Arial, sans-serif" font-size="19" font-weight="bold" fill="#292724">Suggested check - owner decides</text>
+<text x="294" y="701" font-family="Arial, sans-serif" font-size="18" font-weight="normal" fill="#706D67">Compare a freshly served portion with a normally packed delivery portion before</text>
+<text x="294" y="728" font-family="Arial, sans-serif" font-size="18" font-weight="normal" fill="#706D67">changing the recipe.</text>
+<text x="294" y="809" font-family="Arial, sans-serif" font-size="16" font-weight="normal" fill="#A85140">Hypothesis, not a diagnosis. No automatic menu changes.</text>
+<rect x="1035" y="329" width="505" height="512" rx="10" fill="white" stroke="#DEDAD4"/>
+<text x="1059" y="376" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#292724">Supporting comments</text>
+<text x="1059" y="410" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#706D67">DEMO RECORD D-03 / SEP 18 / DELIVERY</text>
+<text x="1059" y="450" font-family="Arial, sans-serif" font-size="20" font-weight="normal" fill="#292724">&quot;The flavor was good, but the coating was soft</text>
+<text x="1059" y="479" font-family="Arial, sans-serif" font-size="20" font-weight="normal" fill="#292724">when it arrived.&quot;</text>
+<line x1="1059" y1="531" x2="1515" y2="531" stroke="#DEDAD4"/>
+<text x="1059" y="565" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#706D67">DEMO RECORD D-08 / SEP 20 / DELIVERY</text>
+<text x="1059" y="605" font-family="Arial, sans-serif" font-size="20" font-weight="normal" fill="#292724">&quot;Still tasty, but not as crisp as when I ate it there.&quot;</text>
+<rect x="1059" y="701" width="282" height="40" rx="7" fill="white" stroke="#DEDAD4"/>
+<text x="1074" y="727" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#292724">View all 18 aspect comments</text>
+<text x="1059" y="777" font-family="Arial, sans-serif" font-size="15" font-weight="normal" fill="#706D67">In the product, evidence opens to permitted source records. These</text>
+<text x="1059" y="801" font-family="Arial, sans-serif" font-size="15" font-weight="normal" fill="#706D67">examples are invented.</text>
+<rect x="270" y="865" width="1270" height="68" rx="9" fill="#F6EDE8" stroke="#F6EDE8"/>
+<text x="292" y="901" font-family="Arial, sans-serif" font-size="18" font-weight="normal" fill="#292724">Insufficient evidence elsewhere: the new sesame bowl has only 2 mentions. No trend asserted.</text>
+</svg>

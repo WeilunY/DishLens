@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>DishLens | Interactive prototype</title>
+  <style>
+    :root{--ink:#302c28;--muted:#736d66;--paper:#faf8f5;--line:#e5ded6;--brand:#a64e3c;--tint:#f5e9e2;--green:#33685b;--green-bg:#eaf2ed}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+    button,input,select{font:inherit}
+    button,a,input,select{touch-action:manipulation}
+    button{cursor:pointer}
+    a{color:var(--brand)}
+    button{border:1px solid var(--line);border-radius:8px;background:white;color:var(--ink);padding:10px 15px;font-weight:600}
+    button:hover{border-color:#bca698;background:#fcf7f3}
+    button:disabled{cursor:not-allowed;opacity:.5}
+    button.primary{color:white;background:var(--brand);border-color:var(--brand)}
+    button.primary:hover{background:#853c2e}
+    button.quiet{background:transparent}
+    :focus-visible{outline:3px solid #659c8f;outline-offset:3px}
+    input,select{border:1px solid #c9beb4;border-radius:7px;padding:10px 12px;background:white;max-width:100%;color:var(--ink)}
+    label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:650}
+    .app{display:grid;grid-template-columns:224px minmax(0,1fr);min-height:100vh}
+    aside{background:white;border-right:1px solid var(--line);padding:28px 18px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:24px}
+    .brand{font:700 33px Georgia,serif;letter-spacing:-1px;margin:0}
+    .muted{color:var(--muted)}.small{font-size:13px}.eyebrow{text-transform:uppercase;font-size:11px;letter-spacing:1px;font-weight:750;color:var(--muted)}
+    nav{display:grid;gap:7px}
+    nav button{text-align:left;border-color:transparent;background:transparent;font-size:14px}
+    nav button[aria-current="page"]{background:var(--tint);color:var(--brand)}
+    .side-section{padding-top:20px;border-top:1px solid var(--line)}
+    .side-bottom{margin-top:auto}
+    .side-section a{display:block;font-size:13px;margin:9px 0}
+    main{padding:32px clamp(18px,3vw,48px) 25px;min-width:0;max-width:1640px;width:100%;margin:0 auto}
+    .top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:24px}
+    h1{font-size:30px;line-height:1.2;letter-spacing:-.65px;margin:0 0 10px}
+    h2{font-size:21px;line-height:1.35;margin:0 0 14px}
+    h3{font-size:18px;line-height:1.4;margin:0 0 10px}
+    p{margin:0 0 14px}
+    .badge{display:inline-flex;align-items:center;gap:6px;background:var(--tint);color:var(--brand);border-radius:6px;padding:5px 9px;font-size:11px;font-weight:750;letter-spacing:.25px}
+    .badge.green{background:var(--green-bg);color:var(--green)}
+    .badge.neutral{background:#efede9;color:#655e55}
+    .top-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:22px 0 28px}
+    .stats.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .stat,.card{background:white;border:1px solid var(--line);border-radius:12px;padding:22px}
+    .stat .value{font-size:30px;font-weight:730;letter-spacing:-.6px;margin:9px 0 4px;line-height:1.25}
+    .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .finding{display:flex;flex-direction:column;align-items:flex-start;min-height:310px}
+    .finding h3{margin-top:20px}
+    .finding .summary{font-size:16px}
+    .finding button{margin-top:auto}
+    .finding .caveat{font-size:13px;color:var(--muted);margin:10px 0 20px}
+    .notice{background:var(--tint);border:1px solid #ead4c8;border-radius:10px;padding:18px 21px;margin-top:20px}
+    .notice p:last-child{margin:0}
+    .notice.neutral{background:#f0efeb;border-color:var(--line)}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .controls{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+    .controls .spacer{flex:1}
+    .columns{display:grid;grid-template-columns:1.3fr 1fr;gap:20px}
+    .stack{display:grid;gap:16px}
+    .section{margin-top:25px}
+    .divider{border:0;border-top:1px solid var(--line);margin:22px 0}
+    .theme{border-top:1px solid var(--line);padding:17px 0}
+    .theme:first-child{border-top:0;padding-top:0}
+    .theme:last-child{padding-bottom:0}
+    .theme button{font-size:13px;padding:7px 10px;margin-top:8px}
+    blockquote{margin:12px 0;padding:0;font-size:16px;line-height:1.65}
+    .record{border:1px solid var(--line);background:white;border-radius:9px;padding:17px;margin-bottom:12px}
+    .record .meta{display:flex;gap:7px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+    .record .meta span{padding-right:7px;border-right:1px solid var(--line)}
+    .record .meta span:last-child{border:0}
+    .record button{font-size:12px;padding:6px 10px}
+    .table-wrap{border:1px solid var(--line);border-radius:12px;overflow:auto;background:white}
+    table{border-collapse:collapse;width:100%;min-width:790px}
+    th,td{text-align:left;vertical-align:top;padding:17px 18px;border-bottom:1px solid var(--line);font-size:14px}
+    thead th{background:#f7f3ee;font-weight:700}
+    tbody th{color:var(--muted);font-weight:600;width:190px}
+    tbody tr:last-child>*{border:0}
+    td p{margin:5px 0;font-size:12px;color:var(--muted)}
+    td .badge{font-size:10px}
+    .bar-row{display:grid;grid-template-columns:58px minmax(70px,1fr) 160px;align-items:center;gap:13px;margin:20px 0;font-size:13px}
+    .bar-track{height:25px;background:#f0ece6;border-radius:4px;overflow:hidden}
+    .bar-fill{height:100%;background:var(--brand);border-radius:4px}
+    .bar-fill.prior{background:#c8a598}
+    .big-number{font-size:34px;font-weight:730;letter-spacing:-1px}
+    .topic-card+.topic-card{margin-top:20px}
+    .footer{margin:32px 0 0;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:18px;align-items:center;color:var(--muted);font-size:12px}
+    .footer button{font-size:12px;padding:7px 10px}
+    dialog{width:min(760px,calc(100vw - 28px));max-height:88vh;border:1px solid var(--line);border-radius:15px;padding:0;color:var(--ink);box-shadow:0 15px 70px #302c2833}
+    dialog::backdrop{background:#302c2877}
+    .modal-header{position:sticky;top:0;background:white;border-bottom:1px solid var(--line);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:1}
+    .modal-header h2{margin:0}
+    .modal-body{padding:23px;background:var(--paper)}
+    .modal-actions{display:flex;gap:10px;justify-content:flex-end;padding:17px 24px;background:white;border-top:1px solid var(--line)}
+    .choice{display:flex;align-items:center;gap:12px;padding:16px;margin:10px 0;background:white;border:1px solid var(--line);border-radius:9px;flex-direction:row}
+    .choice input{width:18px;height:18px;accent-color:var(--brand)}
+    .choice span{display:block}
+    .choice .muted{font-weight:400;margin-top:3px}
+    .empty{padding:25px;text-align:center;border:1px dashed #cfc4ba;border-radius:10px;color:var(--muted)}
+    #toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:13px 21px;border-radius:9px;max-width:calc(100vw - 40px);z-index:20;box-shadow:0 6px 30px #0002}
+    #storage-warning{background:#fff1dc;border:1px solid #ddc6a2;border-radius:8px;padding:12px 16px;margin-bottom:18px;color:#674217}
+    [hidden]{display:none!important}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+    @media(min-width:1600px){main{padding-top:40px}.finding{min-height:325px}}
+    @media(max-width:1150px){.cards{grid-template-columns:1fr}.finding{min-height:0}.finding button{margin-top:5px}.stats.four{grid-template-columns:repeat(2,minmax(0,1fr))}.columns{grid-template-columns:1fr}.top{flex-wrap:wrap}.stat{padding:17px}}
+    @media(max-width:720px){.app{display:block}aside{position:static;height:auto;padding:18px;gap:15px}.brand{font-size:28px}aside>.side-section{display:none}nav{grid-template-columns:1fr 1fr;gap:5px}nav button{padding:10px}.app main{padding:24px 16px}.stats,.stats.four{grid-template-columns:1fr 1fr;gap:10px}.stat .value{font-size:24px}.stats .stat:last-child:nth-child(odd){grid-column:1/-1}.row{flex-wrap:wrap}.controls label{width:100%}.controls select{width:100%}.top-actions{justify-content:flex-start}.footer{align-items:flex-start;flex-wrap:wrap}.bar-row{grid-template-columns:48px 1fr}.bar-row>span:last-child{grid-column:2}.card{padding:18px}h1{font-size:26px}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div><p class="brand">DishLens</p><div class="small muted">Restaurant intelligence</div><span class="badge" style="margin-top:12px">P0 / INTERACTIVE DEMO</span></div>
+      <nav aria-label="Main navigation">
+        <button data-route="briefing">Weekly briefing</button>
+        <button data-route="dish">Dish feedback</button>
+        <button data-route="compare">Compare dishes</button>
+        <button data-route="trends">Local trends</button>
+      </nav>
+      <div class="side-section">
+        <div class="eyebrow">Data coverage</div>
+        <p class="small muted" style="margin-top:10px">Invented sample data.<br>No live integrations or scraping.</p>
+        <button class="quiet small" data-action="coverage">Inspect coverage</button>
+      </div>
+      <div class="side-section">
+        <div class="eyebrow">Project files</div>
+        <a href="DishLens_PRD.docx" download>PRD / Word</a>
+        <a href="DishLens_PRD.md">PRD / Markdown</a>
+        <a href="DishLens_Wireframes/00-all-wireframes.png" target="_blank" rel="noopener">Original wireframes</a>
+        <button class="quiet small" data-action="help">How to try this demo</button>
+      </div>
+      <div class="side-section side-bottom"><strong>Demo Kitchen</strong><div class="small muted">One restaurant location</div></div>
+    </aside>
+    <main>
+      <div id="storage-warning" role="status" hidden></div>
+      <div id="content"></div>
+      <footer class="footer">
+        <span>All businesses, comments, prices, and counts are invented. Nothing is sent to a server.</span>
+        <div><button data-action="help">Demo guide</button> <button data-action="reset">Reset demo</button></div>
+      </footer>
+    </main>
+  </div>
+  <dialog id="modal" aria-labelledby="modal-title"></dialog>
+  <div id="toast" role="status" hidden></div>
+  <script>
+  'use strict';
+  const $ = selector => document.querySelector(selector);
+  const esc = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const STORAGE_KEY = 'dishlens-demo-v1';
+  const CURRENT = 'Aug 28 - Sep 24, 2026';
+  const PRIOR = 'Jul 31 - Aug 27, 2026';
+  const dishes = {
+    chicken: {name:'Crispy chicken', aspect:'crispness', price:14, portion:'6 pieces'},
+    noodles: {name:'Sesame noodles', aspect:'flavor', price:12, portion:'One bowl; weight not stated'},
+    tofu: {name:'Roasted tofu bowl', aspect:'flavor', price:15, portion:'One bowl; weight not stated'}
+  };
+  const venues = {own:'Demo Kitchen',a:'Restaurant A (demo)',b:'Restaurant B (demo)',c:'Restaurant C (demo)'};
+  const menus = {
+    a:{chicken:{name:'Crispy chicken',price:15,portion:'6 pieces'},noodles:{name:'Sesame noodles',price:13,portion:'One bowl; weight not stated'},tofu:{name:'Tofu rice bowl',price:14,portion:'Not stated'}},
+    b:{chicken:{name:'Chicken bites',price:12,portion:'Not stated'},noodles:{name:'Cold sesame noodles',price:11,portion:'Not stated'}},
+    c:{chicken:{name:'Crispy chicken plate',price:17,portion:'8 pieces'},noodles:{name:'Sesame noodle bowl',price:15,portion:'Not stated'},tofu:{name:'Roasted tofu bowl',price:16,portion:'Not stated'}}
+  };
+  const phrases = {
+    crispness:{
+      positive:['The coating stayed crisp and the chicken was enjoyable.','I liked the crunch of this chicken.','The texture was pleasantly crisp.'],
+      negative:['The coating was soft when the food arrived.','The chicken tasted fine, but had lost its crunch.','I expected a crisp coating, but it was soggy.'],
+      mixed:['Some pieces were crisp and others were soft.','The edges were crunchy, but the rest of the coating was soft.']
+    },
+    flavor:{
+      positive:['The seasoning was balanced and I enjoyed the flavor.','The sauce worked well with the dish.'],
+      negative:['The sauce was too salty for my preference.','The flavor was less balanced than I expected.'],
+      mixed:['I liked the flavor overall, but the sauce was a little strong.']
+    },
+    value:{
+      positive:['This felt like good value for the meal.'],
+      negative:['The meal felt expensive for what I received.'],
+      mixed:['I enjoyed it, although I was unsure about the price.']
+    },
+    portion:{
+      positive:['The portion was enough for my lunch.'],
+      negative:['I expected a larger portion.'],
+      mixed:['The portion was fine for a light meal, not a large dinner.']
+    },
+    packaging:{
+      positive:['The packaging kept the meal together.'],
+      negative:['The sauce leaked into the bag.'],
+      mixed:['The container worked, but the separate sauce cup was awkward.']
+    }
+  };
+  const rawReviews = [];
+  let sequence = 0;
+  function addReviews(venue,dish,context,aspect,counts) {
+    ['positive','negative','mixed'].forEach((sentiment,group) => {
+      for (let i=0;i<(counts[group]||0);i++) {
+        sequence++;
+        const id='D-'+String(sequence).padStart(3,'0');
+        rawReviews.push({id,venue,dish,context,aspect,sentiment,
+          date:'2026-09-'+String(1+(sequence%24)).padStart(2,'0'),
+          text:phrases[aspect][sentiment][i%phrases[aspect][sentiment].length],
+          source:'Demo review import'});
+      }
+    });
+  }
+  addReviews('own','chicken','delivery','crispness',[7,9,2]);
+  addReviews('own','chicken','dine-in','crispness',[5,1,1]);
+  addReviews('own','chicken','delivery','value',[4,2,0]);
+  addReviews('own','chicken','dine-in','flavor',[9,1,0]);
+  addReviews('own','chicken','delivery','portion',[3,1,0]);
+  addReviews('own','noodles','delivery','flavor',[7,3,0]);
+  addReviews('own','noodles','dine-in','portion',[4,2,0]);
+  addReviews('own','noodles','delivery','packaging',[0,2,0]);
+  addReviews('own','tofu','delivery','flavor',[2,0,0]);
+  for (const [venue,counts] of [['a',[9,2,1]],['b',[2,1,1]],['c',[9,4,2]]]) addReviews(venue,'chicken','delivery','crispness',counts);
+  for (const [venue,counts] of [['a',[6,4,0]],['b',[1,1,0]],['c',[8,2,2]]]) addReviews(venue,'noodles','delivery','flavor',counts);
+  addReviews('a','tofu','delivery','flavor',[4,2,0]);
+  addReviews('c','tofu','delivery','flavor',[7,3,1]);
+  [
+    ['U-01','The red bowl had a sauce I really enjoyed.','positive'],
+    ['U-02','The chicken special tasted too salty to me.','negative'],
+    ['U-03','That bowl was delicious; I cannot recall the menu name.','positive']
+  ].forEach(([id,text,sentiment]) => rawReviews.push({id,text,sentiment,venue:'own',dish:null,context:'delivery',aspect:'flavor',date:'2026-09-22',source:'Demo review import'}));
+
+  const topics = {chicken:'Crispy chicken',chili:'Chili crisp',noodles:'Noodle bowls'};
+  const social = [];
+  for (const [period,counts] of [['current',[24,18,8,350]],['prior',[12,3,14,371]]]) {
+    ['chicken','chili','noodles','other'].forEach((topic,k) => {
+      for(let i=0;i<counts[k];i++) social.push({
+        id:`S-${period}-${topic}-${i+1}`,period,topic,venue:['own','a','b','c'][i%4],
+        date:period==='current'?`2026-09-${String(1+i%24).padStart(2,'0')}`:`2026-08-${String(1+i%27).padStart(2,'0')}`,
+        source:'Separate demo social feed',
+        text:`Invented local post ${i+1} mentioning ${topics[topic]||'another food topic'} at ${venues[['own','a','b','c'][i%4]]}.`
+      });
+    });
+  }
+  let storageWarning='';
+  let saved={};
+  try {
+    const value=localStorage.getItem(STORAGE_KEY);
+    if(value) {
+      const parsed=JSON.parse(value);
+      if(!parsed || typeof parsed!=='object' || Array.isArray(parsed)) throw new Error('Unexpected saved-data format');
+      saved=parsed;
+    }
+  } catch(error) {
+    storageWarning='Saved demo state could not be loaded. You can still explore; changes may not persist. '+error.message;
+  }
+  const validReviewIds=new Set(rawReviews.filter(r=>r.venue==='own').map(r=>r.id));
+  const corrections={};
+  if(saved.corrections && typeof saved.corrections==='object') {
+    Object.entries(saved.corrections).forEach(([id,dish]) => {
+      if(validReviewIds.has(id) && (dish===null || Object.hasOwn(dishes,dish))) corrections[id]=dish;
+      else storageWarning='Some saved demo settings were invalid and were not restored.';
+    });
+  }
+  const state={
+    route:'briefing',dish:'chicken',context:'delivery',aspect:'crispness',
+    compareDish:'chicken',compareContext:'delivery',
+    competitors:Array.isArray(saved.competitors)&&saved.competitors.length>0&&saved.competitors.every(v=>['a','b','c'].includes(v))?[...new Set(saved.competitors)]:['a','b','c'],
+    area:['midtown','small'].includes(saved.area)?saved.area:'midtown',
+    topic:'all',corrections
+  };
+  let evidenceRecords=[], returnFocus=null, toastTimer;
+  function records(){return rawReviews.map(r=>r.venue==='own'&&Object.hasOwn(state.corrections,r.id)?{...r,dish:state.corrections[r.id]}:r);}
+  function selectReviews(venue,dish,context='all',aspect='all'){
+    return records().filter(r=>r.venue===venue&&r.dish===dish&&(context==='all'||r.context===context)&&(aspect==='all'||r.aspect===aspect));
+  }
+  function tally(list){return ['positive','negative','mixed'].map(s=>list.filter(r=>r.sentiment===s).length);}
+  function representativeRecords(list){
+    const selected=[list.find(r=>r.sentiment==='negative'),list.find(r=>r.sentiment==='positive')].filter(Boolean);
+    for(const record of list)if(selected.length<2&&!selected.some(r=>r.id===record.id))selected.push(record);
+    return selected.slice(0,2);
+  }
+  function persist(){
+    try {
+      localStorage.setItem(STORAGE_KEY,JSON.stringify({corrections:state.corrections,competitors:state.competitors,area:state.area}));
+      storageWarning='';
+    } catch(error) {
+      storageWarning='Your change is active for this session but could not be saved in this browser. '+error.message;
+    }
+    showStorageWarning();
+  }
+  function showStorageWarning(){const el=$('#storage-warning');el.textContent=storageWarning;el.hidden=!storageWarning;}
+  function toast(message){clearTimeout(toastTimer);$('#toast').textContent=message;$('#toast').hidden=false;toastTimer=setTimeout(()=>$('#toast').hidden=true,4000);}
+  function badge(text,kind=''){return `<span class="badge ${kind}">${esc(text)}</span>`;}
+  function stat(label,value,note){return `<div class="stat"><div class="eyebrow">${esc(label)}</div><div class="value">${esc(value)}</div><div class="small muted">${esc(note)}</div></div>`;}
+  function option(value,label,selected){return `<option value="${esc(value)}"${value===selected?' selected':''}>${esc(label)}</option>`;}
+  function dishOptions(selected){return Object.entries(dishes).map(([key,d])=>option(key,d.name,selected)).join('');}
+  function contextOptions(selected){return [['delivery','Delivery'],['dine-in','Dine-in'],['all','All known contexts']].map(([v,l])=>option(v,l,selected)).join('');}
+  function header(title,subtitle,actions=''){
+    return `<header class="top"><div><h1>${esc(title)}</h1><div class="muted">${esc(subtitle)}</div></div><div class="top-actions">${badge('INVENTED DEMO DATA')}${actions}</div></header>`;
+  }
+  function matchingSocial(period){const cohort=state.area==='midtown'?['own','a','b','c']:['own','a'];return social.filter(r=>r.period===period&&cohort.includes(r.venue));}
+  function trend(topic){
+    const currentAll=matchingSocial('current'),priorAll=matchingSocial('prior');
+    const current=currentAll.filter(r=>r.topic===topic),prior=priorAll.filter(r=>r.topic===topic);
+    const breadth=new Set(current.map(r=>r.venue)).size;
+    const valid=current.length>=15&&prior.length>=10&&breadth>=3;
+    return {topic,current,prior,currentTotal:currentAll.length,priorTotal:priorAll.length,breadth,valid,
+      currentShare:currentAll.length?current.length/currentAll.length*100:0,priorShare:priorAll.length?prior.length/priorAll.length*100:0};
+  }
+  function formatPct(value){return Number(value.toFixed(1))+'%';}
+  function renderBriefing(){
+    const own=records().filter(r=>r.venue==='own'),unmatched=own.filter(r=>!r.dish).length;
+    const chicken=selectReviews('own','chicken','delivery','crispness'),negative=tally(chicken)[1],local=trend('chicken');
+    const trendText=local.valid?`Share of eligible local mentions changed from ${formatPct(local.priorShare)} to ${formatPct(local.currentShare)}.`:'There is not enough breadth or baseline data to claim a local trend in this area.';
+    return header('Your weekly dish briefing','Demo Kitchen / '+CURRENT,'<button data-action="export">Download briefing</button>')+
+      `<div class="stats">${stat('Own-restaurant records',own.length,'Accepted sample records; unresolved matches excluded from dish insights')}${stat('Approved competitors',state.competitors.length,'Owner-selected, editable comparison set')}${stat('Local coverage',state.area==='midtown'?'4 venues':'2 venues','Separate social sample, not the review-import dataset')}</div>
+      <h2>Three things to review</h2><div class="cards">
+        <article class="card finding">${badge('YOUR DISH')}<h3>Crispy chicken: delivery texture</h3><p class="summary">${negative} of ${chicken.length} delivery comments discussing crispness are negative.</p><p class="caveat">${chicken.length>=10&&negative>0?'Possible check: inspect transit time and packaging before changing the recipe.':'Review the available evidence before deciding whether any change is justified.'}</p><button class="primary" data-action="open-chicken">Review dish evidence</button></article>
+        <article class="card finding">${badge('COMPETITOR CONTEXT')}<h3>Compare similar chicken dishes</h3><p class="summary">Review listed prices, portions, and feedback across ${state.competitors.length} approved nearby menus.</p><p class="caveat">Unknown portions and sparse samples are flagged. No overall quality ranking.</p><button data-action="open-comparison">Open comparison</button></article>
+        <article class="card finding">${badge(local.valid?'LOCAL SIGNAL':'LIMITED LOCAL EVIDENCE')}<h3>What is being discussed nearby?</h3><p class="summary">${esc(trendText)}</p><p class="caveat">${local.current.length} current vs. ${local.prior.length} prior crispy-chicken mentions. Online attention is not proven demand.</p><button data-route="trends">Inspect local signal</button></article>
+      </div>
+      <section class="card section"><div class="row"><div><h3>Coverage and review queue</h3><p class="muted">${unmatched} record${unmatched===1?'':'s'} need a dish match. Correcting a match updates this demo immediately.</p><div class="small muted">Current: ${CURRENT} / Prior: ${PRIOR}</div></div><button data-action="unmatched">Review unmatched (${unmatched})</button></div></section>
+      <div class="notice neutral small"><strong>Try the prototype:</strong> open a finding, change a dish or dining context, inspect evidence, edit your competitors, or switch the local area. Corrections and selected competitors are saved only in this browser.</div>`;
+  }
+  function themeMarkup(list){
+    const aspects=[...new Set(list.map(r=>r.aspect))];
+    if(!aspects.length)return '<div class="empty">No comments match these filters. Try another context or dish.</div>';
+    return aspects.map(aspect=>{
+      const group=list.filter(r=>r.aspect===aspect),[pos,neg,mixed]=tally(group);
+      return `<div class="theme"><div class="row"><strong>${esc(aspect[0].toUpperCase()+aspect.slice(1))}</strong>${badge(group.length+' mentions','neutral')}</div><p class="small muted" style="margin-top:8px">${pos} positive / ${neg} negative / ${mixed} mixed</p>${group.length<10?'<p class="small muted">Small sample. Counts only; not a representative customer measure.</p>':''}<button data-action="theme-evidence" data-aspect="${esc(aspect)}">Inspect ${esc(aspect)} comments</button></div>`;
+    }).join('');
+  }
+  function recordMarkup(r,allowCorrection=true){
+    const dish=r.dish&&dishes[r.dish]?dishes[r.dish].name:(r.dish?topics[r.dish]||r.dish:'Unassigned');
+    return `<article class="record"><div class="meta"><span>${esc(r.id)}</span><span>${esc(r.date)}</span><span>${esc(r.context||'social mention')}</span><span>${esc(r.source)}</span></div><blockquote>${esc(r.text)}</blockquote><div class="row"><span class="small muted">${esc(r.venue?venues[r.venue]:'')} ${r.sentiment?' / '+esc(r.sentiment):''}${r.aspect?' / '+esc(r.aspect):''}</span>${allowCorrection&&r.venue==='own'&&r.source==='Demo review import'?`<button data-action="match" data-id="${esc(r.id)}">Match: ${esc(dish)} / edit</button>`:''}</div><div class="small muted" style="margin-top:8px">Invented demo record, not a live review or a unique-customer count.</div></article>`;
+  }
+  function renderDish(){
+    const all=selectReviews('own',state.dish,'all'),list=selectReviews('own',state.dish,state.context,state.aspect);
+    const [pos,neg,mixed]=tally(list);
+    const suggestion=list.length>=10&&neg>0&&state.dish==='chicken'&&state.context==='delivery'&&['all','crispness'].includes(state.aspect)
+      ?'Compare a freshly served portion with a normally packed delivery portion before changing the recipe. The comments alone do not identify the cause.'
+      :list.length>=10?'Review the original wording and operational context with your team before deciding whether a small test is justified.'
+      :'There is not enough evidence for a strong recommendation. Inspect these examples and gather more feedback before making a change.';
+    return header(dishes[state.dish].name,'Dish-level feedback / '+CURRENT)+
+      `<div class="controls"><label>Menu item<select id="dish-select">${dishOptions(state.dish)}</select></label><label>Dining context<select id="dish-context">${contextOptions(state.context)}</select></label><label>Aspect<select id="dish-aspect">${['all',...Object.keys(phrases)].map(a=>option(a,a==='all'?'All aspects':a[0].toUpperCase()+a.slice(1),state.aspect)).join('')}</select></label><div class="spacer"></div><button data-action="all-own-evidence">Correct dish matches</button></div>
+      <div class="stats">${stat('Dish feedback',all.length+' comments','All known dining contexts')}${stat('Matching evidence',list.length+' comments','Current context and aspect filters')}${stat('Sentiment counts',`${pos} / ${neg} / ${mixed}`,'Positive / negative / mixed; not an overall rating')}</div>
+      <div class="columns"><section class="card"><h2>What the feedback contains</h2>${themeMarkup(list)}<hr class="divider"><h3>Suggested check - owner decides</h3><p>${esc(suggestion)}</p><p class="small muted">Hypothesis, not a diagnosis. No automatic menu changes.</p></section>
+      <section class="card"><div class="row"><h2>Supporting comments</h2>${badge('SOURCE EVIDENCE','neutral')}</div>${list.length?representativeRecords(list).map(r=>recordMarkup(r)).join(''):'<div class="empty">No supporting records for this selection.</div>'}<button data-action="dish-evidence"${list.length?'':' disabled'}>View all ${list.length} matching comments</button></section></div>
+      ${list.length<10?'<div class="notice"><strong>Limited evidence:</strong> this selection has fewer than 10 comments. Do not treat it as a reliable ranking or as the opinion of all customers.</div>':''}`;
+  }
+  function renderCompare(){
+    const dish=state.compareDish,aspect=dishes[dish].aspect,ids=['own',...state.competitors];
+    const data=ids.map(id=>({id,menu:id==='own'?dishes[dish]:menus[id][dish],reviews:selectReviews(id,dish,state.compareContext,aspect)}));
+    const money=v=>'$'+v.toFixed(2);
+    const rows=[
+      ['Listed delivery price',d=>d.menu?money(d.menu.price):'Not available'],
+      ['Advertised portion',d=>esc(d.menu?.portion||'Not stated')],
+      ['Aspect comments',d=>`${d.reviews.length} ${d.reviews.length<10?badge('SPARSE SAMPLE'):''}`],
+      ['Positive / negative / mixed',d=>tally(d.reviews).join(' / ')],
+      ['Positive share of aspect comments',d=>d.reviews.length>=10?formatPct(tally(d.reviews)[0]/d.reviews.length*100):'Not shown: fewer than 10'],
+      ['Context / matching note',d=>!d.menu?'No comparable menu item':d.id==='own'?'Your reference dish':d.menu.portion==='Not stated'?'Portion not comparable':'Owner-approved dish family'],
+      ['Supporting records',d=>`<button data-action="compare-evidence" data-venue="${d.id}"${d.reviews.length?'':' disabled'}>View evidence</button><p>Menu snapshot: Sep 24 (demo)</p>`]
+    ];
+    return header('Compare a specific dish','Same period / approved matches / no overall ranking')+
+      `<div class="controls"><label>Your dish<select id="compare-dish">${dishOptions(dish)}</select></label><label>Feedback context<select id="compare-context">${contextOptions(state.compareContext)}</select></label><div class="spacer"></div><button data-action="edit-competitors">Edit approved competitors (${state.competitors.length})</button></div>
+      <p class="small muted">Feedback: ${CURRENT}. Aspect: ${esc(aspect)}. Menu prices shown are delivery prices regardless of the feedback filter.</p>
+      <div class="table-wrap"><table><caption class="sr-only">Comparison of ${esc(dishes[dish].name)} with owner-approved competitor dishes</caption><thead><tr><th scope="col">Comparison</th>${data.map(d=>`<th scope="col">${esc(venues[d.id])}<p class="small muted">${esc(d.menu?.name||'No match')}</p></th>`).join('')}</tr></thead><tbody>${rows.map(([label,fn])=>`<tr><th scope="row">${esc(label)}</th>${data.map(d=>`<td>${fn(d)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
+      <div class="notice"><h3>Read this comparison carefully</h3><p>Prices are invented delivery-menu prices, excluding tax and delivery fees. Portions may differ; no price-per-serving comparison is calculated.</p><p class="small">Percentages describe the selected aspect comments, not all diners. A displayed percentage is not evidence that one dish is objectively better. Unknown menu data remain unknown.</p></div>`;
+  }
+  function trendCard(t){
+    const diff=t.currentShare-t.priorShare,max=Math.max(10,Math.ceil(Math.max(t.currentShare,t.priorShare)/5)*5);
+    const title=t.valid?'ENOUGH DATA FOR A DESCRIPTIVE COMPARISON':t.current.length>=15?'EMERGING / SMALL BASELINE':'LIMITED EVIDENCE';
+    const chart=t.valid?`
+      <p class="big-number">${diff>0?'+':''}${Number(diff.toFixed(1))} <span style="font-size:16px;font-weight:500">percentage points</span></p>
+      <p class="muted">Share of eligible local discussion: ${formatPct(t.priorShare)} to ${formatPct(t.currentShare)}.</p>
+      ${[['Current',t.currentShare,t.current.length,t.currentTotal],['Prior',t.priorShare,t.prior.length,t.priorTotal]].map(([label,share,count,total])=>`<div class="bar-row"><strong>${label}</strong><div class="bar-track" aria-label="${label}: ${formatPct(share)}"><div class="bar-fill ${label==='Prior'?'prior':''}" style="width:${share/max*100}%"></div></div><span>${count} / ${total} mentions</span></div>`).join('')}
+      <p class="small muted">Bar scale: 0-${max}% of eligible local mentions. Descriptive change, not a statistical-significance claim.</p>`:
+      `<p style="margin-top:20px"><strong>${t.current.length} current</strong> vs. <strong>${t.prior.length} prior</strong> topic mentions across ${t.breadth} current venues.</p><p class="muted">No growth claim: requires at least 15 current mentions, 10 prior mentions, and three current venues within a stable comparison cohort.</p>`;
+    return `<article class="card topic-card">${badge(title,t.valid?'green':'')}<h2 style="margin-top:17px">${esc(topics[t.topic])}</h2>${chart}<div class="row"><span class="small muted">${t.breadth} current venues / one source</span><button data-action="trend-evidence" data-topic="${t.topic}">Inspect ${t.current.length+t.prior.length} topic records</button></div></article>`;
+  }
+  function renderTrends(){
+    const current=matchingSocial('current'),prior=matchingSocial('prior'),breadth=new Set(current.map(r=>r.venue)).size;
+    return header('What is gaining attention nearby?','Observed local social discussion, not a demand forecast')+
+      `<div class="controls"><label>Local boundary<select id="trend-area">${option('midtown','Midtown East / four demo venues',state.area)}${option('small','Smaller area / two demo venues',state.area)}</select></label><label>Topic<select id="trend-topic">${option('all','All tracked topics',state.topic)}${Object.entries(topics).map(([v,l])=>option(v,l,state.topic)).join('')}</select></label><div class="spacer"></div><button data-action="coverage">Source coverage</button></div>
+      <p class="small muted">Current: ${CURRENT} / Prior: ${PRIOR}</p>
+      <div class="stats four">${stat('Current local mentions',current.length,'Separate from dish-review imports')}${stat('Prior local mentions',prior.length,'Same eligible source and cohort')}${stat('Venue breadth',breadth,'Restaurant location, not reviewer residence')}${stat('Source coverage','1 source','Invented social feed; not verified demand')}</div>
+      <div class="columns"><div>${Object.keys(topics).filter(t=>state.topic==='all'||state.topic===t).map(t=>trendCard(trend(t))).join('')}</div>
+      <div><section class="card"><h2>What this does not tell you</h2><p>More mentions do not establish more orders, revenue, or customer demand.</p><p class="muted">Promotion, selective reviews, and missing channels can influence the result. Repeated posts and unknown locality need scrutiny in a real deployment.</p><hr class="divider"><h3>Try an insufficient-data state</h3><p class="small muted">Switch to the two-venue area. The prototype suppresses growth claims because the sample does not meet the breadth and baseline requirements.</p><button data-action="small-area">Show two-venue area</button></section><div class="notice small">All local posts are generated examples in a separate social dataset. They are not the restaurant-review records used on the other screens.</div></div></div>`;
+  }
+  function render(){
+    const views={briefing:renderBriefing,dish:renderDish,compare:renderCompare,trends:renderTrends};
+    $('#content').innerHTML=views[state.route]();
+    document.querySelectorAll('nav [data-route]').forEach(b=>{if(b.dataset.route===state.route)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
+    document.title='DishLens | '+({briefing:'Weekly briefing',dish:'Dish feedback',compare:'Competitor comparison',trends:'Local trends'}[state.route]);
+    showStorageWarning();
+  }
+  function navigate(route){
+    if(!['briefing','dish','compare','trends'].includes(route))return;
+    state.route=route;history.replaceState(null,'','#'+route);render();window.scrollTo(0,0);
+  }
+  function modal(title,body,actions=''){
+    const el=$('#modal');
+    if(!el.open)returnFocus=document.activeElement;
+    el.innerHTML=`<div class="modal-header"><h2 id="modal-title">${esc(title)}</h2><button data-action="close" aria-label="Close dialog">Close</button></div><div class="modal-body">${body}</div>${actions?`<div class="modal-actions">${actions}</div>`:''}`;
+    if(!el.open)el.showModal();
+    const focusTarget=el.querySelector('input,select,button');if(focusTarget)focusTarget.focus();
+  }
+  function closeModal(){$('#modal').close();}
+  $('#modal').addEventListener('close',()=>{if(returnFocus?.isConnected)returnFocus.focus();});
+  function openEvidence(title,list){
+    evidenceRecords=list;
+    modal(title,`<p class="small muted">All records below are invented. They show the evidence experience, not live links or real customer research.</p><label>Search these records<input id="evidence-search" type="search" placeholder="Search text, ID, or sentiment"></label><p id="evidence-count" class="small muted" style="margin-top:14px"></p><div id="evidence-list"></div>`);
+    renderEvidence('');
+  }
+  function renderEvidence(query){
+    const q=query.toLowerCase(),list=evidenceRecords.filter(r=>[r.text,r.id,r.sentiment||'',r.aspect||''].join(' ').toLowerCase().includes(q));
+    $('#evidence-count').textContent=list.length+' of '+evidenceRecords.length+' records';
+    $('#evidence-list').innerHTML=list.length?list.map(r=>recordMarkup(r)).join(''):'<div class="empty">No records match this search.</div>';
+  }
+  function coverage(){
+    modal('Sources and coverage',`<div class="notice" style="margin-top:0"><strong>No live data is connected.</strong> This prototype does not scrape websites, call APIs, or send your changes anywhere.</div><h3 class="section">Restaurant-review sample</h3><p>${rawReviews.length} generated review records across four fictional restaurants. Dates fall inside ${CURRENT}. Some menu matches and comparison samples are intentionally incomplete.</p><h3>Local social sample</h3><p>800 separate generated social records across two 28-day windows. Four venue labels define the larger demo boundary; the smaller boundary includes two.</p><h3>Real product access requirements</h3><p>Sources must permit collection, analysis, storage, and display. Private content or platform restrictions cannot be bypassed. Uploading a snapshot is not live monitoring.</p><h3>Local demo storage</h3><p>Dish corrections, selected competitors, and the local boundary may be saved in this browser. Reset demo removes only DishLens prototype settings.</p>`);
+  }
+  function editCompetitors(){
+    modal('Choose approved competitors',`<p>Select one to three fictional restaurants for the comparison. In a pilot, owners would first approve comparable dishes and permitted menu sources.</p><form id="competitor-form">${['a','b','c'].map(id=>`<label class="choice"><input type="checkbox" name="competitor" value="${id}"${state.competitors.includes(id)?' checked':''}><span>${esc(venues[id])}<span class="muted small">${id==='b'?'Includes sparse samples and unstated portions':'Comparable menu examples with source evidence'}</span></span></label>`).join('')}<p id="competitor-error" role="alert" class="small" style="color:var(--brand)"></p></form>`,`<button data-action="close">Cancel</button><button type="submit" form="competitor-form" class="primary">Save approved set</button>`);
+  }
+  function editMatch(id){
+    const record=records().find(r=>r.id===id&&r.venue==='own');
+    if(!record){toast('That editable demo record was not found.');return;}
+    modal('Correct a dish match',`${recordMarkup(record,false)}<form id="match-form" data-id="${esc(id)}"><label>Assign this comment to<select name="dish">${option('','Leave unassigned',record.dish||'')}${dishOptions(record.dish)}</select></label><p class="small muted" style="margin-top:12px">This changes only the demo assignment. The original text and sentiment remain unchanged. If a dish cannot be identified, leave it unassigned.</p></form>`,`<button data-action="close">Cancel</button><button type="submit" form="match-form" class="primary">Save correction</button>`);
+  }
+  function help(){
+    modal('Explore the interactive prototype',`<h3>Working interactions</h3><ol><li>Open a weekly finding to see dish-level evidence.</li><li>Switch dishes, dining contexts, and aspects; counts update from the demo records.</li><li>Search evidence and correct an assigned or unresolved dish match.</li><li>Change competitors and inspect their feedback, including sparse-data states.</li><li>Change the local boundary or topic; unsupported growth claims are suppressed.</li><li>Download a text briefing or reset your locally saved choices.</li></ol><h3>Prototype boundaries</h3><p>No live ingestion, account system, model calls, or real recommendations. The data and texts are generated examples. P1 chat and action tracking, and P2 integrations, are not implemented.</p><h3>Files in this project folder</h3><p><a href="DishLens_PRD.docx" download>Word PRD</a> / <a href="DishLens_PRD.md">Markdown PRD</a> / <a href="DishLens_Wireframes/00-all-wireframes.png" target="_blank" rel="noopener">Original wireframe overview</a></p><p class="small muted">Open this index.html directly in a modern browser. The prototype is self-contained and does not require a server.</p>`);
+  }
+  function exportBriefing(){
+    const own=records().filter(r=>r.venue==='own'),list=selectReviews('own','chicken','delivery','crispness'),t=trend('chicken');
+    const text=`DISHLENS - DEMO BRIEFING\nAll data are invented. This is not customer research.\nPeriod: ${CURRENT}\n\nOwn restaurant: ${own.length} records; ${own.filter(r=>!r.dish).length} unmatched.\nCrispy chicken delivery crispness: ${tally(list)[1]} negative of ${list.length} aspect comments.\nPossible check: inspect packaging and transit conditions before changing the recipe.\n\nApproved competitors: ${state.competitors.map(v=>venues[v]).join(', ')}.\nNo overall quality ranking. Inspect portions, context, and source evidence.\n\nLocal crispy-chicken signal: ${t.current.length} current / ${t.currentTotal} local mentions; ${t.prior.length} prior / ${t.priorTotal}.\n${t.valid?`Topic share: ${formatPct(t.priorShare)} to ${formatPct(t.currentShare)}.`:'Insufficient evidence for a growth claim.'}\nCaptured online attention is not proven demand.\n\nNo live sources or AI backend are connected.\n`;
+    const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');
+    a.href=url;a.download='DishLens_demo_briefing.txt';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+    toast('Demo briefing downloaded.');
+  }
+  document.addEventListener('click',event=>{
+    const target=event.target.closest('button');if(!target)return;
+    if(target.dataset.route){navigate(target.dataset.route);return;}
+    const action=target.dataset.action;
+    if(action==='close')closeModal();
+    else if(action==='coverage')coverage();
+    else if(action==='help')help();
+    else if(action==='open-chicken'){state.dish='chicken';state.context='delivery';state.aspect='crispness';navigate('dish');}
+    else if(action==='open-comparison'){state.compareDish='chicken';state.compareContext='delivery';navigate('compare');}
+    else if(action==='unmatched')openEvidence('Unmatched dish feedback',records().filter(r=>r.venue==='own'&&!r.dish));
+    else if(action==='all-own-evidence')openEvidence('Review and correct dish matches',records().filter(r=>r.venue==='own'));
+    else if(action==='dish-evidence')openEvidence('Evidence: '+dishes[state.dish].name,selectReviews('own',state.dish,state.context,state.aspect));
+    else if(action==='theme-evidence')openEvidence('Evidence: '+target.dataset.aspect,selectReviews('own',state.dish,state.context,target.dataset.aspect));
+    else if(action==='compare-evidence')openEvidence('Evidence: '+venues[target.dataset.venue],selectReviews(target.dataset.venue,state.compareDish,state.compareContext,dishes[state.compareDish].aspect));
+    else if(action==='edit-competitors')editCompetitors();
+    else if(action==='match')editMatch(target.dataset.id);
+    else if(action==='trend-evidence'){const t=trend(target.dataset.topic);openEvidence(topics[t.topic]+': local sample',t.current.concat(t.prior));}
+    else if(action==='small-area'){state.area='small';persist();render();}
+    else if(action==='export')exportBriefing();
+    else if(action==='reset')modal('Reset this demo?',`<p>This clears only DishLens demo corrections and saved selections in this browser. It does not modify your project files or any restaurant data.</p>`,`<button data-action="close">Cancel</button><button class="primary" data-action="confirm-reset">Reset demo</button>`);
+    else if(action==='confirm-reset'){
+      try{localStorage.removeItem(STORAGE_KEY);storageWarning='';}catch(error){storageWarning='Current settings were reset, but saved settings could not be removed. '+error.message;}
+      state.corrections={};state.competitors=['a','b','c'];state.area='midtown';state.topic='all';state.dish='chicken';state.context='delivery';state.aspect='crispness';state.compareDish='chicken';state.compareContext='delivery';
+      closeModal();navigate('briefing');toast('Demo reset.');
+    }
+  });
+  document.addEventListener('change',event=>{
+    const {id,value}=event.target;
+    if(id==='dish-select'){state.dish=value;state.aspect=dishes[value].aspect;}
+    else if(id==='dish-context')state.context=value;
+    else if(id==='dish-aspect')state.aspect=value;
+    else if(id==='compare-dish')state.compareDish=value;
+    else if(id==='compare-context')state.compareContext=value;
+    else if(id==='trend-area'){state.area=value;persist();}
+    else if(id==='trend-topic')state.topic=value;
+    else return;
+    render();
+    const replacement=document.getElementById(id);if(replacement)replacement.focus();
+  });
+  document.addEventListener('input',event=>{if(event.target.id==='evidence-search')renderEvidence(event.target.value);});
+  document.addEventListener('submit',event=>{
+    if(event.target.id==='competitor-form'){
+      event.preventDefault();
+      const selected=[...new FormData(event.target).getAll('competitor')];
+      if(!selected.length){$('#competitor-error').textContent='Select at least one competitor.';return;}
+      state.competitors=selected.filter(v=>['a','b','c'].includes(v));persist();closeModal();render();toast('Approved competitor set updated.');
+    }else if(event.target.id==='match-form'){
+      event.preventDefault();
+      const id=event.target.dataset.id,value=new FormData(event.target).get('dish');
+      if(!validReviewIds.has(id)||(value!==''&&!Object.hasOwn(dishes,value))){toast('The dish assignment is invalid.');return;}
+      state.corrections[id]=value||null;persist();closeModal();render();toast('Dish match updated in this demo.');
+    }
+  });
+  window.addEventListener('hashchange',()=>{const route=location.hash.slice(1);if(['briefing','dish','compare','trends'].includes(route)){state.route=route;render();}});
+  const initialRoute=location.hash.slice(1);
+  if(['briefing','dish','compare','trends'].includes(initialRoute))state.route=initialRoute;
+  render();
+  </script>
+</body>
+</html>
