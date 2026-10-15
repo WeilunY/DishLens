@@ -2,490 +2,801 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="light">
-  <title>DishLens | Interactive prototype</title>
+  <meta name="theme-color" content="#F2F2F6">
+  <title>DishLens | Today</title>
   <style>
-    :root{--ink:#302c28;--muted:#736d66;--paper:#faf8f5;--line:#e5ded6;--brand:#a64e3c;--tint:#f5e9e2;--green:#33685b;--green-bg:#eaf2ed}
+    :root{
+      --bg:#F2F2F6;--card:#fff;--ink:#121216;--muted:#6B6B73;--faint:#9A9AA2;--line:#ECECF0;
+      --maps:#2F7BF6;--dish:#FF8A00;--apps:#7C5CFF;--social:#FF2D78;--gold:#FFB400;
+      --good:#138A3E;--good-bg:#E5F6EA;--bad:#D92D20;--bad-bg:#FDECEC;--flat:#55555D;--flat-bg:#EFEFF3;
+      --r:24px;--shadow:0 1px 2px rgba(17,17,22,.04),0 8px 28px rgba(17,17,22,.05)
+    }
     *{box-sizing:border-box}
-    body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
-    button,input,select{font:inherit}
-    button,a,input,select{touch-action:manipulation}
-    button{cursor:pointer}
-    a{color:var(--brand)}
-    button{border:1px solid var(--line);border-radius:8px;background:white;color:var(--ink);padding:10px 15px;font-weight:600}
-    button:hover{border-color:#bca698;background:#fcf7f3}
-    button:disabled{cursor:not-allowed;opacity:.5}
-    button.primary{color:white;background:var(--brand);border-color:var(--brand)}
-    button.primary:hover{background:#853c2e}
-    button.quiet{background:transparent}
-    :focus-visible{outline:3px solid #659c8f;outline-offset:3px}
-    input,select{border:1px solid #c9beb4;border-radius:7px;padding:10px 12px;background:white;max-width:100%;color:var(--ink)}
-    label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:650}
-    .app{display:grid;grid-template-columns:224px minmax(0,1fr);min-height:100vh}
-    aside{background:white;border-right:1px solid var(--line);padding:28px 18px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:24px}
-    .brand{font:700 33px Georgia,serif;letter-spacing:-1px;margin:0}
-    .muted{color:var(--muted)}.small{font-size:13px}.eyebrow{text-transform:uppercase;font-size:11px;letter-spacing:1px;font-weight:750;color:var(--muted)}
-    nav{display:grid;gap:7px}
-    nav button{text-align:left;border-color:transparent;background:transparent;font-size:14px}
-    nav button[aria-current="page"]{background:var(--tint);color:var(--brand)}
-    .side-section{padding-top:20px;border-top:1px solid var(--line)}
-    .side-bottom{margin-top:auto}
-    .side-section a{display:block;font-size:13px;margin:9px 0}
-    main{padding:32px clamp(18px,3vw,48px) 25px;min-width:0;max-width:1640px;width:100%;margin:0 auto}
-    .top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:24px}
-    h1{font-size:30px;line-height:1.2;letter-spacing:-.65px;margin:0 0 10px}
-    h2{font-size:21px;line-height:1.35;margin:0 0 14px}
-    h3{font-size:18px;line-height:1.4;margin:0 0 10px}
-    p{margin:0 0 14px}
-    .badge{display:inline-flex;align-items:center;gap:6px;background:var(--tint);color:var(--brand);border-radius:6px;padding:5px 9px;font-size:11px;font-weight:750;letter-spacing:.25px}
-    .badge.green{background:var(--green-bg);color:var(--green)}
-    .badge.neutral{background:#efede9;color:#655e55}
-    .top-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
-    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:22px 0 28px}
-    .stats.four{grid-template-columns:repeat(4,minmax(0,1fr))}
-    .stat,.card{background:white;border:1px solid var(--line);border-radius:12px;padding:22px}
-    .stat .value{font-size:30px;font-weight:730;letter-spacing:-.6px;margin:9px 0 4px;line-height:1.25}
-    .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-    .finding{display:flex;flex-direction:column;align-items:flex-start;min-height:310px}
-    .finding h3{margin-top:20px}
-    .finding .summary{font-size:16px}
-    .finding button{margin-top:auto}
-    .finding .caveat{font-size:13px;color:var(--muted);margin:10px 0 20px}
-    .notice{background:var(--tint);border:1px solid #ead4c8;border-radius:10px;padding:18px 21px;margin-top:20px}
-    .notice p:last-child{margin:0}
-    .notice.neutral{background:#f0efeb;border-color:var(--line)}
-    .row{display:flex;align-items:center;justify-content:space-between;gap:20px}
-    .controls{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:20px}
-    .controls .spacer{flex:1}
-    .columns{display:grid;grid-template-columns:1.3fr 1fr;gap:20px}
-    .stack{display:grid;gap:16px}
-    .section{margin-top:25px}
-    .divider{border:0;border-top:1px solid var(--line);margin:22px 0}
-    .theme{border-top:1px solid var(--line);padding:17px 0}
-    .theme:first-child{border-top:0;padding-top:0}
-    .theme:last-child{padding-bottom:0}
-    .theme button{font-size:13px;padding:7px 10px;margin-top:8px}
-    blockquote{margin:12px 0;padding:0;font-size:16px;line-height:1.65}
-    .record{border:1px solid var(--line);background:white;border-radius:9px;padding:17px;margin-bottom:12px}
-    .record .meta{display:flex;gap:7px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
-    .record .meta span{padding-right:7px;border-right:1px solid var(--line)}
-    .record .meta span:last-child{border:0}
-    .record button{font-size:12px;padding:6px 10px}
-    .table-wrap{border:1px solid var(--line);border-radius:12px;overflow:auto;background:white}
-    table{border-collapse:collapse;width:100%;min-width:790px}
-    th,td{text-align:left;vertical-align:top;padding:17px 18px;border-bottom:1px solid var(--line);font-size:14px}
-    thead th{background:#f7f3ee;font-weight:700}
-    tbody th{color:var(--muted);font-weight:600;width:190px}
-    tbody tr:last-child>*{border:0}
-    td p{margin:5px 0;font-size:12px;color:var(--muted)}
-    td .badge{font-size:10px}
-    .bar-row{display:grid;grid-template-columns:58px minmax(70px,1fr) 160px;align-items:center;gap:13px;margin:20px 0;font-size:13px}
-    .bar-track{height:25px;background:#f0ece6;border-radius:4px;overflow:hidden}
-    .bar-fill{height:100%;background:var(--brand);border-radius:4px}
-    .bar-fill.prior{background:#c8a598}
-    .big-number{font-size:34px;font-weight:730;letter-spacing:-1px}
-    .topic-card+.topic-card{margin-top:20px}
-    .footer{margin:32px 0 0;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:18px;align-items:center;color:var(--muted);font-size:12px}
-    .footer button{font-size:12px;padding:7px 10px}
-    dialog{width:min(760px,calc(100vw - 28px));max-height:88vh;border:1px solid var(--line);border-radius:15px;padding:0;color:var(--ink);box-shadow:0 15px 70px #302c2833}
-    dialog::backdrop{background:#302c2877}
-    .modal-header{position:sticky;top:0;background:white;border-bottom:1px solid var(--line);padding:20px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:1}
-    .modal-header h2{margin:0}
-    .modal-body{padding:23px;background:var(--paper)}
-    .modal-actions{display:flex;gap:10px;justify-content:flex-end;padding:17px 24px;background:white;border-top:1px solid var(--line)}
-    .choice{display:flex;align-items:center;gap:12px;padding:16px;margin:10px 0;background:white;border:1px solid var(--line);border-radius:9px;flex-direction:row}
-    .choice input{width:18px;height:18px;accent-color:var(--brand)}
-    .choice span{display:block}
-    .choice .muted{font-weight:400;margin-top:3px}
-    .empty{padding:25px;text-align:center;border:1px dashed #cfc4ba;border-radius:10px;color:var(--muted)}
-    #toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:13px 21px;border-radius:9px;max-width:calc(100vw - 40px);z-index:20;box-shadow:0 6px 30px #0002}
-    #storage-warning{background:#fff1dc;border:1px solid #ddc6a2;border-radius:8px;padding:12px 16px;margin-bottom:18px;color:#674217}
+    html{-webkit-text-size-adjust:100%}
+    body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+    button{font:inherit;color:inherit;cursor:pointer}
+    a{color:inherit;text-decoration:none}
+    :focus-visible{outline:3px solid #8DB8FF;outline-offset:2px;border-radius:12px}
     [hidden]{display:none!important}
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
-    @media(min-width:1600px){main{padding-top:40px}.finding{min-height:325px}}
-    @media(max-width:1150px){.cards{grid-template-columns:1fr}.finding{min-height:0}.finding button{margin-top:5px}.stats.four{grid-template-columns:repeat(2,minmax(0,1fr))}.columns{grid-template-columns:1fr}.top{flex-wrap:wrap}.stat{padding:17px}}
-    @media(max-width:720px){.app{display:block}aside{position:static;height:auto;padding:18px;gap:15px}.brand{font-size:28px}aside>.side-section{display:none}nav{grid-template-columns:1fr 1fr;gap:5px}nav button{padding:10px}.app main{padding:24px 16px}.stats,.stats.four{grid-template-columns:1fr 1fr;gap:10px}.stat .value{font-size:24px}.stats .stat:last-child:nth-child(odd){grid-column:1/-1}.row{flex-wrap:wrap}.controls label{width:100%}.controls select{width:100%}.top-actions{justify-content:flex-start}.footer{align-items:flex-start;flex-wrap:wrap}.bar-row{grid-template-columns:48px 1fr}.bar-row>span:last-child{grid-column:2}.card{padding:18px}h1{font-size:26px}}
+    .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+
+    /* Top bar + tabs */
+    .topbar{position:sticky;top:0;z-index:20;background:rgba(242,242,246,.85);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px)}
+    .topbar-in{max-width:1120px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:20px}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:760;font-size:19px;letter-spacing:-.3px}
+    .logo-mark{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,#FF8A00,#FF2D78);display:grid;place-items:center;color:#fff;font-size:18px}
+    .tabs{display:flex;gap:4px;background:#E5E5EA;padding:4px;border-radius:15px;margin:0 auto}
+    .tabs button{border:0;background:transparent;padding:8px 14px;border-radius:11px;font-weight:620;font-size:14.5px;color:#55555D;display:flex;align-items:center;gap:7px;white-space:nowrap}
+    .tabs svg{width:18px;height:18px;flex:none}
+    .tabs button[aria-current=page]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+    .who{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:620}
+    .avatar{width:36px;height:36px;border-radius:50%;background:#1D1D22;color:#fff;display:grid;place-items:center;font-size:13px;font-weight:700}
+
+    main{max-width:1120px;margin:0 auto;padding:22px 24px 40px}
+    main:focus{outline:none}
+    .page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin:6px 0 22px;flex-wrap:wrap}
+    .page-head h1{font-size:34px;letter-spacing:-.9px;margin:0;line-height:1.15}
+    .page-head p{margin:6px 0 0;color:var(--muted);font-size:17px}
+    .kicker{font-size:14px;font-weight:650;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+    .icon-chip{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;color:#fff;margin-bottom:12px}
+    .icon-chip svg{width:24px;height:24px}
+
+    .grid{display:grid;gap:16px}
+    .g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .mt{margin-top:16px}
+    .card{background:var(--card);border-radius:var(--r);padding:22px;box-shadow:var(--shadow);min-width:0}
+    .card-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:4px;flex-wrap:wrap}
+    .card-title h2{font-size:19px;margin:0;letter-spacing:-.25px}
+    .card-title h3{font-size:17px;margin:0}
+    .label{font-size:15px;color:var(--muted);font-weight:520}
+    .small{font-size:13.5px;color:var(--muted)}
+    .big{font-size:50px;font-weight:760;letter-spacing:-1.8px;line-height:1.05;font-variant-numeric:tabular-nums}
+    .mid{font-size:30px;font-weight:740;letter-spacing:-.9px;line-height:1.1;font-variant-numeric:tabular-nums}
+    .unit{font-size:20px;color:var(--muted);font-weight:620;letter-spacing:0;margin-left:3px}
+    .star{color:var(--gold)}
+    .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .between{justify-content:space-between}
+
+    .pill{display:inline-flex;align-items:center;gap:4px;padding:4px 11px;border-radius:999px;font-size:13.5px;font-weight:650;white-space:nowrap;line-height:1.4}
+    .pill.up{background:var(--good-bg);color:var(--good)}
+    .pill.down{background:var(--bad-bg);color:var(--bad)}
+    .pill.flat{background:var(--flat-bg);color:var(--flat)}
+    .pill.ai{background:linear-gradient(90deg,#EFE8FF,#FFE6F1);color:#6233D6}
+    .pill.warn{background:#FFF1DE;color:#A35A00}
+    .pill svg{width:14px;height:14px}
+
+    .seg{display:inline-flex;background:#EDEDF1;border-radius:13px;padding:3px;gap:2px;max-width:100%;overflow-x:auto;scrollbar-width:none}
+    .seg::-webkit-scrollbar{display:none}
+    .seg button{flex:none;white-space:nowrap;border:0;background:transparent;padding:8px 14px;border-radius:10px;font-weight:620;font-size:14.5px;color:#5C5C64;min-height:38px}
+    .seg button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+
+    .insight{display:flex;gap:12px;align-items:flex-start;background:#F6F6F9;border-radius:18px;padding:15px 17px;font-size:16px;margin-top:18px;line-height:1.5}
+    .insight .ico{font-size:22px;line-height:1.2;flex:none}
+    .go{display:inline-flex;align-items:center;gap:4px;font-weight:650;font-size:15px;color:var(--maps);margin-top:14px}
+
+    /* Summary cards on Today */
+    a.card{display:block;transition:transform .15s ease,box-shadow .15s ease}
+    a.card:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(17,17,22,.05),0 14px 34px rgba(17,17,22,.08)}
+    .sum-head{display:flex;align-items:center;gap:10px;font-weight:680;font-size:16px}
+    .sum-head .dotc{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;color:#fff}
+    .sum-head .dotc svg{width:17px;height:17px}
+    .sum-head .chev{margin-left:auto;color:var(--faint)}
+    .mini-list{list-style:none;margin:12px 0 0;padding:0}
+    .mini-list li{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:15.5px}
+    .mini-list li:first-child{border-top:0}
+    .mini-list .r{margin-left:auto;font-weight:700;font-variant-numeric:tabular-nums}
+
+    /* Rings */
+    .rings{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;text-align:center}
+    .ring-link{display:flex;flex-direction:column;align-items:center;gap:8px;padding:6px;border-radius:20px}
+    .ring-link:hover{background:#F7F7FA}
+    .ring{position:relative;display:grid;place-items:center}
+    .ring svg{transform:rotate(-90deg)}
+    .ring .prog{animation:ringIn 1.2s cubic-bezier(.2,.8,.2,1)}
+    @keyframes ringIn{from{stroke-dashoffset:var(--c)}}
+    .ring .center{position:absolute;inset:0;display:grid;place-items:center;align-content:center;line-height:1.1}
+    .ring .center b{font-size:30px;letter-spacing:-.8px}
+    .ring .center span{font-size:12.5px;color:var(--muted);font-weight:600}
+    .ring-name{font-weight:680;font-size:16px}
+
+    /* AI summary */
+    .ai-card{background:linear-gradient(135deg,#F4EEFF 0%,#FFF0F6 100%);border-radius:var(--r);padding:22px}
+    .ai-card p{margin:10px 0 0;font-size:18px;line-height:1.55}
+
+    /* To-dos */
+    .todo{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+    .todo:first-of-type{border-top:0}
+    .check{width:30px;height:30px;border-radius:50%;border:2px solid #C9C9D1;background:#fff;display:grid;place-items:center;padding:0;color:#fff}
+    .check[aria-pressed=true]{background:var(--good);border-color:var(--good)}
+    .check svg{width:16px;height:16px}
+    .todo-text{font-weight:650;font-size:16px}
+    .todo.done .todo-text{text-decoration:line-through;color:var(--faint)}
+    .todo a{color:var(--maps);font-weight:650;font-size:14.5px;white-space:nowrap}
+    .progress{height:8px;background:#EEEEF2;border-radius:99px;overflow:hidden;margin:10px 0 6px}
+    .progress span{display:block;height:100%;background:var(--good);border-radius:99px;transition:width .4s ease}
+
+    /* Line charts */
+    .chart{margin-top:20px;user-select:none;-webkit-user-select:none}
+    .plot{position:relative;height:var(--h,230px);margin-right:46px;touch-action:pan-y;outline:none;cursor:crosshair}
+    .plot svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+    .plot .gridline{stroke:#ECECF0;stroke-width:1;vector-effect:non-scaling-stroke}
+    .plot .evline{stroke:#CFCFD7;stroke-width:1.5;stroke-dasharray:4 5;vector-effect:non-scaling-stroke}
+    .plot .line{fill:none;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+    .ylab{position:absolute;left:calc(100% + 10px);transform:translateY(-50%);font-size:12.5px;color:var(--faint);font-variant-numeric:tabular-nums}
+    .xlabels{position:relative;height:22px;margin:8px 46px 0 0}
+    .xlabels span{position:absolute;transform:translateX(-50%);font-size:12.5px;color:var(--faint);white-space:nowrap}
+    .xlabels span:first-child{transform:none}
+    .xlabels span:last-child{transform:translateX(-100%)}
+    .dot{position:absolute;width:13px;height:13px;border-radius:50%;background:var(--c);border:2.5px solid #fff;box-shadow:0 0 0 1px var(--c),0 2px 6px rgba(0,0,0,.18);transform:translate(-50%,-50%);pointer-events:none}
+    .plot.scrubbing .dot.last{opacity:0}
+    .pin{position:absolute;top:-4px;transform:translateX(-50%);width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.15);font-size:14px;display:grid;place-items:center}
+    .scrub-line{position:absolute;top:0;bottom:0;width:1.5px;background:#BDBDC6;transform:translateX(-50%)}
+    .tip{position:absolute;top:2px;transform:translateX(-50%);background:#1C1C21;color:#fff;border-radius:12px;padding:8px 12px;font-size:13.5px;white-space:nowrap;pointer-events:none;box-shadow:0 6px 20px rgba(0,0,0,.2);z-index:2}
+    .tip .d{color:#BDBDC6;font-size:12px;font-weight:600}
+    .tip-row{display:flex;align-items:center;gap:7px}
+    .tip-row i{width:9px;height:9px;border-radius:50%;display:inline-block}
+    .chart-hint{font-size:13px;color:var(--faint);margin-top:4px}
+    .legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+    .legend button{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:#fff;padding:7px 13px;border-radius:999px;font-weight:620;font-size:14.5px;min-height:38px}
+    .legend button i{width:11px;height:11px;border-radius:50%;background:var(--c)}
+    .legend button[aria-pressed=false]{color:var(--faint);background:#F6F6F9}
+    .legend button[aria-pressed=false] i{background:#D0D0D8}
+
+    .spark{display:block;width:100%;margin-top:14px;overflow:visible}
+    .spark .line{fill:none;stroke-width:3;stroke-linecap:round;vector-effect:non-scaling-stroke}
+
+    /* Events */
+    .events{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:10px}
+    .events li{display:flex;align-items:center;gap:12px;font-size:15.5px}
+    .events .pin{position:static;transform:none;flex:none}
+    .events .when{color:var(--muted);font-size:14px;margin-left:auto;white-space:nowrap}
+
+    /* Star breakdown + reviews */
+    .bars-h{display:grid;gap:10px;margin-top:14px}
+    .bar-h{display:grid;grid-template-columns:34px 1fr 44px;gap:10px;align-items:center;font-size:14.5px;font-weight:600}
+    .bar-h .t{height:12px;border-radius:99px;background:#EEEEF2;overflow:hidden}
+    .bar-h .t span{display:block;height:100%;border-radius:99px;background:var(--gold)}
+    .bar-h .p{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+    .review{padding:14px 0;border-top:1px solid var(--line)}
+    .review:first-of-type{border-top:0;padding-top:6px}
+    .review p{margin:6px 0 0;font-size:15.5px}
+    .stars{color:var(--gold);letter-spacing:1px}
+
+    /* Dishes */
+    .dish{padding:0;overflow:hidden}
+    .dish + .dish{margin-top:14px}
+    .dish-head{display:grid;grid-template-columns:60px minmax(0,1fr) auto;column-gap:16px;row-gap:2px;align-items:center;padding:18px 22px;width:100%;border:0;background:none;text-align:left}
+    .dish-head .emoji,.dish-head .dish-score{grid-row:1/3}
+    .dish-senti{grid-column:2;display:block}
+    .emoji{width:60px;height:60px;border-radius:18px;background:#FFF3E3;display:grid;place-items:center;font-size:32px}
+    .dish-name{font-size:19px;font-weight:720;letter-spacing:-.2px}
+    .dish-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:14.5px;margin-top:2px}
+    .senti{display:flex;height:9px;border-radius:99px;overflow:hidden;gap:2px;margin-top:8px;max-width:440px}
+    .senti span{display:block;height:100%}
+    .senti-legend{display:flex;gap:14px;font-size:13px;color:var(--muted);margin-top:6px;flex-wrap:wrap}
+    .senti-legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+    .dish-score{text-align:right}
+    .dish-score .mid{font-size:30px}
+    .chev{width:22px;height:22px;color:var(--faint);transition:transform .2s;margin-left:auto;display:block}
+    .dish.open .chev{transform:rotate(180deg)}
+    .dish-body{border-top:1px solid var(--line);padding:22px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:22px}
+    .ai-box{background:linear-gradient(135deg,#F5F0FF,#FFF0F6);border-radius:20px;padding:18px 20px}
+    .ai-box p{margin:10px 0 0;font-size:17px;line-height:1.55}
+    .ai-note{font-size:12.5px;color:#7C6F95;margin-top:10px}
+    .sub-h{font-size:16px;font-weight:720;margin:22px 0 10px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{background:#E7F7EC;color:#137A3A;padding:7px 13px;border-radius:999px;font-size:14.5px;font-weight:620}
+    .fix{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:15px;border:1px solid var(--line);border-radius:18px;margin-top:10px;align-items:start}
+    .fix .num{width:34px;height:34px;border-radius:50%;background:#1D1D22;color:#fff;display:grid;place-items:center;font-weight:700}
+    .fix b{font-size:16px}
+    .fix p{margin:4px 0 0;color:#4A4A52;font-size:15px}
+    .tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px;margin-left:6px;vertical-align:2px}
+    .tag.keep{background:var(--good-bg);color:var(--good)}
+    .tag.easy{background:#E6F0FF;color:#1F5FD1}
+    .tag.try{background:#F0EAFF;color:#6233D6}
+    .tag.check{background:#FFF1DE;color:#A35A00}
+    .quote{background:#F7F7FA;border-radius:16px;padding:13px 15px;margin-top:10px;font-size:15.5px}
+    .quote .src{font-size:13px;color:var(--muted);margin-top:4px}
+
+    /* Social */
+    .daybars{display:flex;align-items:flex-end;gap:10px;height:190px;margin-top:20px}
+    .daycol{flex:1;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end;gap:6px;min-width:0}
+    .stack{width:100%;max-width:46px;display:flex;flex-direction:column-reverse;border-radius:10px;overflow:hidden;min-height:4px;background:#EEEEF2}
+    .stack span{display:block;width:100%}
+    .daycol .n{font-size:14px;font-weight:700}
+    .daycol .d{font-size:13px;color:var(--muted)}
+    .daycol.top .d{color:var(--ink);font-weight:700}
+    .post{padding:0;overflow:hidden;display:flex;flex-direction:column}
+    .thumb{height:190px;display:grid;place-items:center;font-size:72px;position:relative}
+    .thumb .plat{position:absolute;top:12px;left:12px;background:rgba(0,0,0,.55);color:#fff;border-radius:999px;padding:4px 11px;font-size:12.5px;font-weight:700;backdrop-filter:blur(6px)}
+    .thumb .views{position:absolute;bottom:12px;left:14px;color:#fff;font-weight:760;font-size:17px;text-shadow:0 1px 8px rgba(0,0,0,.35);display:flex;align-items:center;gap:6px}
+    .thumb .views svg{width:16px;height:16px}
+    .post-body{padding:15px 17px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+    .post-body .cap{font-size:15.5px}
+    .post-body .row.between{flex-wrap:nowrap}
+    .post-body .row.between b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .post-body .stats{display:flex;gap:14px;color:var(--muted);font-size:14px;margin-top:auto}
+    .trend-row{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:center;padding:13px 0;border-top:1px solid var(--line)}
+    .trend-row:first-of-type{border-top:0}
+    .trend-row .e{width:44px;height:44px;border-radius:14px;background:#F6F6F9;display:grid;place-items:center;font-size:22px}
+    .tips{margin:12px 0 0;padding:0;list-style:none;counter-reset:tip}
+    .tips li{position:relative;padding:12px 0 12px 44px;border-top:1px solid rgba(98,51,214,.12);font-size:16px}
+    .tips li:first-child{border-top:0}
+    .tips li::before{counter-increment:tip;content:counter(tip);position:absolute;left:0;top:11px;width:30px;height:30px;border-radius:50%;background:#fff;color:#6233D6;font-weight:760;display:grid;place-items:center;box-shadow:0 1px 3px rgba(98,51,214,.2)}
+    .app-badge{width:36px;height:36px;border-radius:11px;color:#fff;display:grid;place-items:center;font-weight:800;font-size:16px;flex:none}
+
+    footer{max-width:1120px;margin:0 auto;padding:10px 24px 40px;color:var(--faint);font-size:13.5px;display:flex;gap:16px;justify-content:space-between;flex-wrap:wrap;align-items:center}
+    footer a{color:var(--muted);text-decoration:underline;margin-right:12px}
+    footer button{border:0;background:#E5E5EA;border-radius:10px;padding:7px 12px;font-weight:620;font-size:13.5px}
+    #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1C1C21;color:#fff;padding:12px 20px;border-radius:14px;z-index:40;box-shadow:0 8px 30px rgba(0,0,0,.2);font-weight:600}
+
+    @media (prefers-reduced-motion:reduce){.ring .prog{animation:none}a.card{transition:none}}
+    @media (max-width:980px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(2,minmax(0,1fr))}.dish-body{grid-template-columns:1fr}.tabs button span{display:none}.tabs button{padding:8px 12px}}
+    @media (max-width:760px){
+      .topbar{backdrop-filter:none;-webkit-backdrop-filter:none;background:var(--bg)}
+      .topbar-in{padding:10px 16px}
+      .ring{width:94px!important;height:94px!important}
+      .ring svg{width:94px;height:94px}
+      .ring .center b{font-size:23px}
+      .ring .center span{font-size:10.5px}
+      .ring-link .pill{font-size:12px;padding:3px 8px}
+      .dish-head .emoji,.dish-head .dish-score{grid-row:auto}
+      .dish-senti{grid-column:1/-1;margin-top:6px}
+      .dish-score .mid{font-size:26px}
+      .posts{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:78%;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:16px;margin:0 -16px;padding:4px 16px 12px;scrollbar-width:none}
+      .posts::-webkit-scrollbar{display:none}
+      .posts .post{scroll-snap-align:start}
+      .page-head>.seg{width:100%}
+      .who{margin-left:auto}
+      .who span{display:none}
+      .tabs{position:fixed;left:0;right:0;bottom:0;margin:0;border-radius:0;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);justify-content:space-around;padding:6px 4px calc(8px + env(safe-area-inset-bottom));border-top:1px solid var(--line);z-index:30}
+      .tabs button{flex-direction:column;gap:2px;font-size:11px;padding:6px 2px;flex:1;color:#9A9AA2}
+      .tabs button span{display:inline}
+      .tabs svg{width:24px;height:24px}
+      .tabs button[aria-current=page]{background:transparent;box-shadow:none;color:var(--ink)}
+      main{padding:14px 16px 110px}
+      footer{padding-bottom:110px}
+      .page-head h1{font-size:28px}
+      .g2,.g3{grid-template-columns:1fr}
+      .card{padding:18px;border-radius:22px}
+      .big{font-size:44px}
+      .rings{gap:4px}
+      .ring-name{font-size:14px}
+      .dish-head{grid-template-columns:52px minmax(0,1fr) auto;gap:12px;padding:16px}
+      .emoji{width:52px;height:52px;font-size:28px;border-radius:15px}
+      .dish-body{padding:16px}
+      .plot{margin-right:38px}.xlabels{margin-right:38px}
+      .daybars{gap:6px}
+    }
   </style>
 </head>
 <body>
-  <div class="app">
-    <aside>
-      <div><p class="brand">DishLens</p><div class="small muted">Restaurant intelligence</div><span class="badge" style="margin-top:12px">P0 / INTERACTIVE DEMO</span></div>
-      <nav aria-label="Main navigation">
-        <button data-route="briefing">Weekly briefing</button>
-        <button data-route="dish">Dish feedback</button>
-        <button data-route="compare">Compare dishes</button>
-        <button data-route="trends">Local trends</button>
-      </nav>
-      <div class="side-section">
-        <div class="eyebrow">Data coverage</div>
-        <p class="small muted" style="margin-top:10px">Invented sample data.<br>No live integrations or scraping.</p>
-        <button class="quiet small" data-action="coverage">Inspect coverage</button>
-      </div>
-      <div class="side-section">
-        <div class="eyebrow">Project files</div>
-        <a href="DishLens_PRD.docx" download>PRD / Word</a>
-        <a href="DishLens_PRD.md">PRD / Markdown</a>
-        <a href="DishLens_Wireframes/00-all-wireframes.png" target="_blank" rel="noopener">Original wireframes</a>
-        <button class="quiet small" data-action="help">How to try this demo</button>
-      </div>
-      <div class="side-section side-bottom"><strong>Demo Kitchen</strong><div class="small muted">One restaurant location</div></div>
-    </aside>
-    <main>
-      <div id="storage-warning" role="status" hidden></div>
-      <div id="content"></div>
-      <footer class="footer">
-        <span>All businesses, comments, prices, and counts are invented. Nothing is sent to a server.</span>
-        <div><button data-action="help">Demo guide</button> <button data-action="reset">Reset demo</button></div>
-      </footer>
-    </main>
-  </div>
-  <dialog id="modal" aria-labelledby="modal-title"></dialog>
+  <header class="topbar">
+    <div class="topbar-in">
+      <div class="logo"><span class="logo-mark" aria-hidden="true">🍽</span>DishLens</div>
+      <nav class="tabs" aria-label="Main sections" id="tabs"></nav>
+      <div class="who"><span>Demo Kitchen</span><div class="avatar" aria-hidden="true">DK</div></div>
+    </div>
+  </header>
+  <main id="content" tabindex="-1"></main>
+  <footer>
+    <div>DishLens demo · All restaurants, reviews, ratings and posts are invented. No real accounts are connected.</div>
+    <div><a href="DishLens_PRD.md">PRD</a><a href="DishLens_Wireframes/00-all-wireframes.png" target="_blank" rel="noopener">Wireframes</a><button type="button" data-action="reset">Reset demo</button></div>
+  </footer>
   <div id="toast" role="status" hidden></div>
+
   <script>
   'use strict';
-  const $ = selector => document.querySelector(selector);
-  const esc = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const STORAGE_KEY = 'dishlens-demo-v1';
-  const CURRENT = 'Aug 28 - Sep 24, 2026';
-  const PRIOR = 'Jul 31 - Aug 27, 2026';
-  const dishes = {
-    chicken: {name:'Crispy chicken', aspect:'crispness', price:14, portion:'6 pieces'},
-    noodles: {name:'Sesame noodles', aspect:'flavor', price:12, portion:'One bowl; weight not stated'},
-    tofu: {name:'Roasted tofu bowl', aspect:'flavor', price:15, portion:'One bowl; weight not stated'}
-  };
-  const venues = {own:'Demo Kitchen',a:'Restaurant A (demo)',b:'Restaurant B (demo)',c:'Restaurant C (demo)'};
-  const menus = {
-    a:{chicken:{name:'Crispy chicken',price:15,portion:'6 pieces'},noodles:{name:'Sesame noodles',price:13,portion:'One bowl; weight not stated'},tofu:{name:'Tofu rice bowl',price:14,portion:'Not stated'}},
-    b:{chicken:{name:'Chicken bites',price:12,portion:'Not stated'},noodles:{name:'Cold sesame noodles',price:11,portion:'Not stated'}},
-    c:{chicken:{name:'Crispy chicken plate',price:17,portion:'8 pieces'},noodles:{name:'Sesame noodle bowl',price:15,portion:'Not stated'},tofu:{name:'Roasted tofu bowl',price:16,portion:'Not stated'}}
-  };
-  const phrases = {
-    crispness:{
-      positive:['The coating stayed crisp and the chicken was enjoyable.','I liked the crunch of this chicken.','The texture was pleasantly crisp.'],
-      negative:['The coating was soft when the food arrived.','The chicken tasted fine, but had lost its crunch.','I expected a crisp coating, but it was soggy.'],
-      mixed:['Some pieces were crisp and others were soft.','The edges were crunchy, but the rest of the coating was soft.']
-    },
-    flavor:{
-      positive:['The seasoning was balanced and I enjoyed the flavor.','The sauce worked well with the dish.'],
-      negative:['The sauce was too salty for my preference.','The flavor was less balanced than I expected.'],
-      mixed:['I liked the flavor overall, but the sauce was a little strong.']
-    },
-    value:{
-      positive:['This felt like good value for the meal.'],
-      negative:['The meal felt expensive for what I received.'],
-      mixed:['I enjoyed it, although I was unsure about the price.']
-    },
-    portion:{
-      positive:['The portion was enough for my lunch.'],
-      negative:['I expected a larger portion.'],
-      mixed:['The portion was fine for a light meal, not a large dinner.']
-    },
-    packaging:{
-      positive:['The packaging kept the meal together.'],
-      negative:['The sauce leaked into the bag.'],
-      mixed:['The container worked, but the separate sauce cup was awkward.']
-    }
-  };
-  const rawReviews = [];
-  let sequence = 0;
-  function addReviews(venue,dish,context,aspect,counts) {
-    ['positive','negative','mixed'].forEach((sentiment,group) => {
-      for (let i=0;i<(counts[group]||0);i++) {
-        sequence++;
-        const id='D-'+String(sequence).padStart(3,'0');
-        rawReviews.push({id,venue,dish,context,aspect,sentiment,
-          date:'2026-09-'+String(1+(sequence%24)).padStart(2,'0'),
-          text:phrases[aspect][sentiment][i%phrases[aspect][sentiment].length],
-          source:'Demo review import'});
-      }
-    });
-  }
-  addReviews('own','chicken','delivery','crispness',[7,9,2]);
-  addReviews('own','chicken','dine-in','crispness',[5,1,1]);
-  addReviews('own','chicken','delivery','value',[4,2,0]);
-  addReviews('own','chicken','dine-in','flavor',[9,1,0]);
-  addReviews('own','chicken','delivery','portion',[3,1,0]);
-  addReviews('own','noodles','delivery','flavor',[7,3,0]);
-  addReviews('own','noodles','dine-in','portion',[4,2,0]);
-  addReviews('own','noodles','delivery','packaging',[0,2,0]);
-  addReviews('own','tofu','delivery','flavor',[2,0,0]);
-  for (const [venue,counts] of [['a',[9,2,1]],['b',[2,1,1]],['c',[9,4,2]]]) addReviews(venue,'chicken','delivery','crispness',counts);
-  for (const [venue,counts] of [['a',[6,4,0]],['b',[1,1,0]],['c',[8,2,2]]]) addReviews(venue,'noodles','delivery','flavor',counts);
-  addReviews('a','tofu','delivery','flavor',[4,2,0]);
-  addReviews('c','tofu','delivery','flavor',[7,3,1]);
-  [
-    ['U-01','The red bowl had a sauce I really enjoyed.','positive'],
-    ['U-02','The chicken special tasted too salty to me.','negative'],
-    ['U-03','That bowl was delicious; I cannot recall the menu name.','positive']
-  ].forEach(([id,text,sentiment]) => rawReviews.push({id,text,sentiment,venue:'own',dish:null,context:'delivery',aspect:'flavor',date:'2026-09-22',source:'Demo review import'}));
+  const $ = s => document.querySelector(s);
+  const esc = v => String(v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const STORE = 'dishlens-demo-v2';
 
-  const topics = {chicken:'Crispy chicken',chili:'Chili crisp',noodles:'Noodle bowls'};
-  const social = [];
-  for (const [period,counts] of [['current',[24,18,8,350]],['prior',[12,3,14,371]]]) {
-    ['chicken','chili','noodles','other'].forEach((topic,k) => {
-      for(let i=0;i<counts[k];i++) social.push({
-        id:`S-${period}-${topic}-${i+1}`,period,topic,venue:['own','a','b','c'][i%4],
-        date:period==='current'?`2026-09-${String(1+i%24).padStart(2,'0')}`:`2026-08-${String(1+i%27).padStart(2,'0')}`,
-        source:'Separate demo social feed',
-        text:`Invented local post ${i+1} mentioning ${topics[topic]||'another food topic'} at ${venues[['own','a','b','c'][i%4]]}.`
+  /* ---------- Icons ---------- */
+  const svg = (d, extra='') => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}${extra}</svg>`;
+  const ICONS = {
+    today: svg('<path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9.5a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/>'),
+    maps: svg('<path d="M12 21.5s7-6.3 7-12a7 7 0 0 0-14 0c0 5.7 7 12 7 12z"/><circle cx="12" cy="9.5" r="2.6"/>'),
+    dishes: svg('<path d="M7 3v7.5M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 10.5V21"/><path d="M17.5 21V3c-2.2 0-3.5 2.6-3.5 6.5 0 3 1.2 4.3 3.5 4.3"/>'),
+    apps: svg('<path d="m12 3.2 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17.2 6.6 20.1l1-6.1-4.4-4.3 6.1-.9z"/>'),
+    social: svg('<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><path d="m10 8.8 5 3.2-5 3.2z" fill="currentColor"/>'),
+    spark: svg('<path d="M12 3.5 13.9 9l5.6 1.9-5.6 1.9L12 18.4l-1.9-5.6-5.6-1.9L10.1 9z" fill="currentColor" stroke="none"/><path d="M19 3.5v3M17.5 5h3" stroke-width="1.6"/>'),
+    chev: svg('<path d="m6 9 6 6 6-6"/>'),
+    check: svg('<path d="m5 12.5 4.5 4.5L19 7.5" stroke-width="3"/>'),
+    eye: svg('<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>')
+  };
+
+  /* ---------- Invented demo data ---------- */
+  function rng(seed){let s=seed;return()=>{s=s*16807%2147483647;return s/2147483647;};}
+  function series(points,len,seed,noise){
+    const r=rng(seed),out=[];
+    for(let i=0;i<len;i++){
+      let k=0;while(k<points.length-2&&points[k+1][0]<i)k++;
+      const [x0,y0]=points[k],[x1,y1]=points[k+1],t=Math.min(1,Math.max(0,(i-x0)/(x1-x0)));
+      out.push(+(y0+(y1-y0)*t+(i===len-1?0:(r()-.5)*noise)).toFixed(3));
+    }
+    return out;
+  }
+  const DAY=864e5, END=new Date(2026,9,12,12);
+  const WEEKS=Array.from({length:52},(_,i)=>new Date(END.getTime()-(51-i)*7*DAY));
+  const fmtDay=d=>d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  const fmtMonth=d=>d.toLocaleDateString('en-US',{month:'short'});
+  const RANGES={
+    '1M':{n:5,label:'Month',short:'1 month',words:'the last month'},
+    '3M':{n:13,label:'3 months',short:'3 months',words:'the last 3 months'},
+    '6M':{n:26,label:'6 months',short:'6 months',words:'the last 6 months'},
+    '1Y':{n:52,label:'Year',short:'1 year',words:'the last year'}
+  };
+  const APPS={
+    google:{name:'Google Maps',letter:'G',color:'#2F7BF6',reviews:1284,note:'Friendly staff and fast lunch service',
+      values:series([[0,4.18],[12,4.24],[20,4.2],[26,4.11],[30,4.14],[40,4.33],[51,4.46]],52,3,.03)},
+    yelp:{name:'Yelp',letter:'Y',color:'#E5383B',reviews:412,note:'Long waits at lunch time',
+      values:series([[0,3.72],[20,3.7],[26,3.62],[34,3.74],[51,3.86]],52,5,.04)},
+    doordash:{name:'DoorDash',letter:'D',color:'#FF7A00',reviews:2950,note:'Food arrives hot and crispy',
+      values:series([[0,4.38],[18,4.35],[26,4.22],[32,4.36],[51,4.62]],52,9,.035)},
+    ubereats:{name:'Uber Eats',letter:'U',color:'#06A35A',reviews:1630,note:'Generous portions',
+      values:series([[0,4.25],[20,4.22],[26,4.1],[33,4.28],[51,4.51]],52,13,.035)}
+  };
+  const COMBINED=WEEKS.map((_,i)=>{let s=0,w=0;for(const a of Object.values(APPS)){s+=a.values[i]*a.reviews;w+=a.reviews;}return +(s/w).toFixed(3);});
+  const NEW_REVIEWS=series([[0,14],[24,12],[30,17],[51,27]],52,7,9).map(Math.round);
+  const EVENTS=[
+    {i:24,icon:'⚠️',title:'Soggy chicken complaints spiked',story:'Ratings dipped when soggy delivery chicken complaints spiked'},
+    {i:29,icon:'📦',title:'Switched to vented delivery boxes',story:'Things turned around after you switched to vented delivery boxes'},
+    {i:42,icon:'☀️',title:'New summer menu launched',story:'Your new summer menu kept the momentum going'}
+  ];
+  const STAR_SPLIT=[66,20,7,3,4];
+  const RECENT=[
+    {n:'Priya S.',st:5,ago:'2 days ago',t:'Chicken was still crunchy after a 20-minute delivery. The new box works!'},
+    {n:'Marco D.',st:4,ago:'4 days ago',t:'Great noodles, a little salty. Super friendly staff.'},
+    {n:'Jen K.',st:2,ago:'5 days ago',t:'Waited 25 minutes at lunch. Food was good but too slow.',reply:true},
+    {n:'Sam R.',st:2,ago:'6 days ago',t:'The spicy wontons were WAY too spicy. Nobody warned me!',reply:true}
+  ];
+  const DISHES=[
+    {id:'chicken',name:'Crispy Chicken',emoji:'🍗',price:14,rating:4.2,prev:3.9,mentions:142,love:68,okay:14,bad:18,
+      trend:series([[0,3.86],[5,3.92],[11,4.2]],12,11,.08),
+      summary:'People love the crunchy coating and the spicy mayo. Complaints about soggy delivery orders dropped a lot after you switched to vented boxes. A few people still say the portion feels small for the price.',
+      loves:['Crunchy coating','Spicy mayo','Juicy inside','Great for sharing'],
+      fixes:[
+        {tag:'keep',tagText:'Keep doing',title:'Keep the vented delivery boxes',text:'“Soggy” complaints fell from 21 to 8 a month since the switch. This change is working.'},
+        {tag:'easy',tagText:'Easy fix',title:'Show “6 pieces” on the menu',text:'9 people said the portion felt small for $14. Showing the piece count up front sets the right expectation.'},
+        {tag:'try',tagText:'Try it',title:'Offer extra spicy mayo for $1',text:'14 reviews asked for more sauce. An add-on keeps them happy and raises the order total.'}],
+      quotes:[{t:'Still crunchy after a 20-minute delivery. The new box works!',s:'Google',st:5},{t:'Tasty, but only 6 pieces for $14 felt a bit small.',s:'DoorDash',st:3},{t:'That spicy mayo… I need it in a jar.',s:'Yelp',st:5}]},
+    {id:'noodles',name:'Sesame Noodles',emoji:'🍜',price:12,rating:4.6,prev:4.6,mentions:118,love:81,okay:11,bad:8,
+      trend:series([[0,4.55],[11,4.6]],12,17,.07),
+      summary:'One of your most-loved dishes. Customers rave about the creamy sesame sauce and fresh herbs. The only repeated complaints: the sauce can be a bit salty, and it sometimes leaks in delivery bags.',
+      loves:['Creamy sesame sauce','Fresh herbs','Great value','Big bowl'],
+      fixes:[
+        {tag:'easy',tagText:'Easy fix',title:'Offer sauce on the side for delivery',text:'12 people said it was too salty or too saucy. Letting them add it themselves solves both.'},
+        {tag:'easy',tagText:'Easy fix',title:'Use a tighter lid or seal the container',text:'5 delivery reviews mentioned sauce leaking into the bag.'}],
+      quotes:[{t:'Best sesame noodles in Midtown, hands down.',s:'Google',st:5},{t:'Loved it, but the sauce was a little too salty for me.',s:'Uber Eats',st:4},{t:'Sauce leaked all over the bag :(',s:'DoorDash',st:3}]},
+    {id:'dumplings',name:'Pork Dumplings',emoji:'🥟',price:10,rating:4.7,prev:4.6,mentions:96,love:84,okay:10,bad:6,
+      trend:series([[0,4.58],[11,4.7]],12,19,.06),
+      summary:'Your highest-rated dish. People mention the juicy filling and crispy bottoms. A few weekend diners say they waited too long for them.',
+      loves:['Juicy filling','Crispy bottoms','Dipping sauce'],
+      fixes:[
+        {tag:'try',tagText:'Try it',title:'Fold extra dumplings before weekend lunch',text:'7 weekend reviews mention waiting 20+ minutes. A bigger prep batch Friday–Sunday could cut the wait.'},
+        {tag:'try',tagText:'Try it',title:'Feature them as your “Best rated” dish',text:'They are rated 4.7★. Put them first on your menu and on delivery apps so more people find them.'}],
+      quotes:[{t:'Juicy, crispy, perfect. Order two plates.',s:'Yelp',st:5},{t:'Worth the wait, but the wait was long on Saturday.',s:'Google',st:4}]},
+    {id:'tofu',name:'Roasted Tofu Bowl',emoji:'🥗',price:15,rating:4.4,prev:4.1,mentions:64,love:72,okay:17,bad:11,
+      trend:series([[0,4.05],[6,4.2],[11,4.4]],12,23,.08),
+      summary:'A rising favorite, especially with lunch and vegetarian customers. People like the crispy tofu and peanut dressing. The most common request is simply more tofu.',
+      loves:['Crispy tofu','Peanut dressing','Healthy lunch'],
+      fixes:[
+        {tag:'try',tagText:'Try it',title:'Add “extra tofu +$3” as an option',text:'11 reviews asked for more tofu. Many customers would happily pay for it.'},
+        {tag:'easy',tagText:'Easy fix',title:'Label it “vegan” on delivery apps',text:'6 people asked if it was vegan. A clear label helps the right customers find it.'}],
+      quotes:[{t:'My go-to healthy lunch. Wish there was a bit more tofu!',s:'Uber Eats',st:4},{t:'That peanut dressing is addictive.',s:'Google',st:5}]},
+    {id:'wontons',name:'Spicy Wontons',emoji:'🌶️',price:11,rating:3.8,prev:4.0,mentions:41,love:49,okay:12,bad:39,
+      trend:series([[0,4.02],[6,3.95],[11,3.8]],12,29,.09),
+      summary:'Needs attention. Some customers love the heat (it’s even going viral on TikTok), but many were surprised by how spicy it is. Delivery orders also tend to arrive lukewarm.',
+      loves:['Bold chili oil','Fun to share','Great with rice'],
+      fixes:[
+        {tag:'easy',tagText:'Easy fix',title:'Add a 🌶️🌶️🌶️ spice warning to the menu',text:'16 reviews said it was “way too spicy” with no warning. This is the #1 complaint.'},
+        {tag:'try',tagText:'Try it',title:'Offer a mild version',text:'Let customers choose mild or hot. You keep the TikTok fans and stop surprising everyone else.'},
+        {tag:'check',tagText:'Worth checking',title:'Check how wontons travel in delivery',text:'7 delivery reviews said they arrived lukewarm. Try packing them last, in an insulated bag.'}],
+      quotes:[{t:'WAY too spicy. Nobody warned me!',s:'Google',st:2},{t:'Saw these on TikTok — the heat is real and I loved it 🔥',s:'Yelp',st:5},{t:'Arrived cold and soggy.',s:'DoorDash',st:2}]}
+  ];
+  const SOCIAL={
+    tiktok:{name:'TikTok',color:'#111114',posts:16,prevPosts:9,views:151000,prevViews:52000,likes:7300,prevLikes:2900,shares:910,prevShares:340,days:[1,2,1,1,5,4,2]},
+    instagram:{name:'Instagram',color:'#E1306C',posts:7,prevPosts:5,views:35000,prevViews:25000,likes:2100,prevLikes:1500,shares:290,prevShares:210,days:[1,1,2,0,2,0,1]}
+  };
+  const DAYS=['Fri','Sat','Sun','Mon','Tue','Wed','Thu'];
+  const DAY_NAMES={Fri:'Friday',Sat:'Saturday',Sun:'Sunday',Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday'};
+  const POSTS=[
+    {p:'tiktok',h:'@nycfoodbites',f:'48K followers',day:'Tue',e:'🍗',g:'linear-gradient(160deg,#FFB547,#FF6A3D)',cap:'This $14 crispy chicken in Midtown is UNREAL 🔥 listen to that crunch!!',views:92000,likes:5200,com:312,mood:'up',moodText:'Loved it'},
+    {p:'tiktok',h:'@midtownmunchies',f:'21K followers',day:'Wed',e:'🌶️',g:'linear-gradient(160deg,#FF5F6D,#C81D4E)',cap:'Trying the spicy wontons… my mouth is ON FIRE 😭 would I do it again? yes',views:38000,likes:1600,com:204,mood:'flat',moodText:'Mixed'},
+    {p:'instagram',h:'@eatwithmaya',f:'15K followers',day:'Wed',e:'🍜',g:'linear-gradient(160deg,#F9D976,#F39F86)',cap:'Cozy noodle night 🍜 that sesame sauce is everything',views:21000,likes:1400,com:96,mood:'up',moodText:'Loved it'},
+    {p:'instagram',h:'@lunchbreak.lucy',f:'6K followers',day:'Sat',e:'🥟',g:'linear-gradient(160deg,#A18CD1,#FBC2EB)',cap:'25 min wait at lunch… but these dumplings were worth it ✨',views:9800,likes:410,com:38,mood:'flat',moodText:'Mixed'}
+  ];
+  const TRENDS=[
+    {t:'Chili crisp',e:'🌶️',ch:38,note:'You already use it in Spicy Wontons'},
+    {t:'Hot honey chicken',e:'🍯',ch:24,note:'Could be a fun weekend special'},
+    {t:'Soup dumplings',e:'🥟',ch:12,note:'Close to your Pork Dumplings'},
+    {t:'Birria tacos',e:'🌮',ch:-8,note:'Cooling off nearby'},
+    {t:'Bubble tea',e:'🧋',ch:-15,note:'Cooling off nearby'}
+  ];
+  const SOCIAL_TIPS=[
+    'Thank <b>@nycfoodbites</b> in the comments and share their video to your Instagram story. It already has 92K views.',
+    'The “spicy wonton challenge” is getting attention. Put a fun “Dare to try?” sign by the register, and a clear spice warning on the menu.',
+    '<b>Chili crisp</b> is trending nearby (+38%). Post a short video of yours being made.'
+  ];
+  const TODOS=[
+    {id:'reply',go:'maps',icon:'⭐',text:'Reply to 2 new low-star Google reviews',sub:'Both mention waiting. A quick, friendly reply helps.'},
+    {id:'spice',go:'dishes',icon:'🌶️',text:'Add a spice warning to Spicy Wontons',sub:'The #1 complaint this month (16 reviews).'},
+    {id:'thank',go:'social',icon:'🎉',text:'Thank @nycfoodbites for their TikTok',sub:'Their Crispy Chicken video has 92K views.'}
+  ];
+  const TABS=[['today','Today'],['maps','Google Maps'],['dishes','Top dishes'],['apps','All apps'],['social','Social']];
+
+  /* ---------- State ---------- */
+  let saved={};
+  try{const raw=localStorage.getItem(STORE);if(raw){const p=JSON.parse(raw);if(p&&typeof p==='object')saved=p;}}catch(e){}
+  const state={
+    tab:'today',mapsRange:'3M',appsRange:'6M',
+    apps:{google:true,yelp:true,doordash:true,ubereats:true},
+    dishSort:'talked',openDish:'chicken',platform:'all',
+    todos:{}
+  };
+  if(saved.todos&&typeof saved.todos==='object')TODOS.forEach(t=>{if(saved.todos[t.id]===true)state.todos[t.id]=true;});
+  function persist(){try{localStorage.setItem(STORE,JSON.stringify({todos:state.todos}));}catch(e){}}
+
+  /* ---------- Helpers ---------- */
+  const fmtK=n=>n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e4?Math.round(n/1e3)+'K':n>=1e3?(n/1e3).toFixed(1).replace(/\.0$/,'')+'K':String(n);
+  const stars=n=>`<span class="stars" aria-label="${n} out of 5 stars">${'★'.repeat(n)}<span style="color:#DADAE0">${'★'.repeat(5-n)}</span></span>`;
+  function trendClass(d,eps=.02){return d>eps?'up':d<-eps?'down':'flat';}
+  const ARROW={up:'↑',down:'↓',flat:'→'};
+  function starPill(d,suffix=''){
+    const c=trendClass(d);
+    return `<span class="pill ${c}">${ARROW[c]} ${c==='flat'?'Steady':Math.abs(d).toFixed(2)+' stars'}${suffix}</span>`;
+  }
+  function pctPill(now,prev,suffix=' vs last week'){
+    const p=prev?Math.round((now-prev)/prev*100):0,c=p>2?'up':p<-2?'down':'flat';
+    return `<span class="pill ${c}">${ARROW[c]} ${Math.abs(p)}%${suffix}</span>`;
+  }
+  function seg(key,options,label){
+    return `<div class="seg" role="group" aria-label="${esc(label)}">${options.map(([v,l])=>`<button type="button" data-set="${key}" data-val="${v}" data-k="${key}-${v}" aria-pressed="${state[key]===v}">${esc(l)}</button>`).join('')}</div>`;
+  }
+  function pageHead(color,icon,title,sub,right=''){
+    return `<div class="page-head"><div><div class="icon-chip" style="background:${color}">${ICONS[icon]}</div><h1>${esc(title)}</h1><p>${esc(sub)}</p></div>${right}</div>`;
+  }
+  const r1=v=>(Math.round(v*10)/10).toFixed(1);
+
+  /* ---------- Charts ---------- */
+  let charts={}, gradId=0;
+  const X=(i,n)=>n<2?50:2+i/(n-1)*96;
+  const Y=(v,c)=>6+(1-(v-c.min)/(c.max-c.min))*88;
+  function smooth(pts){
+    const f=n=>Math.round(n*10)/10;
+    let d=`M${f(pts[0][0])},${f(pts[0][1])}`;
+    for(let i=0;i<pts.length-1;i++){
+      const p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2,t=.17;
+      d+=` C${f(p1[0]+(p2[0]-p0[0])*t)},${f(p1[1]+(p2[1]-p0[1])*t)} ${f(p2[0]-(p3[0]-p1[0])*t)},${f(p2[1]-(p3[1]-p1[1])*t)} ${f(p2[0])},${f(p2[1])}`;
+    }
+    return d;
+  }
+  function scale(values){
+    const lo=Math.min(...values),hi=Math.max(...values);
+    for(const step of [.05,.1,.2,.5,1]){
+      const min=Math.floor((lo-step*.25)/step)*step,max=Math.max(Math.ceil((hi+step*.25)/step)*step,min+step*2);
+      const count=Math.round((max-min)/step)+1;
+      if(count<=8){const ticks=[];for(let k=0;k<count;k++)ticks.push(min+k*step);return {min,max,ticks,step};}
+    }
+  }
+  function lineChart(id,{labels,tipLabels,series,fmt,events=[],height=230,aria}){
+    const n=labels.length,sc=scale(series.flatMap(s=>s.values));
+    const cfg={labels,tipLabels:tipLabels||labels,series,fmt,...sc};charts[id]=cfg;
+    const tickFmt=v=>v.toFixed(sc.step<.1?2:1);
+    const single=series.length===1;
+    const defs=[],paths=[];
+    series.forEach(s=>{
+      const pts=s.values.map((v,i)=>[X(i,n)*10,Y(v,cfg)*3]),d=smooth(pts);
+      if(single){const g='g'+(++gradId);defs.push(`<linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${s.color}" stop-opacity=".22"/><stop offset="1" stop-color="${s.color}" stop-opacity="0"/></linearGradient>`);paths.push(`<path d="${d} L${pts[n-1][0]},300 L${pts[0][0]},300 Z" fill="url(#${g})"/>`);}
+      paths.push(`<path class="line" d="${d}" stroke="${s.color}"/>`);
+    });
+    const xIdx=[...new Set(Array.from({length:Math.min(n,5)},(_,k)=>Math.round(k*(n-1)/(Math.min(n,5)-1||1))))];
+    return `<div class="chart">
+      <div class="plot" data-chart="${id}" style="--h:${height}px" tabindex="0" role="img" aria-label="${esc(aria)}">
+        <svg viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true"><defs>${defs.join('')}</defs>
+          ${sc.ticks.map(t=>`<line class="gridline" x1="0" x2="1000" y1="${Y(t,cfg)*3}" y2="${Y(t,cfg)*3}"/>`).join('')}
+          ${events.map(e=>`<line class="evline" x1="${X(e.idx,n)*10}" x2="${X(e.idx,n)*10}" y1="30" y2="300"/>`).join('')}
+          ${paths.join('')}
+        </svg>
+        ${sc.ticks.map(t=>`<span class="ylab" style="top:${Y(t,cfg)}%">${tickFmt(t)}</span>`).join('')}
+        ${events.map(e=>`<span class="pin" style="left:${X(e.idx,n)}%" title="${esc(e.title)}">${e.icon}</span>`).join('')}
+        ${series.map(s=>`<span class="dot last" style="--c:${s.color};left:${X(n-1,n)}%;top:${Y(s.values[n-1],cfg)}%"></span>`).join('')}
+        <div class="scrub" hidden><div class="scrub-line"></div>${series.map(s=>`<span class="dot" style="--c:${s.color}"></span>`).join('')}<div class="tip"></div></div>
+      </div>
+      <div class="xlabels" aria-hidden="true">${xIdx.map(i=>`<span style="left:${X(i,n)}%">${esc(labels[i])}</span>`).join('')}</div>
+      <div class="chart-hint">Tip: touch or hover the chart to see each week.</div>
+    </div>`;
+  }
+  function scrubTo(plot,idx){
+    const cfg=charts[plot.dataset.chart];if(!cfg)return;
+    const n=cfg.labels.length;idx=Math.max(0,Math.min(n-1,idx));plot.dataset.idx=idx;
+    const x=X(idx,n),sc=plot.querySelector('.scrub');
+    sc.hidden=false;plot.classList.add('scrubbing');
+    sc.querySelector('.scrub-line').style.left=x+'%';
+    sc.querySelectorAll('.dot').forEach((d,k)=>{d.style.left=x+'%';d.style.top=Y(cfg.series[k].values[idx],cfg)+'%';});
+    const tip=sc.querySelector('.tip');
+    tip.innerHTML=`<div class="d">${esc(cfg.tipLabels[idx])}</div>${cfg.series.map(s=>`<div class="tip-row"><i style="background:${s.color}"></i>${s.name?esc(s.name)+': ':''}<b>${cfg.fmt(s.values[idx])}</b></div>`).join('')}`;
+    tip.style.left=Math.min(Math.max(x,14),86)+'%';
+  }
+  function hideScrub(plot){plot.querySelector('.scrub').hidden=true;plot.classList.remove('scrubbing');}
+  function wireCharts(){
+    document.querySelectorAll('.plot').forEach(plot=>{
+      const n=()=>charts[plot.dataset.chart].labels.length;
+      const at=e=>{const r=plot.getBoundingClientRect(),pct=(e.clientX-r.left)/r.width*100;return Math.round((pct-2)/96*(n()-1));};
+      plot.addEventListener('pointermove',e=>scrubTo(plot,at(e)));
+      plot.addEventListener('pointerdown',e=>scrubTo(plot,at(e)));
+      plot.addEventListener('pointerleave',()=>hideScrub(plot));
+      plot.addEventListener('blur',()=>hideScrub(plot));
+      plot.addEventListener('keydown',e=>{
+        if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;e.preventDefault();
+        const cur=plot.dataset.idx===undefined?n()-1:+plot.dataset.idx;
+        scrubTo(plot,cur+(e.key==='ArrowRight'?1:-1));
       });
     });
   }
-  let storageWarning='';
-  let saved={};
-  try {
-    const value=localStorage.getItem(STORAGE_KEY);
-    if(value) {
-      const parsed=JSON.parse(value);
-      if(!parsed || typeof parsed!=='object' || Array.isArray(parsed)) throw new Error('Unexpected saved-data format');
-      saved=parsed;
-    }
-  } catch(error) {
-    storageWarning='Saved demo state could not be loaded. You can still explore; changes may not persist. '+error.message;
+  function spark(values,color,h=48){
+    const n=values.length,min=Math.min(...values),max=Math.max(...values),rg=max-min||1,g='s'+(++gradId);
+    const pts=values.map((v,i)=>[i/(n-1)*100,4+(1-(v-min)/rg)*(h-8)]),d=smooth(pts);
+    return `<svg class="spark" viewBox="0 0 100 ${h}" preserveAspectRatio="none" style="height:${h}px" aria-hidden="true"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${color}" stop-opacity=".22"/><stop offset="1" stop-color="${color}" stop-opacity="0"/></linearGradient></defs><path d="${d} L100,${h} L0,${h} Z" fill="url(#${g})"/><path class="line" d="${d}" stroke="${color}"/></svg>`;
   }
-  const validReviewIds=new Set(rawReviews.filter(r=>r.venue==='own').map(r=>r.id));
-  const corrections={};
-  if(saved.corrections && typeof saved.corrections==='object') {
-    Object.entries(saved.corrections).forEach(([id,dish]) => {
-      if(validReviewIds.has(id) && (dish===null || Object.hasOwn(dishes,dish))) corrections[id]=dish;
-      else storageWarning='Some saved demo settings were invalid and were not restored.';
-    });
+  function ring(pct,color,size,stroke,center){
+    const r=(size-stroke)/2,c=2*Math.PI*r;
+    return `<div class="ring" style="width:${size}px;height:${size}px"><svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true"><circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}" stroke-opacity=".14" stroke-width="${stroke}"/><circle class="prog" cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-pct)}" style="--c:${c}"/></svg><div class="center">${center}</div></div>`;
   }
-  const state={
-    route:'briefing',dish:'chicken',context:'delivery',aspect:'crispness',
-    compareDish:'chicken',compareContext:'delivery',
-    competitors:Array.isArray(saved.competitors)&&saved.competitors.length>0&&saved.competitors.every(v=>['a','b','c'].includes(v))?[...new Set(saved.competitors)]:['a','b','c'],
-    area:['midtown','small'].includes(saved.area)?saved.area:'midtown',
-    topic:'all',corrections
-  };
-  let evidenceRecords=[], returnFocus=null, toastTimer;
-  function records(){return rawReviews.map(r=>r.venue==='own'&&Object.hasOwn(state.corrections,r.id)?{...r,dish:state.corrections[r.id]}:r);}
-  function selectReviews(venue,dish,context='all',aspect='all'){
-    return records().filter(r=>r.venue===venue&&r.dish===dish&&(context==='all'||r.context===context)&&(aspect==='all'||r.aspect===aspect));
+  function weekLabels(slice,range){
+    return {labels:slice.map(d=>range==='1Y'?fmtMonth(d):fmtDay(d)),tipLabels:slice.map(d=>'Week of '+fmtDay(d))};
   }
-  function tally(list){return ['positive','negative','mixed'].map(s=>list.filter(r=>r.sentiment===s).length);}
-  function representativeRecords(list){
-    const selected=[list.find(r=>r.sentiment==='negative'),list.find(r=>r.sentiment==='positive')].filter(Boolean);
-    for(const record of list)if(selected.length<2&&!selected.some(r=>r.id===record.id))selected.push(record);
-    return selected.slice(0,2);
+
+  /* ---------- Derived numbers ---------- */
+  const G=APPS.google.values, gNow=G[51];
+  function socialTotals(platform){
+    const keys=platform==='all'?Object.keys(SOCIAL):[platform],sum=f=>keys.reduce((a,k)=>a+SOCIAL[k][f],0);
+    return {posts:sum('posts'),prevPosts:sum('prevPosts'),views:sum('views'),prevViews:sum('prevViews'),likes:sum('likes'),prevLikes:sum('prevLikes'),shares:sum('shares'),prevShares:sum('prevShares'),keys};
   }
-  function persist(){
-    try {
-      localStorage.setItem(STORAGE_KEY,JSON.stringify({corrections:state.corrections,competitors:state.competitors,area:state.area}));
-      storageWarning='';
-    } catch(error) {
-      storageWarning='Your change is active for this session but could not be saved in this browser. '+error.message;
-    }
-    showStorageWarning();
-  }
-  function showStorageWarning(){const el=$('#storage-warning');el.textContent=storageWarning;el.hidden=!storageWarning;}
-  function toast(message){clearTimeout(toastTimer);$('#toast').textContent=message;$('#toast').hidden=false;toastTimer=setTimeout(()=>$('#toast').hidden=true,4000);}
-  function badge(text,kind=''){return `<span class="badge ${kind}">${esc(text)}</span>`;}
-  function stat(label,value,note){return `<div class="stat"><div class="eyebrow">${esc(label)}</div><div class="value">${esc(value)}</div><div class="small muted">${esc(note)}</div></div>`;}
-  function option(value,label,selected){return `<option value="${esc(value)}"${value===selected?' selected':''}>${esc(label)}</option>`;}
-  function dishOptions(selected){return Object.entries(dishes).map(([key,d])=>option(key,d.name,selected)).join('');}
-  function contextOptions(selected){return [['delivery','Delivery'],['dine-in','Dine-in'],['all','All known contexts']].map(([v,l])=>option(v,l,selected)).join('');}
-  function header(title,subtitle,actions=''){
-    return `<header class="top"><div><h1>${esc(title)}</h1><div class="muted">${esc(subtitle)}</div></div><div class="top-actions">${badge('INVENTED DEMO DATA')}${actions}</div></header>`;
-  }
-  function matchingSocial(period){const cohort=state.area==='midtown'?['own','a','b','c']:['own','a'];return social.filter(r=>r.period===period&&cohort.includes(r.venue));}
-  function trend(topic){
-    const currentAll=matchingSocial('current'),priorAll=matchingSocial('prior');
-    const current=currentAll.filter(r=>r.topic===topic),prior=priorAll.filter(r=>r.topic===topic);
-    const breadth=new Set(current.map(r=>r.venue)).size;
-    const valid=current.length>=15&&prior.length>=10&&breadth>=3;
-    return {topic,current,prior,currentTotal:currentAll.length,priorTotal:priorAll.length,breadth,valid,
-      currentShare:currentAll.length?current.length/currentAll.length*100:0,priorShare:priorAll.length?prior.length/priorAll.length*100:0};
-  }
-  function formatPct(value){return Number(value.toFixed(1))+'%';}
-  function renderBriefing(){
-    const own=records().filter(r=>r.venue==='own'),unmatched=own.filter(r=>!r.dish).length;
-    const chicken=selectReviews('own','chicken','delivery','crispness'),negative=tally(chicken)[1],local=trend('chicken');
-    const trendText=local.valid?`Share of eligible local mentions changed from ${formatPct(local.priorShare)} to ${formatPct(local.currentShare)}.`:'There is not enough breadth or baseline data to claim a local trend in this area.';
-    return header('Your weekly dish briefing','Demo Kitchen / '+CURRENT,'<button data-action="export">Download briefing</button>')+
-      `<div class="stats">${stat('Own-restaurant records',own.length,'Accepted sample records; unresolved matches excluded from dish insights')}${stat('Approved competitors',state.competitors.length,'Owner-selected, editable comparison set')}${stat('Local coverage',state.area==='midtown'?'4 venues':'2 venues','Separate social sample, not the review-import dataset')}</div>
-      <h2>Three things to review</h2><div class="cards">
-        <article class="card finding">${badge('YOUR DISH')}<h3>Crispy chicken: delivery texture</h3><p class="summary">${negative} of ${chicken.length} delivery comments discussing crispness are negative.</p><p class="caveat">${chicken.length>=10&&negative>0?'Possible check: inspect transit time and packaging before changing the recipe.':'Review the available evidence before deciding whether any change is justified.'}</p><button class="primary" data-action="open-chicken">Review dish evidence</button></article>
-        <article class="card finding">${badge('COMPETITOR CONTEXT')}<h3>Compare similar chicken dishes</h3><p class="summary">Review listed prices, portions, and feedback across ${state.competitors.length} approved nearby menus.</p><p class="caveat">Unknown portions and sparse samples are flagged. No overall quality ranking.</p><button data-action="open-comparison">Open comparison</button></article>
-        <article class="card finding">${badge(local.valid?'LOCAL SIGNAL':'LIMITED LOCAL EVIDENCE')}<h3>What is being discussed nearby?</h3><p class="summary">${esc(trendText)}</p><p class="caveat">${local.current.length} current vs. ${local.prior.length} prior crispy-chicken mentions. Online attention is not proven demand.</p><button data-route="trends">Inspect local signal</button></article>
+
+  /* ---------- Pages ---------- */
+  function renderToday(){
+    const h=new Date().getHours(),greet=h<12?'Good morning':h<18?'Good afternoon':'Good evening';
+    const g3=G[51-12],done=TODOS.filter(t=>state.todos[t.id]).length;
+    const soc=socialTotals('all'),top=[...DISHES].sort((a,b)=>b.mentions-a.mentions).slice(0,3);
+    const comb=COMBINED[51],combPrev=COMBINED[51-12];
+    const topPost=[...POSTS].sort((a,b)=>b.views-a.views)[0];
+    return `
+    <div class="page-head"><div><div class="kicker">Thursday, October 15</div><h1>${greet}, Demo Kitchen 👋</h1><p>Here’s how your restaurant is doing this week.</p></div></div>
+
+    <section class="card" aria-label="Your scores">
+      <div class="rings">
+        <a class="ring-link" href="#maps">${ring(gNow/5,'#2F7BF6',128,13,`<b>${r1(gNow)}</b><span>out of 5 ★</span>`)}<div class="ring-name">Google rating</div>${starPill(gNow-g3)}</a>
+        <a class="ring-link" href="#dishes">${ring(.86,'#22B35E',128,13,`<b>86%</b><span>gave 4–5 ★</span>`)}<div class="ring-name">Happy customers</div><span class="pill up">↑ 4% this month</span></a>
+        <a class="ring-link" href="#social">${ring(.78,'#FF2D78',128,13,`<b>78</b><span>out of 100</span>`)}<div class="ring-name">Social buzz</div><span class="pill up">↑ Busy week</span></a>
       </div>
-      <section class="card section"><div class="row"><div><h3>Coverage and review queue</h3><p class="muted">${unmatched} record${unmatched===1?'':'s'} need a dish match. Correcting a match updates this demo immediately.</p><div class="small muted">Current: ${CURRENT} / Prior: ${PRIOR}</div></div><button data-action="unmatched">Review unmatched (${unmatched})</button></div></section>
-      <div class="notice neutral small"><strong>Try the prototype:</strong> open a finding, change a dish or dining context, inspect evidence, edit your competitors, or switch the local area. Corrections and selected competitors are saved only in this browser.</div>`;
+    </section>
+
+    <div class="grid g2 mt">
+      <section class="ai-card">
+        <span class="pill ai">${ICONS.spark} AI summary of your week</span>
+        <p>Great week! Your Google rating is now <b>${r1(gNow)}★</b> and still climbing. A TikTok about your <b>Crispy Chicken</b> got <b>92K views</b>. One thing to watch: people say the <b>Spicy Wontons</b> are too spicy.</p>
+      </section>
+      <section class="card">
+        <div class="card-title"><h2>Your to-do list</h2><span class="small">${done} of ${TODOS.length} done</span></div>
+        <div class="progress" aria-hidden="true"><span style="width:${done/TODOS.length*100}%"></span></div>
+        ${TODOS.map(t=>`<div class="todo${state.todos[t.id]?' done':''}">
+          <button type="button" class="check" data-todo="${t.id}" data-k="todo-${t.id}" aria-pressed="${!!state.todos[t.id]}" aria-label="Mark “${esc(t.text)}” as done">${ICONS.check}</button>
+          <div><div class="todo-text">${t.icon} ${esc(t.text)}</div><div class="small">${esc(t.sub)}</div></div>
+          <a href="#${t.go}">View ›</a></div>`).join('')}
+      </section>
+    </div>
+
+    <div class="grid g2 mt">
+      <a class="card" href="#maps">
+        <div class="sum-head"><span class="dotc" style="background:var(--maps)">${ICONS.maps}</span>Google Maps rating<span class="chev">›</span></div>
+        <div class="row" style="margin-top:14px;align-items:flex-end"><div class="big">${r1(gNow)}<span class="unit star">★</span></div><div style="padding-bottom:8px">${starPill(gNow-g3,' in 3 months')}</div></div>
+        ${spark(G.slice(-13),'#2F7BF6',96)}
+      </a>
+      <a class="card" href="#dishes">
+        <div class="sum-head"><span class="dotc" style="background:var(--dish)">${ICONS.dishes}</span>Top dishes &amp; AI tips<span class="chev">›</span></div>
+        <ul class="mini-list">${top.map(d=>`<li><span style="font-size:22px">${d.emoji}</span>${esc(d.name)}<span class="r">${d.rating.toFixed(1)} <span class="star">★</span></span></li>`).join('')}
+          <li><span style="font-size:22px">⚠️</span><span><b>Spicy Wontons</b> need attention</span><span class="r"><span class="pill down">${DISHES[4].rating.toFixed(1)} ★</span></span></li></ul>
+      </a>
+      <a class="card" href="#apps">
+        <div class="sum-head"><span class="dotc" style="background:var(--apps)">${ICONS.apps}</span>Ratings on all apps<span class="chev">›</span></div>
+        <div class="row" style="margin-top:14px;align-items:flex-end"><div class="big">${r1(comb)}<span class="unit star">★</span></div><div style="padding-bottom:8px"><span class="label">average</span> ${starPill(comb-combPrev,' in 3 months')}</div></div>
+        <ul class="mini-list">${Object.values(APPS).map(a=>`<li><span class="app-badge" style="background:${a.color};width:28px;height:28px;font-size:13px;border-radius:9px">${a.letter}</span>${a.name}<span class="r">${r1(a.values[51])} <span class="star">★</span></span></li>`).join('')}</ul>
+      </a>
+      <a class="card" href="#social">
+        <div class="sum-head"><span class="dotc" style="background:var(--social)">${ICONS.social}</span>This week on TikTok &amp; Instagram<span class="chev">›</span></div>
+        <div class="row" style="margin-top:14px;align-items:flex-end"><div class="big">${fmtK(soc.views)}</div><div style="padding-bottom:8px"><span class="label">views</span> ${pctPill(soc.views,soc.prevViews)}</div></div>
+        <div class="insight" style="margin-top:14px"><span class="ico">${topPost.e}</span><div><b>${esc(topPost.h)}</b> posted about your Crispy Chicken: <b>${fmtK(topPost.views)} views</b> so far.</div></div>
+        <div class="small" style="margin-top:12px">${soc.posts} posts mentioned you this week (${soc.prevPosts} last week).</div>
+      </a>
+    </div>`;
   }
-  function themeMarkup(list){
-    const aspects=[...new Set(list.map(r=>r.aspect))];
-    if(!aspects.length)return '<div class="empty">No comments match these filters. Try another context or dish.</div>';
-    return aspects.map(aspect=>{
-      const group=list.filter(r=>r.aspect===aspect),[pos,neg,mixed]=tally(group);
-      return `<div class="theme"><div class="row"><strong>${esc(aspect[0].toUpperCase()+aspect.slice(1))}</strong>${badge(group.length+' mentions','neutral')}</div><p class="small muted" style="margin-top:8px">${pos} positive / ${neg} negative / ${mixed} mixed</p>${group.length<10?'<p class="small muted">Small sample. Counts only; not a representative customer measure.</p>':''}<button data-action="theme-evidence" data-aspect="${esc(aspect)}">Inspect ${esc(aspect)} comments</button></div>`;
-    }).join('');
+
+  function renderMaps(){
+    const r=RANGES[state.mapsRange],start=52-r.n,vals=G.slice(start),dates=WEEKS.slice(start);
+    const {labels,tipLabels}=weekLabels(dates,state.mapsRange);
+    const d=vals[vals.length-1]-vals[0],c=trendClass(d);
+    const evs=EVENTS.filter(e=>e.i>=start).map(e=>({...e,idx:e.i-start,date:fmtDay(WEEKS[e.i])}));
+    const newRev=NEW_REVIEWS.slice(start).reduce((a,b)=>a+b,0);
+    const goodEv=evs.filter(e=>e.icon!=='⚠️').slice(0,1)[0];
+    const msg=c==='up'?`Great news! Your rating went <b>up ${d.toFixed(2)} stars</b> over ${r.words}.${goodEv?` ${esc(goodEv.story)} on ${goodEv.date}.`:' Recent 5★ reviews mention crunchy chicken and friendly staff.'}`
+      :c==='down'?`Your rating went <b>down ${Math.abs(d).toFixed(2)} stars</b> over ${r.words}. Check the to-do list for quick fixes.`
+      :`Your rating stayed about the same over ${r.words}. Steady is good — keep replying to reviews.`;
+    return pageHead('var(--maps)','maps','Google Maps rating','How your star rating on Google has changed over time.')+`
+    <section class="card">
+      <div class="row between" style="align-items:flex-start">
+        <div><div class="label">Your rating now</div><div class="big">${r1(gNow)}<span class="unit star">★</span></div><div class="row" style="margin-top:8px">${starPill(d,' in '+r.short)}</div></div>
+        ${seg('mapsRange',Object.entries(RANGES).map(([k,v])=>[k,v.label]),'Time range')}
+      </div>
+      ${lineChart('maps',{labels,tipLabels,series:[{name:'',color:'#2F7BF6',values:vals}],fmt:v=>v.toFixed(2)+' ★',events:evs,aria:`Google rating went from ${vals[0].toFixed(2)} to ${vals[vals.length-1].toFixed(2)} stars over ${r.words}`})}
+      <div class="insight"><span class="ico">💡</span><div>${msg}</div></div>
+      ${evs.length?`<div class="sub-h">What happened</div><ul class="events" style="margin-top:0">${evs.map(e=>`<li><span class="pin">${e.icon}</span>${esc(e.title)}<span class="when">${e.date}</span></li>`).join('')}</ul>`:''}
+    </section>
+
+    <div class="grid g3 mt">
+      <div class="card"><div class="label">New reviews</div><div class="mid" style="margin-top:6px">${newRev}</div><div class="small">in ${r.words}</div></div>
+      <div class="card"><div class="label">Reviews per week</div><div class="mid" style="margin-top:6px">${Math.round(newRev/r.n)}</div><div class="small">on average</div></div>
+      <div class="card"><div class="label">Happy customers</div><div class="mid" style="margin-top:6px">86%</div><div class="small">gave you 4 or 5 stars this month</div></div>
+    </div>
+
+    <div class="grid g2 mt">
+      <section class="card"><div class="card-title"><h2>Stars this month</h2></div><div class="bars-h">${STAR_SPLIT.map((p,k)=>`<div class="bar-h"><span>${5-k} <span class="star">★</span></span><div class="t"><span style="width:${p}%"></span></div><span class="p">${p}%</span></div>`).join('')}</div></section>
+      <section class="card"><div class="card-title"><h2>Newest reviews</h2><span class="small">Google Maps</span></div>
+        ${RECENT.map(v=>`<div class="review"><div class="row between"><div class="row">${stars(v.st)}<b style="font-size:15px">${esc(v.n)}</b></div><div class="row">${v.reply?'<span class="pill warn">Needs a reply</span>':''}<span class="small">${v.ago}</span></div></div><p>${esc(v.t)}</p></div>`).join('')}
+      </section>
+    </div>`;
   }
-  function recordMarkup(r,allowCorrection=true){
-    const dish=r.dish&&dishes[r.dish]?dishes[r.dish].name:(r.dish?topics[r.dish]||r.dish:'Unassigned');
-    return `<article class="record"><div class="meta"><span>${esc(r.id)}</span><span>${esc(r.date)}</span><span>${esc(r.context||'social mention')}</span><span>${esc(r.source)}</span></div><blockquote>${esc(r.text)}</blockquote><div class="row"><span class="small muted">${esc(r.venue?venues[r.venue]:'')} ${r.sentiment?' / '+esc(r.sentiment):''}${r.aspect?' / '+esc(r.aspect):''}</span>${allowCorrection&&r.venue==='own'&&r.source==='Demo review import'?`<button data-action="match" data-id="${esc(r.id)}">Match: ${esc(dish)} / edit</button>`:''}</div><div class="small muted" style="margin-top:8px">Invented demo record, not a live review or a unique-customer count.</div></article>`;
+
+  function dishCard(d){
+    const open=state.openDish===d.id,c=trendClass(d.rating-d.prev,.05);
+    const status={up:'↑ Getting better',down:'↓ Needs attention',flat:'→ Steady'}[c];
+    return `<article class="card dish${open?' open':''}">
+      <button type="button" class="dish-head" data-dish="${d.id}" data-k="dish-${d.id}" aria-expanded="${open}" aria-controls="dish-${d.id}">
+        <span class="emoji" aria-hidden="true">${d.emoji}</span>
+        <span style="min-width:0;display:block">
+          <span class="dish-name" style="display:block">${esc(d.name)}</span>
+          <span class="dish-meta"><span>$${d.price}</span><span>·</span><span>${d.mentions} reviews</span><span class="pill ${c}">${status}</span></span>
+        </span>
+        <span class="dish-score"><span class="mid" style="display:block">${d.rating.toFixed(1)}<span class="unit star">★</span></span><span class="chev">${ICONS.chev}</span></span>
+        <span class="dish-senti">
+          <span class="senti" aria-hidden="true"><span style="width:${d.love}%;background:#22B35E"></span><span style="width:${d.okay}%;background:#D4D4DA"></span><span style="width:${d.bad}%;background:#FF5A4F"></span></span>
+          <span class="senti-legend"><span><i style="background:#22B35E"></i>${d.love}% loved it</span><span><i style="background:#D4D4DA"></i>${d.okay}% okay</span><span><i style="background:#FF5A4F"></i>${d.bad}% didn’t like it</span></span>
+        </span>
+      </button>
+      ${open?`<div class="dish-body" id="dish-${d.id}">
+        <div>
+          <div class="ai-box"><span class="pill ai">${ICONS.spark} AI summary</span><p>${esc(d.summary)}</p><div class="ai-note">Based on ${d.mentions} reviews from Google, Yelp, DoorDash and Uber Eats in the last 3 months. AI can make mistakes, so check the reviews too.</div></div>
+          <div class="sub-h">How to make it even better</div>
+          ${d.fixes.map((f,k)=>`<div class="fix"><span class="num">${k+1}</span><div><b>${esc(f.title)}</b><span class="tag ${f.tag}">${f.tagText}</span><p>${esc(f.text)}</p></div></div>`).join('')}
+        </div>
+        <div>
+          <div class="sub-h" style="margin-top:0">What people love</div>
+          <div class="chips">${d.loves.map(l=>`<span class="chip">💚 ${esc(l)}</span>`).join('')}</div>
+          <div class="sub-h">Rating over the last 12 weeks</div>
+          <div class="row between"><span class="mid" style="font-size:24px">${d.prev.toFixed(1)} → ${d.rating.toFixed(1)} <span class="star">★</span></span><span class="pill ${c}">${ARROW[c]} ${Math.abs(d.rating-d.prev).toFixed(1)} stars</span></div>
+          ${spark(d.trend,'#FF8A00',64)}
+          <div class="sub-h">What customers said</div>
+          ${d.quotes.map(q=>`<div class="quote">“${esc(q.t)}”<div class="src">${stars(q.st)} · ${esc(q.s)}</div></div>`).join('')}
+        </div>
+      </div>`:''}
+    </article>`;
   }
-  function renderDish(){
-    const all=selectReviews('own',state.dish,'all'),list=selectReviews('own',state.dish,state.context,state.aspect);
-    const [pos,neg,mixed]=tally(list);
-    const suggestion=list.length>=10&&neg>0&&state.dish==='chicken'&&state.context==='delivery'&&['all','crispness'].includes(state.aspect)
-      ?'Compare a freshly served portion with a normally packed delivery portion before changing the recipe. The comments alone do not identify the cause.'
-      :list.length>=10?'Review the original wording and operational context with your team before deciding whether a small test is justified.'
-      :'There is not enough evidence for a strong recommendation. Inspect these examples and gather more feedback before making a change.';
-    return header(dishes[state.dish].name,'Dish-level feedback / '+CURRENT)+
-      `<div class="controls"><label>Menu item<select id="dish-select">${dishOptions(state.dish)}</select></label><label>Dining context<select id="dish-context">${contextOptions(state.context)}</select></label><label>Aspect<select id="dish-aspect">${['all',...Object.keys(phrases)].map(a=>option(a,a==='all'?'All aspects':a[0].toUpperCase()+a.slice(1),state.aspect)).join('')}</select></label><div class="spacer"></div><button data-action="all-own-evidence">Correct dish matches</button></div>
-      <div class="stats">${stat('Dish feedback',all.length+' comments','All known dining contexts')}${stat('Matching evidence',list.length+' comments','Current context and aspect filters')}${stat('Sentiment counts',`${pos} / ${neg} / ${mixed}`,'Positive / negative / mixed; not an overall rating')}</div>
-      <div class="columns"><section class="card"><h2>What the feedback contains</h2>${themeMarkup(list)}<hr class="divider"><h3>Suggested check - owner decides</h3><p>${esc(suggestion)}</p><p class="small muted">Hypothesis, not a diagnosis. No automatic menu changes.</p></section>
-      <section class="card"><div class="row"><h2>Supporting comments</h2>${badge('SOURCE EVIDENCE','neutral')}</div>${list.length?representativeRecords(list).map(r=>recordMarkup(r)).join(''):'<div class="empty">No supporting records for this selection.</div>'}<button data-action="dish-evidence"${list.length?'':' disabled'}>View all ${list.length} matching comments</button></section></div>
-      ${list.length<10?'<div class="notice"><strong>Limited evidence:</strong> this selection has fewer than 10 comments. Do not treat it as a reliable ranking or as the opinion of all customers.</div>':''}`;
+  function renderDishes(){
+    const sorters={talked:(a,b)=>b.mentions-a.mentions,rated:(a,b)=>b.rating-a.rating,attention:(a,b)=>b.bad-a.bad};
+    const list=[...DISHES].sort(sorters[state.dishSort]);
+    const total=DISHES.reduce((a,d)=>a+d.mentions,0);
+    return pageHead('var(--dish)','dishes','Top dishes','What customers say about each dish, with simple AI tips to improve.',seg('dishSort',[['talked','Most reviewed'],['rated','Top rated'],['attention','Needs attention']],'Sort dishes'))+`
+    <div class="insight" style="margin:0 0 18px;background:#fff;box-shadow:var(--shadow)"><span class="ico">👆</span><div>Tap a dish to see the <b>AI summary</b> and <b>how to improve it</b>. Based on ${total} reviews that mention a dish in the last 3 months.</div></div>
+    ${list.map(dishCard).join('')}`;
   }
-  function renderCompare(){
-    const dish=state.compareDish,aspect=dishes[dish].aspect,ids=['own',...state.competitors];
-    const data=ids.map(id=>({id,menu:id==='own'?dishes[dish]:menus[id][dish],reviews:selectReviews(id,dish,state.compareContext,aspect)}));
-    const money=v=>'$'+v.toFixed(2);
-    const rows=[
-      ['Listed delivery price',d=>d.menu?money(d.menu.price):'Not available'],
-      ['Advertised portion',d=>esc(d.menu?.portion||'Not stated')],
-      ['Aspect comments',d=>`${d.reviews.length} ${d.reviews.length<10?badge('SPARSE SAMPLE'):''}`],
-      ['Positive / negative / mixed',d=>tally(d.reviews).join(' / ')],
-      ['Positive share of aspect comments',d=>d.reviews.length>=10?formatPct(tally(d.reviews)[0]/d.reviews.length*100):'Not shown: fewer than 10'],
-      ['Context / matching note',d=>!d.menu?'No comparable menu item':d.id==='own'?'Your reference dish':d.menu.portion==='Not stated'?'Portion not comparable':'Owner-approved dish family'],
-      ['Supporting records',d=>`<button data-action="compare-evidence" data-venue="${d.id}"${d.reviews.length?'':' disabled'}>View evidence</button><p>Menu snapshot: Sep 24 (demo)</p>`]
-    ];
-    return header('Compare a specific dish','Same period / approved matches / no overall ranking')+
-      `<div class="controls"><label>Your dish<select id="compare-dish">${dishOptions(dish)}</select></label><label>Feedback context<select id="compare-context">${contextOptions(state.compareContext)}</select></label><div class="spacer"></div><button data-action="edit-competitors">Edit approved competitors (${state.competitors.length})</button></div>
-      <p class="small muted">Feedback: ${CURRENT}. Aspect: ${esc(aspect)}. Menu prices shown are delivery prices regardless of the feedback filter.</p>
-      <div class="table-wrap"><table><caption class="sr-only">Comparison of ${esc(dishes[dish].name)} with owner-approved competitor dishes</caption><thead><tr><th scope="col">Comparison</th>${data.map(d=>`<th scope="col">${esc(venues[d.id])}<p class="small muted">${esc(d.menu?.name||'No match')}</p></th>`).join('')}</tr></thead><tbody>${rows.map(([label,fn])=>`<tr><th scope="row">${esc(label)}</th>${data.map(d=>`<td>${fn(d)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
-      <div class="notice"><h3>Read this comparison carefully</h3><p>Prices are invented delivery-menu prices, excluding tax and delivery fees. Portions may differ; no price-per-serving comparison is calculated.</p><p class="small">Percentages describe the selected aspect comments, not all diners. A displayed percentage is not evidence that one dish is objectively better. Unknown menu data remain unknown.</p></div>`;
+
+  function renderApps(){
+    const r=RANGES[state.appsRange],start=52-r.n,dates=WEEKS.slice(start);
+    const {labels,tipLabels}=weekLabels(dates,state.appsRange);
+    const on=Object.entries(APPS).filter(([k])=>state.apps[k]);
+    const comb=COMBINED.slice(start),d=comb[comb.length-1]-comb[0];
+    const now=Object.values(APPS).map(a=>({a,v:a.values[51]})).sort((x,y)=>y.v-x.v);
+    const best=now[0],worst=now[now.length-1];
+    return pageHead('var(--apps)','apps','Ratings on all apps','Your average star rating on each app, side by side.')+`
+    <section class="card">
+      <div class="row between" style="align-items:flex-start">
+        <div><div class="label">Average across all apps</div><div class="big">${r1(COMBINED[51])}<span class="unit star">★</span></div><div class="row" style="margin-top:8px">${starPill(d,' in '+r.short)}</div></div>
+        ${seg('appsRange',Object.entries(RANGES).map(([k,v])=>[k,v.label]),'Time range')}
+      </div>
+      <div class="legend" role="group" aria-label="Show or hide apps">${Object.entries(APPS).map(([k,a])=>`<button type="button" data-app="${k}" data-k="app-${k}" aria-pressed="${state.apps[k]}" style="--c:${a.color}"><i></i>${a.name}</button>`).join('')}</div>
+      ${lineChart('apps',{labels,tipLabels,series:on.map(([,a])=>({name:a.name,color:a.color,values:a.values.slice(start)})),fmt:v=>v.toFixed(2)+' ★',aria:`Star ratings on ${on.map(([,a])=>a.name).join(', ')} over ${r.words}`})}
+      <div class="insight"><span class="ico">💡</span><div>Customers rate you highest on <b>${best.a.name}</b> (${r1(best.v)}★). <b>${worst.a.name}</b> is lowest (${r1(worst.v)}★). Reviewers there mostly mention “${esc(worst.a.note.toLowerCase())}”.</div></div>
+    </section>
+    <div class="grid g4 mt">${Object.values(APPS).map(a=>{
+      const v=a.values.slice(start),dd=v[v.length-1]-v[0];
+      return `<div class="card"><div class="row"><span class="app-badge" style="background:${a.color}">${a.letter}</span><b>${a.name}</b></div>
+        <div class="mid" style="margin-top:14px">${r1(v[v.length-1])}<span class="unit star">★</span></div>
+        <div style="margin-top:6px">${starPill(dd)}</div>
+        ${spark(v,a.color,40)}
+        <div class="small" style="margin-top:10px">${a.reviews.toLocaleString('en-US')} ratings</div>
+        <div class="small">People mention: <b style="color:var(--ink);font-weight:600">${esc(a.note)}</b></div></div>`;}).join('')}
+    </div>
+    <p class="small" style="margin-top:14px">All apps are shown on the same 5-star scale.</p>`;
   }
-  function trendCard(t){
-    const diff=t.currentShare-t.priorShare,max=Math.max(10,Math.ceil(Math.max(t.currentShare,t.priorShare)/5)*5);
-    const title=t.valid?'ENOUGH DATA FOR A DESCRIPTIVE COMPARISON':t.current.length>=15?'EMERGING / SMALL BASELINE':'LIMITED EVIDENCE';
-    const chart=t.valid?`
-      <p class="big-number">${diff>0?'+':''}${Number(diff.toFixed(1))} <span style="font-size:16px;font-weight:500">percentage points</span></p>
-      <p class="muted">Share of eligible local discussion: ${formatPct(t.priorShare)} to ${formatPct(t.currentShare)}.</p>
-      ${[['Current',t.currentShare,t.current.length,t.currentTotal],['Prior',t.priorShare,t.prior.length,t.priorTotal]].map(([label,share,count,total])=>`<div class="bar-row"><strong>${label}</strong><div class="bar-track" aria-label="${label}: ${formatPct(share)}"><div class="bar-fill ${label==='Prior'?'prior':''}" style="width:${share/max*100}%"></div></div><span>${count} / ${total} mentions</span></div>`).join('')}
-      <p class="small muted">Bar scale: 0-${max}% of eligible local mentions. Descriptive change, not a statistical-significance claim.</p>`:
-      `<p style="margin-top:20px"><strong>${t.current.length} current</strong> vs. <strong>${t.prior.length} prior</strong> topic mentions across ${t.breadth} current venues.</p><p class="muted">No growth claim: requires at least 15 current mentions, 10 prior mentions, and three current venues within a stable comparison cohort.</p>`;
-    return `<article class="card topic-card">${badge(title,t.valid?'green':'')}<h2 style="margin-top:17px">${esc(topics[t.topic])}</h2>${chart}<div class="row"><span class="small muted">${t.breadth} current venues / one source</span><button data-action="trend-evidence" data-topic="${t.topic}">Inspect ${t.current.length+t.prior.length} topic records</button></div></article>`;
+
+  function renderSocial(){
+    const t=socialTotals(state.platform),keys=t.keys;
+    const days=DAYS.map((d,i)=>({d,parts:keys.map(k=>({k,v:SOCIAL[k].days[i]}))})).map(x=>({...x,total:x.parts.reduce((a,p)=>a+p.v,0)}));
+    const max=Math.max(...days.map(x=>x.total),1),topDay=days.reduce((a,b)=>b.total>a.total?b:a);
+    const posts=POSTS.filter(p=>keys.includes(p.p)).sort((a,b)=>b.views-a.views);
+    const topPostOnDay=posts.find(p=>p.day===topDay.d);
+    const kpi=(label,now,prev,fmt=fmtK)=>`<div class="card"><div class="label">${label}</div><div class="mid" style="margin-top:6px">${fmt(now)}</div><div style="margin-top:8px">${pctPill(now,prev)}</div></div>`;
+    return pageHead('var(--social)','social','This week on TikTok & Instagram','Fri, Oct 9 – Thu, Oct 15 · posts that mention Demo Kitchen',seg('platform',[['all','Both'],['tiktok','TikTok'],['instagram','Instagram']],'Platform'))+`
+    <div class="grid g4">
+      ${kpi('Posts about you',t.posts,t.prevPosts,String)}
+      ${kpi('Views',t.views,t.prevViews)}
+      ${kpi('Likes',t.likes,t.prevLikes)}
+      ${kpi('Shares &amp; saves',t.shares,t.prevShares)}
+    </div>
+    <div class="grid g2 mt">
+      <section class="card">
+        <div class="card-title"><h2>Posts about you, day by day</h2></div>
+        <div class="row small">${keys.map(k=>`<span class="row" style="gap:6px"><i style="width:10px;height:10px;border-radius:3px;background:${SOCIAL[k].color};display:inline-block"></i>${SOCIAL[k].name}</span>`).join('')}</div>
+        <div class="daybars" role="img" aria-label="${days.map(x=>x.d+': '+x.total).join(', ')}">${days.map(x=>`<div class="daycol${x===topDay?' top':''}"><span class="n">${x.total}</span><div class="stack" style="height:${x.total/max*72}%">${x.parts.map(p=>`<span style="height:${x.total?p.v/x.total*100:0}%;background:${SOCIAL[p.k].color}"></span>`).join('')}</div><span class="d">${x.d}</span></div>`).join('')}</div>
+        <div class="insight"><span class="ico">📈</span><div>Your busiest day was <b>${DAY_NAMES[topDay.d]}</b>${topPostOnDay?`, when <b>${esc(topPostOnDay.h)}</b> posted about you`:''}.</div></div>
+      </section>
+      <section class="ai-card">
+        <span class="pill ai">${ICONS.spark} AI tips for this week</span>
+        <ol class="tips">${SOCIAL_TIPS.map(s=>`<li>${s}</li>`).join('')}</ol>
+      </section>
+    </div>
+    <div class="card-title" style="margin:28px 0 14px"><h2>Top posts about you</h2><span class="small">Sorted by views</span></div>
+    <div class="grid g4 posts">${posts.map(p=>`<article class="card post">
+      <div class="thumb" style="background:${p.g}"><span class="plat">${SOCIAL[p.p].name}</span><span aria-hidden="true">${p.e}</span><span class="views">${ICONS.eye}${fmtK(p.views)}</span></div>
+      <div class="post-body"><div class="row between"><b>${esc(p.h)}</b><span class="pill ${p.mood}">${p.moodText}</span></div><div class="small">${esc(p.f)} · ${DAY_NAMES[p.day]}</div><div class="cap">${esc(p.cap)}</div><div class="stats"><span>❤️ ${fmtK(p.likes)}</span><span>💬 ${fmtK(p.com)}</span></div></div>
+    </article>`).join('')}</div>
+    <section class="card mt">
+      <div class="card-title"><h2>Trending near you</h2><span class="small">Midtown East · food posts this week vs last week</span></div>
+      ${TRENDS.map(x=>`<div class="trend-row"><span class="e" aria-hidden="true">${x.e}</span><div><b>${esc(x.t)}</b><div class="small">${esc(x.note)}</div></div><span class="pill ${x.ch>0?'up':'down'}">${x.ch>0?'↑':'↓'} ${Math.abs(x.ch)}%</span></div>`).join('')}
+    </section>`;
   }
-  function renderTrends(){
-    const current=matchingSocial('current'),prior=matchingSocial('prior'),breadth=new Set(current.map(r=>r.venue)).size;
-    return header('What is gaining attention nearby?','Observed local social discussion, not a demand forecast')+
-      `<div class="controls"><label>Local boundary<select id="trend-area">${option('midtown','Midtown East / four demo venues',state.area)}${option('small','Smaller area / two demo venues',state.area)}</select></label><label>Topic<select id="trend-topic">${option('all','All tracked topics',state.topic)}${Object.entries(topics).map(([v,l])=>option(v,l,state.topic)).join('')}</select></label><div class="spacer"></div><button data-action="coverage">Source coverage</button></div>
-      <p class="small muted">Current: ${CURRENT} / Prior: ${PRIOR}</p>
-      <div class="stats four">${stat('Current local mentions',current.length,'Separate from dish-review imports')}${stat('Prior local mentions',prior.length,'Same eligible source and cohort')}${stat('Venue breadth',breadth,'Restaurant location, not reviewer residence')}${stat('Source coverage','1 source','Invented social feed; not verified demand')}</div>
-      <div class="columns"><div>${Object.keys(topics).filter(t=>state.topic==='all'||state.topic===t).map(t=>trendCard(trend(t))).join('')}</div>
-      <div><section class="card"><h2>What this does not tell you</h2><p>More mentions do not establish more orders, revenue, or customer demand.</p><p class="muted">Promotion, selective reviews, and missing channels can influence the result. Repeated posts and unknown locality need scrutiny in a real deployment.</p><hr class="divider"><h3>Try an insufficient-data state</h3><p class="small muted">Switch to the two-venue area. The prototype suppresses growth claims because the sample does not meet the breadth and baseline requirements.</p><button data-action="small-area">Show two-venue area</button></section><div class="notice small">All local posts are generated examples in a separate social dataset. They are not the restaurant-review records used on the other screens.</div></div></div>`;
+
+  /* ---------- Render + events ---------- */
+  const VIEWS={today:renderToday,maps:renderMaps,dishes:renderDishes,apps:renderApps,social:renderSocial};
+  function renderTabs(){
+    $('#tabs').innerHTML=TABS.map(([k,l])=>`<button type="button" data-go="${k}"${state.tab===k?' aria-current="page"':''}>${ICONS[k]}<span>${l}</span></button>`).join('');
   }
-  function render(){
-    const views={briefing:renderBriefing,dish:renderDish,compare:renderCompare,trends:renderTrends};
-    $('#content').innerHTML=views[state.route]();
-    document.querySelectorAll('nav [data-route]').forEach(b=>{if(b.dataset.route===state.route)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
-    document.title='DishLens | '+({briefing:'Weekly briefing',dish:'Dish feedback',compare:'Competitor comparison',trends:'Local trends'}[state.route]);
-    showStorageWarning();
+  function render(focusKey){
+    charts={};
+    $('#content').innerHTML=VIEWS[state.tab]();
+    renderTabs();
+    wireCharts();
+    document.title='DishLens | '+TABS.find(t=>t[0]===state.tab)[1];
+    if(focusKey){const el=document.querySelector(`[data-k="${focusKey}"]`);if(el)el.focus({preventScroll:true});}
   }
-  function navigate(route){
-    if(!['briefing','dish','compare','trends'].includes(route))return;
-    state.route=route;history.replaceState(null,'','#'+route);render();window.scrollTo(0,0);
-  }
-  function modal(title,body,actions=''){
-    const el=$('#modal');
-    if(!el.open)returnFocus=document.activeElement;
-    el.innerHTML=`<div class="modal-header"><h2 id="modal-title">${esc(title)}</h2><button data-action="close" aria-label="Close dialog">Close</button></div><div class="modal-body">${body}</div>${actions?`<div class="modal-actions">${actions}</div>`:''}`;
-    if(!el.open)el.showModal();
-    const focusTarget=el.querySelector('input,select,button');if(focusTarget)focusTarget.focus();
-  }
-  function closeModal(){$('#modal').close();}
-  $('#modal').addEventListener('close',()=>{if(returnFocus?.isConnected)returnFocus.focus();});
-  function openEvidence(title,list){
-    evidenceRecords=list;
-    modal(title,`<p class="small muted">All records below are invented. They show the evidence experience, not live links or real customer research.</p><label>Search these records<input id="evidence-search" type="search" placeholder="Search text, ID, or sentiment"></label><p id="evidence-count" class="small muted" style="margin-top:14px"></p><div id="evidence-list"></div>`);
-    renderEvidence('');
-  }
-  function renderEvidence(query){
-    const q=query.toLowerCase(),list=evidenceRecords.filter(r=>[r.text,r.id,r.sentiment||'',r.aspect||''].join(' ').toLowerCase().includes(q));
-    $('#evidence-count').textContent=list.length+' of '+evidenceRecords.length+' records';
-    $('#evidence-list').innerHTML=list.length?list.map(r=>recordMarkup(r)).join(''):'<div class="empty">No records match this search.</div>';
-  }
-  function coverage(){
-    modal('Sources and coverage',`<div class="notice" style="margin-top:0"><strong>No live data is connected.</strong> This prototype does not scrape websites, call APIs, or send your changes anywhere.</div><h3 class="section">Restaurant-review sample</h3><p>${rawReviews.length} generated review records across four fictional restaurants. Dates fall inside ${CURRENT}. Some menu matches and comparison samples are intentionally incomplete.</p><h3>Local social sample</h3><p>800 separate generated social records across two 28-day windows. Four venue labels define the larger demo boundary; the smaller boundary includes two.</p><h3>Real product access requirements</h3><p>Sources must permit collection, analysis, storage, and display. Private content or platform restrictions cannot be bypassed. Uploading a snapshot is not live monitoring.</p><h3>Local demo storage</h3><p>Dish corrections, selected competitors, and the local boundary may be saved in this browser. Reset demo removes only DishLens prototype settings.</p>`);
-  }
-  function editCompetitors(){
-    modal('Choose approved competitors',`<p>Select one to three fictional restaurants for the comparison. In a pilot, owners would first approve comparable dishes and permitted menu sources.</p><form id="competitor-form">${['a','b','c'].map(id=>`<label class="choice"><input type="checkbox" name="competitor" value="${id}"${state.competitors.includes(id)?' checked':''}><span>${esc(venues[id])}<span class="muted small">${id==='b'?'Includes sparse samples and unstated portions':'Comparable menu examples with source evidence'}</span></span></label>`).join('')}<p id="competitor-error" role="alert" class="small" style="color:var(--brand)"></p></form>`,`<button data-action="close">Cancel</button><button type="submit" form="competitor-form" class="primary">Save approved set</button>`);
-  }
-  function editMatch(id){
-    const record=records().find(r=>r.id===id&&r.venue==='own');
-    if(!record){toast('That editable demo record was not found.');return;}
-    modal('Correct a dish match',`${recordMarkup(record,false)}<form id="match-form" data-id="${esc(id)}"><label>Assign this comment to<select name="dish">${option('','Leave unassigned',record.dish||'')}${dishOptions(record.dish)}</select></label><p class="small muted" style="margin-top:12px">This changes only the demo assignment. The original text and sentiment remain unchanged. If a dish cannot be identified, leave it unassigned.</p></form>`,`<button data-action="close">Cancel</button><button type="submit" form="match-form" class="primary">Save correction</button>`);
-  }
-  function help(){
-    modal('Explore the interactive prototype',`<h3>Working interactions</h3><ol><li>Open a weekly finding to see dish-level evidence.</li><li>Switch dishes, dining contexts, and aspects; counts update from the demo records.</li><li>Search evidence and correct an assigned or unresolved dish match.</li><li>Change competitors and inspect their feedback, including sparse-data states.</li><li>Change the local boundary or topic; unsupported growth claims are suppressed.</li><li>Download a text briefing or reset your locally saved choices.</li></ol><h3>Prototype boundaries</h3><p>No live ingestion, account system, model calls, or real recommendations. The data and texts are generated examples. P1 chat and action tracking, and P2 integrations, are not implemented.</p><h3>Files in this project folder</h3><p><a href="DishLens_PRD.docx" download>Word PRD</a> / <a href="DishLens_PRD.md">Markdown PRD</a> / <a href="DishLens_Wireframes/00-all-wireframes.png" target="_blank" rel="noopener">Original wireframe overview</a></p><p class="small muted">Open this index.html directly in a modern browser. The prototype is self-contained and does not require a server.</p>`);
-  }
-  function exportBriefing(){
-    const own=records().filter(r=>r.venue==='own'),list=selectReviews('own','chicken','delivery','crispness'),t=trend('chicken');
-    const text=`DISHLENS - DEMO BRIEFING\nAll data are invented. This is not customer research.\nPeriod: ${CURRENT}\n\nOwn restaurant: ${own.length} records; ${own.filter(r=>!r.dish).length} unmatched.\nCrispy chicken delivery crispness: ${tally(list)[1]} negative of ${list.length} aspect comments.\nPossible check: inspect packaging and transit conditions before changing the recipe.\n\nApproved competitors: ${state.competitors.map(v=>venues[v]).join(', ')}.\nNo overall quality ranking. Inspect portions, context, and source evidence.\n\nLocal crispy-chicken signal: ${t.current.length} current / ${t.currentTotal} local mentions; ${t.prior.length} prior / ${t.priorTotal}.\n${t.valid?`Topic share: ${formatPct(t.priorShare)} to ${formatPct(t.currentShare)}.`:'Insufficient evidence for a growth claim.'}\nCaptured online attention is not proven demand.\n\nNo live sources or AI backend are connected.\n`;
-    const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');
-    a.href=url;a.download='DishLens_demo_briefing.txt';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
-    toast('Demo briefing downloaded.');
-  }
-  document.addEventListener('click',event=>{
-    const target=event.target.closest('button');if(!target)return;
-    if(target.dataset.route){navigate(target.dataset.route);return;}
-    const action=target.dataset.action;
-    if(action==='close')closeModal();
-    else if(action==='coverage')coverage();
-    else if(action==='help')help();
-    else if(action==='open-chicken'){state.dish='chicken';state.context='delivery';state.aspect='crispness';navigate('dish');}
-    else if(action==='open-comparison'){state.compareDish='chicken';state.compareContext='delivery';navigate('compare');}
-    else if(action==='unmatched')openEvidence('Unmatched dish feedback',records().filter(r=>r.venue==='own'&&!r.dish));
-    else if(action==='all-own-evidence')openEvidence('Review and correct dish matches',records().filter(r=>r.venue==='own'));
-    else if(action==='dish-evidence')openEvidence('Evidence: '+dishes[state.dish].name,selectReviews('own',state.dish,state.context,state.aspect));
-    else if(action==='theme-evidence')openEvidence('Evidence: '+target.dataset.aspect,selectReviews('own',state.dish,state.context,target.dataset.aspect));
-    else if(action==='compare-evidence')openEvidence('Evidence: '+venues[target.dataset.venue],selectReviews(target.dataset.venue,state.compareDish,state.compareContext,dishes[state.compareDish].aspect));
-    else if(action==='edit-competitors')editCompetitors();
-    else if(action==='match')editMatch(target.dataset.id);
-    else if(action==='trend-evidence'){const t=trend(target.dataset.topic);openEvidence(topics[t.topic]+': local sample',t.current.concat(t.prior));}
-    else if(action==='small-area'){state.area='small';persist();render();}
-    else if(action==='export')exportBriefing();
-    else if(action==='reset')modal('Reset this demo?',`<p>This clears only DishLens demo corrections and saved selections in this browser. It does not modify your project files or any restaurant data.</p>`,`<button data-action="close">Cancel</button><button class="primary" data-action="confirm-reset">Reset demo</button>`);
-    else if(action==='confirm-reset'){
-      try{localStorage.removeItem(STORAGE_KEY);storageWarning='';}catch(error){storageWarning='Current settings were reset, but saved settings could not be removed. '+error.message;}
-      state.corrections={};state.competitors=['a','b','c'];state.area='midtown';state.topic='all';state.dish='chicken';state.context='delivery';state.aspect='crispness';state.compareDish='chicken';state.compareContext='delivery';
-      closeModal();navigate('briefing');toast('Demo reset.');
+  function routeFromHash(){const h=location.hash.slice(1);return VIEWS[h]?h:'today';}
+  function go(tab){if(location.hash.slice(1)===tab){state.tab=tab;render();window.scrollTo(0,0);}else location.hash=tab;}
+  let toastTimer;
+  function toast(msg){clearTimeout(toastTimer);const t=$('#toast');t.textContent=msg;t.hidden=false;toastTimer=setTimeout(()=>t.hidden=true,2600);}
+
+  document.addEventListener('click',e=>{
+    const b=e.target.closest('button');if(!b)return;
+    const k=b.dataset.k;
+    if(b.dataset.go){go(b.dataset.go);}
+    else if(b.dataset.set){state[b.dataset.set]=b.dataset.val;render(k);}
+    else if(b.dataset.dish){state.openDish=state.openDish===b.dataset.dish?null:b.dataset.dish;render(k);}
+    else if(b.dataset.app){
+      const key=b.dataset.app;
+      if(state.apps[key]&&Object.values(state.apps).filter(Boolean).length===1){toast('Keep at least one app on the chart.');return;}
+      state.apps[key]=!state.apps[key];render(k);
     }
-  });
-  document.addEventListener('change',event=>{
-    const {id,value}=event.target;
-    if(id==='dish-select'){state.dish=value;state.aspect=dishes[value].aspect;}
-    else if(id==='dish-context')state.context=value;
-    else if(id==='dish-aspect')state.aspect=value;
-    else if(id==='compare-dish')state.compareDish=value;
-    else if(id==='compare-context')state.compareContext=value;
-    else if(id==='trend-area'){state.area=value;persist();}
-    else if(id==='trend-topic')state.topic=value;
-    else return;
-    render();
-    const replacement=document.getElementById(id);if(replacement)replacement.focus();
-  });
-  document.addEventListener('input',event=>{if(event.target.id==='evidence-search')renderEvidence(event.target.value);});
-  document.addEventListener('submit',event=>{
-    if(event.target.id==='competitor-form'){
-      event.preventDefault();
-      const selected=[...new FormData(event.target).getAll('competitor')];
-      if(!selected.length){$('#competitor-error').textContent='Select at least one competitor.';return;}
-      state.competitors=selected.filter(v=>['a','b','c'].includes(v));persist();closeModal();render();toast('Approved competitor set updated.');
-    }else if(event.target.id==='match-form'){
-      event.preventDefault();
-      const id=event.target.dataset.id,value=new FormData(event.target).get('dish');
-      if(!validReviewIds.has(id)||(value!==''&&!Object.hasOwn(dishes,value))){toast('The dish assignment is invalid.');return;}
-      state.corrections[id]=value||null;persist();closeModal();render();toast('Dish match updated in this demo.');
+    else if(b.dataset.todo){
+      const id=b.dataset.todo;state.todos[id]=!state.todos[id];if(!state.todos[id])delete state.todos[id];persist();render(k);
+      if(state.todos[id])toast(Object.keys(state.todos).length===TODOS.length?'All done this week! 🎉':'Nice work! ✅');
     }
+    else if(b.dataset.action==='reset'){state.todos={};try{localStorage.removeItem(STORE);}catch(err){}render();toast('Demo reset.');}
   });
-  window.addEventListener('hashchange',()=>{const route=location.hash.slice(1);if(['briefing','dish','compare','trends'].includes(route)){state.route=route;render();}});
-  const initialRoute=location.hash.slice(1);
-  if(['briefing','dish','compare','trends'].includes(initialRoute))state.route=initialRoute;
+  window.addEventListener('hashchange',()=>{state.tab=routeFromHash();render();window.scrollTo(0,0);$('#content').focus({preventScroll:true});});
+  state.tab=routeFromHash();
   render();
   </script>
 </body>
