@@ -244,6 +244,90 @@
     footer button{border:0;background:#E5E5EA;border-radius:10px;padding:7px 12px;font-weight:620;font-size:13.5px}
     #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1C1C21;color:#fff;padding:12px 20px;border-radius:14px;z-index:40;box-shadow:0 8px 30px rgba(0,0,0,.2);font-weight:600}
 
+
+    /* ---------- Color theme ---------- */
+    body{--accent:#FF5A36;--accent2:#FF2D78;--soft:#FFF0EA;--glow1:#FFD9C7;--glow2:#FFD3E6;
+      background:radial-gradient(900px 520px at -5% -8%,var(--glow1),transparent 70%),radial-gradient(900px 520px at 105% -6%,var(--glow2),transparent 70%),#F4F3F8;background-repeat:no-repeat;min-height:100vh}
+    body[data-theme=maps]{--accent:#2F7BF6;--accent2:#22B8F0;--soft:#EAF3FF;--glow1:#CFE2FF;--glow2:#CDF1FF}
+    body[data-theme=dishes]{--accent:#FF7A00;--accent2:#FF4D4D;--soft:#FFF2E3;--glow1:#FFE0BF;--glow2:#FFD6D1}
+    body[data-theme=apps]{--accent:#7C5CFF;--accent2:#C651FF;--soft:#F1ECFF;--glow1:#E1D8FF;--glow2:#F2D5FF}
+    body[data-theme=social]{--accent:#FF2D78;--accent2:#FF8A3D;--soft:#FFEBF2;--glow1:#FFD2E3;--glow2:#FFE2CC}
+    .topbar{background:rgba(255,255,255,.6)}
+    .logo{background:linear-gradient(90deg,#FF7A00,#FF2D78 55%,#7C5CFF);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .logo-mark{-webkit-text-fill-color:initial;color:#fff;box-shadow:0 4px 14px rgba(255,90,54,.35)}
+    .tabs{background:rgba(255,255,255,.7);box-shadow:inset 0 0 0 1px rgba(0,0,0,.04)}
+    .tabs button[aria-current=page]{color:#fff;background:linear-gradient(135deg,var(--tc),var(--tc2));box-shadow:0 4px 14px var(--tsh)}
+    .tabs [data-go=today]{--tc:#FF5A36;--tc2:#FF2D78;--tsh:rgba(255,70,80,.3)}
+    .tabs [data-go=maps]{--tc:#2F7BF6;--tc2:#22B8F0;--tsh:rgba(47,123,246,.3)}
+    .tabs [data-go=dishes]{--tc:#FF7A00;--tc2:#FF4D4D;--tsh:rgba(255,122,0,.3)}
+    .tabs [data-go=apps]{--tc:#7C5CFF;--tc2:#C651FF;--tsh:rgba(124,92,255,.3)}
+    .tabs [data-go=social]{--tc:#FF2D78;--tc2:#FF8A3D;--tsh:rgba(255,45,120,.3)}
+    .avatar{background:linear-gradient(135deg,#2B2B3A,#4A3A6A)}
+
+    .hero{position:relative;overflow:hidden;border-radius:28px;padding:26px 28px;margin:6px 0 20px;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 14px 40px -12px var(--accent);display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap}
+    .hero::before,.hero::after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.14);pointer-events:none}
+    .hero::before{width:260px;height:260px;right:-60px;top:-110px}
+    .hero::after{width:160px;height:160px;right:180px;bottom:-110px;background:rgba(255,255,255,.1)}
+    .hero>*{position:relative;z-index:1}
+    .hero .icon-chip{background:rgba(255,255,255,.22)!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+    .hero h1{font-size:34px;letter-spacing:-.9px;margin:0;line-height:1.15}
+    .hero p{margin:6px 0 0;color:rgba(255,255,255,.88);font-size:17px}
+    .hero .seg{background:rgba(255,255,255,.2)}
+    .hero .seg button{color:rgba(255,255,255,.92)}
+    .hero .seg button[aria-pressed=true]{background:#fff;color:var(--accent);box-shadow:0 2px 8px rgba(0,0,0,.12)}
+
+    .seg button[aria-pressed=true]{color:var(--accent)}
+    .insight{background:var(--soft)}
+    .go{color:var(--accent)}
+    .ai-card,.ai-box{background:linear-gradient(135deg,#EDE3FF 0%,#FFE3F0 55%,#FFEEDD 100%);box-shadow:inset 0 0 0 1px rgba(124,92,255,.12)}
+    .pill.ai{background:#fff;color:#6233D6;box-shadow:0 1px 4px rgba(98,51,214,.15)}
+
+    /* Dark score hero on Today */
+    .scores{position:relative;overflow:hidden;border-radius:30px;padding:26px 24px 24px;color:#fff;
+      background:radial-gradient(420px 260px at 12% 110%,rgba(47,123,246,.45),transparent 70%),radial-gradient(420px 260px at 50% 120%,rgba(34,179,94,.35),transparent 70%),radial-gradient(420px 260px at 92% 110%,rgba(255,45,120,.45),transparent 70%),linear-gradient(160deg,#1D1B33,#2A1D42);
+      box-shadow:0 20px 50px -18px rgba(42,29,66,.6)}
+    .scores .kicker{color:#FFB38F}
+    .scores h1{font-size:32px;letter-spacing:-.8px;margin:2px 0 4px;line-height:1.15}
+    .scores .lead{color:rgba(255,255,255,.72);margin:0 0 18px;font-size:16.5px}
+    .scores .ring-link:hover{background:rgba(255,255,255,.06)}
+    .scores .ring svg{filter:drop-shadow(0 0 10px var(--rc))}
+    .scores .ring .center span{color:rgba(255,255,255,.65)}
+    .scores .ring-name{color:#fff}
+    .scores .pill.up{background:rgba(70,220,130,.16);color:#7CF2AC}
+    .scores .pill.down{background:rgba(255,90,80,.18);color:#FF9C94}
+    .scores .pill.flat{background:rgba(255,255,255,.12);color:#ddd}
+
+    a.card.tint{background:linear-gradient(180deg,var(--t) 0%,#fff 62%)}
+    .sum-head .dotc{width:36px;height:36px;border-radius:11px;box-shadow:0 4px 12px -2px var(--sh)}
+    .progress span{background:linear-gradient(90deg,#22B35E,#7BE0A0)}
+    .check[aria-pressed=true]{background:linear-gradient(135deg,#22B35E,#4FD487);border-color:transparent}
+
+    .tile{position:relative;overflow:hidden;background:linear-gradient(160deg,var(--t),#fff 75%)}
+    .tile .tico{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;font-size:20px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:10px}
+    .tile .mid{color:var(--tc,#121216)}
+
+    .plot svg{filter:drop-shadow(0 6px 8px rgba(0,0,0,.08))}
+    .bar-h .t span{background:linear-gradient(90deg,#FFB400,#FF8A00)}
+    .dish.open{box-shadow:0 0 0 2px var(--accent),0 14px 34px -10px rgba(255,122,0,.35)}
+    .dish-score .mid{background:linear-gradient(135deg,#FFF4E0,#FFE6D2);border-radius:16px;padding:6px 12px}
+    .fix .num{background:linear-gradient(135deg,var(--accent),var(--accent2))}
+    .chip{background:linear-gradient(135deg,#E3F8EA,#D2F3E0)}
+    .trend-row .e.up{background:#E5F6EA}.trend-row .e.down{background:#FDECEC}
+    .app-card{background:linear-gradient(180deg,var(--t) 0%,#fff 58%)}
+    .legend button[aria-pressed=true]{border-color:var(--c);background:color-mix(in srgb,var(--c) 10%,#fff)}
+    .daycol.top .stack{box-shadow:0 6px 16px -4px rgba(255,45,120,.5)}
+    .scrub-line{background:var(--accent);opacity:.5}
+
+    @media (max-width:760px){
+      .hero{padding:20px;border-radius:24px}
+      .hero h1{font-size:27px}
+      .hero .seg{width:100%}
+      .scores{padding:20px 14px;border-radius:26px}
+      .scores h1{font-size:26px}
+      .tabs{background:rgba(255,255,255,.96)}
+      .tabs button[data-go][aria-current=page]{background:transparent;box-shadow:none;color:var(--tc)}
+      .dish-score .mid{font-size:22px!important;padding:4px 9px}
+    }
     @media (prefers-reduced-motion:reduce){.ring .prog{animation:none}a.card{transition:none}}
     @media (max-width:980px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(2,minmax(0,1fr))}.dish-body{grid-template-columns:1fr}.tabs button span{display:none}.tabs button{padding:8px 12px}}
     @media (max-width:760px){
@@ -471,7 +555,7 @@
     return `<div class="seg" role="group" aria-label="${esc(label)}">${options.map(([v,l])=>`<button type="button" data-set="${key}" data-val="${v}" data-k="${key}-${v}" aria-pressed="${state[key]===v}">${esc(l)}</button>`).join('')}</div>`;
   }
   function pageHead(color,icon,title,sub,right=''){
-    return `<div class="page-head"><div><div class="icon-chip" style="background:${color}">${ICONS[icon]}</div><h1>${esc(title)}</h1><p>${esc(sub)}</p></div>${right}</div>`;
+    return `<div class="hero"><div><div class="icon-chip">${ICONS[icon]}</div><h1>${esc(title)}</h1><p>${esc(sub)}</p></div>${right}</div>`;
   }
   const r1=v=>(Math.round(v*10)/10).toFixed(1);
   const DISH_BY_ID=Object.fromEntries(DISHES.map(d=>[d.id,d]));
@@ -561,7 +645,7 @@
   }
   function ring(pct,color,size,stroke,center){
     const r=(size-stroke)/2,c=2*Math.PI*r;
-    return `<div class="ring" style="width:${size}px;height:${size}px"><svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true"><circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}" stroke-opacity=".14" stroke-width="${stroke}"/><circle class="prog" cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-pct)}" style="--c:${c}"/></svg><div class="center">${center}</div></div>`;
+    return `<div class="ring" style="width:${size}px;height:${size}px;--rc:${color}99"><svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true"><circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}" stroke-opacity=".2" stroke-width="${stroke}"/><circle class="prog" cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-pct)}" style="--c:${c}"/></svg><div class="center">${center}</div></div>`;
   }
   function weekLabels(slice,range){
     return {labels:slice.map(d=>range==='1Y'?fmtMonth(d):fmtDay(d)),tipLabels:slice.map(d=>'Week of '+fmtDay(d))};
@@ -582,13 +666,12 @@
     const comb=COMBINED[51],combPrev=COMBINED[51-12];
     const topPost=[...POSTS].sort((a,b)=>b.views-a.views)[0];
     return `
-    <div class="page-head"><div><div class="kicker">Thursday, October 15</div><h1>${greet}, Demo Kitchen 👋</h1><p>Here’s how your restaurant is doing this week.</p></div></div>
-
-    <section class="card" aria-label="Your scores">
+    <section class="scores" aria-label="Your scores">
+      <div class="kicker">Thursday, October 15</div><h1>${greet}, Demo Kitchen 👋</h1><p class="lead">Here’s how your restaurant is doing this week.</p>
       <div class="rings">
-        <a class="ring-link" href="#maps">${ring(gNow/5,'#2F7BF6',128,13,`<b>${r1(gNow)}</b><span>out of 5 ★</span>`)}<div class="ring-name">Google rating</div>${starPill(gNow-g3)}</a>
-        <a class="ring-link" href="#dishes">${ring(.86,'#22B35E',128,13,`<b>86%</b><span>gave 4–5 ★</span>`)}<div class="ring-name">Happy customers</div><span class="pill up">↑ 4% this month</span></a>
-        <a class="ring-link" href="#social">${ring(.78,'#FF2D78',128,13,`<b>78</b><span>out of 100</span>`)}<div class="ring-name">Social buzz</div><span class="pill up">↑ Busy week</span></a>
+        <a class="ring-link" href="#maps">${ring(gNow/5,'#4C8DFF',128,13,`<b>${r1(gNow)}</b><span>out of 5 ★</span>`)}<div class="ring-name">Google rating</div>${starPill(gNow-g3)}</a>
+        <a class="ring-link" href="#dishes">${ring(.86,'#34D27B',128,13,`<b>86%</b><span>gave 4–5 ★</span>`)}<div class="ring-name">Happy customers</div><span class="pill up">↑ 4% this month</span></a>
+        <a class="ring-link" href="#social">${ring(.78,'#FF4F8E',128,13,`<b>78</b><span>out of 100</span>`)}<div class="ring-name">Social buzz</div><span class="pill up">↑ Busy week</span></a>
       </div>
     </section>
 
@@ -608,23 +691,23 @@
     </div>
 
     <div class="grid g2 mt">
-      <a class="card" href="#maps">
-        <div class="sum-head"><span class="dotc" style="background:var(--maps)">${ICONS.maps}</span>Google Maps rating<span class="chev">›</span></div>
+      <a class="card tint" href="#maps" style="--t:#E6F0FF">
+        <div class="sum-head"><span class="dotc" style="background:var(--maps);--sh:rgba(47,123,246,.45)">${ICONS.maps}</span>Google Maps rating<span class="chev">›</span></div>
         <div class="row" style="margin-top:14px;align-items:flex-end"><div class="big">${r1(gNow)}<span class="unit star">★</span></div><div style="padding-bottom:8px">${starPill(gNow-g3,' in 3 months')}</div></div>
         ${spark(G.slice(-13),'#2F7BF6',96)}
       </a>
-      <a class="card" href="#dishes">
-        <div class="sum-head"><span class="dotc" style="background:var(--dish)">${ICONS.dishes}</span>Top dishes &amp; AI tips<span class="chev">›</span></div>
+      <a class="card tint" href="#dishes" style="--t:#FFEEDC">
+        <div class="sum-head"><span class="dotc" style="background:var(--dish);--sh:rgba(255,138,0,.45)">${ICONS.dishes}</span>Top dishes &amp; AI tips<span class="chev">›</span></div>
         <ul class="mini-list">${top.map(d=>`<li>${photo(d,'')}${esc(d.name)}<span class="r">${d.rating.toFixed(1)} <span class="star">★</span></span></li>`).join('')}
           <li>${photo(DISH_BY_ID.wontons,'')}<span><b>Spicy Wontons</b> need attention ⚠️</span><span class="r"><span class="pill down">${DISHES[4].rating.toFixed(1)} ★</span></span></li></ul>
       </a>
-      <a class="card" href="#apps">
-        <div class="sum-head"><span class="dotc" style="background:var(--apps)">${ICONS.apps}</span>Ratings on all apps<span class="chev">›</span></div>
+      <a class="card tint" href="#apps" style="--t:#EEE8FF">
+        <div class="sum-head"><span class="dotc" style="background:var(--apps);--sh:rgba(124,92,255,.45)">${ICONS.apps}</span>Ratings on all apps<span class="chev">›</span></div>
         <div class="row" style="margin-top:14px;align-items:flex-end"><div class="big">${r1(comb)}<span class="unit star">★</span></div><div style="padding-bottom:8px"><span class="label">average</span> ${starPill(comb-combPrev,' in 3 months')}</div></div>
         <ul class="mini-list">${Object.values(APPS).map(a=>`<li><span class="app-badge" style="background:${a.color};width:28px;height:28px;font-size:13px;border-radius:9px">${a.letter}</span>${a.name}<span class="r">${r1(a.values[51])} <span class="star">★</span></span></li>`).join('')}</ul>
       </a>
-      <a class="card" href="#social">
-        <div class="sum-head"><span class="dotc" style="background:var(--social)">${ICONS.social}</span>This week on TikTok &amp; Instagram<span class="chev">›</span></div>
+      <a class="card tint" href="#social" style="--t:#FFE6F0">
+        <div class="sum-head"><span class="dotc" style="background:var(--social);--sh:rgba(255,45,120,.45)">${ICONS.social}</span>This week on TikTok &amp; Instagram<span class="chev">›</span></div>
         <div class="row" style="margin-top:14px;align-items:flex-end"><div class="big">${fmtK(soc.views)}</div><div style="padding-bottom:8px"><span class="label">views</span> ${pctPill(soc.views,soc.prevViews)}</div></div>
         <div class="insight" style="margin-top:14px"><span class="ico">${topPost.e}</span><div><b>${esc(topPost.h)}</b> posted about your Crispy Chicken: <b>${fmtK(topPost.views)} views</b> so far.</div></div>
         <div class="small" style="margin-top:12px">${soc.posts} posts mentioned you this week (${soc.prevPosts} last week).</div>
@@ -654,9 +737,9 @@
     </section>
 
     <div class="grid g3 mt">
-      <div class="card"><div class="label">New reviews</div><div class="mid" style="margin-top:6px">${newRev}</div><div class="small">in ${r.words}</div></div>
-      <div class="card"><div class="label">Reviews per week</div><div class="mid" style="margin-top:6px">${Math.round(newRev/r.n)}</div><div class="small">on average</div></div>
-      <div class="card"><div class="label">Happy customers</div><div class="mid" style="margin-top:6px">86%</div><div class="small">gave you 4 or 5 stars this month</div></div>
+      <div class="card tile" style="--t:#E6F0FF;--tc:#1F5FD1"><div class="tico">💬</div><div class="label">New reviews</div><div class="mid" style="margin-top:6px">${newRev}</div><div class="small">in ${r.words}</div></div>
+      <div class="card tile" style="--t:#E3F7FF;--tc:#0B7FAE"><div class="tico">📅</div><div class="label">Reviews per week</div><div class="mid" style="margin-top:6px">${Math.round(newRev/r.n)}</div><div class="small">on average</div></div>
+      <div class="card tile" style="--t:#E5F6EA;--tc:#138A3E"><div class="tico">😊</div><div class="label">Happy customers</div><div class="mid" style="margin-top:6px">86%</div><div class="small">gave you 4 or 5 stars this month</div></div>
     </div>
 
     <div class="grid g2 mt">
@@ -730,7 +813,7 @@
     </section>
     <div class="grid g4 mt">${Object.values(APPS).map(a=>{
       const v=a.values.slice(start),dd=v[v.length-1]-v[0];
-      return `<div class="card"><div class="row"><span class="app-badge" style="background:${a.color}">${a.letter}</span><b>${a.name}</b></div>
+      return `<div class="card app-card" style="--t:${a.color}1F"><div class="row"><span class="app-badge" style="background:${a.color}">${a.letter}</span><b>${a.name}</b></div>
         <div class="mid" style="margin-top:14px">${r1(v[v.length-1])}<span class="unit star">★</span></div>
         <div style="margin-top:6px">${starPill(dd)}</div>
         ${spark(v,a.color,40)}
@@ -746,13 +829,13 @@
     const max=Math.max(...days.map(x=>x.total),1),topDay=days.reduce((a,b)=>b.total>a.total?b:a);
     const posts=POSTS.filter(p=>keys.includes(p.p)).sort((a,b)=>b.views-a.views);
     const topPostOnDay=posts.find(p=>p.day===topDay.d);
-    const kpi=(label,now,prev,fmt=fmtK)=>`<div class="card"><div class="label">${label}</div><div class="mid" style="margin-top:6px">${fmt(now)}</div><div style="margin-top:8px">${pctPill(now,prev)}</div></div>`;
+    const kpi=(label,now,prev,fmt,ico,t,tc)=>`<div class="card tile" style="--t:${t};--tc:${tc}"><div class="tico">${ico}</div><div class="label">${label}</div><div class="mid" style="margin-top:6px">${fmt(now)}</div><div style="margin-top:8px">${pctPill(now,prev)}</div></div>`;
     return pageHead('var(--social)','social','This week on TikTok & Instagram','Fri, Oct 9 – Thu, Oct 15 · posts that mention Demo Kitchen',seg('platform',[['all','Both'],['tiktok','TikTok'],['instagram','Instagram']],'Platform'))+`
     <div class="grid g4">
-      ${kpi('Posts about you',t.posts,t.prevPosts,String)}
-      ${kpi('Views',t.views,t.prevViews)}
-      ${kpi('Likes',t.likes,t.prevLikes)}
-      ${kpi('Shares &amp; saves',t.shares,t.prevShares)}
+      ${kpi('Posts about you',t.posts,t.prevPosts,String,'📝','#FFE6F0','#D61F63')}
+      ${kpi('Views',t.views,t.prevViews,fmtK,'👀','#FFEEDC','#C25A00')}
+      ${kpi('Likes',t.likes,t.prevLikes,fmtK,'❤️','#FDE7E7','#C8261C')}
+      ${kpi('Shares &amp; saves',t.shares,t.prevShares,fmtK,'🔁','#EEE8FF','#6233D6')}
     </div>
     <div class="grid g2 mt">
       <section class="card">
@@ -773,7 +856,7 @@
     </article>`).join('')}</div>
     <section class="card mt">
       <div class="card-title"><h2>Trending near you</h2><span class="small">Midtown East · food posts this week vs last week</span></div>
-      ${TRENDS.map(x=>`<div class="trend-row"><span class="e" aria-hidden="true">${x.e}</span><div><b>${esc(x.t)}</b><div class="small">${esc(x.note)}</div></div><span class="pill ${x.ch>0?'up':'down'}">${x.ch>0?'↑':'↓'} ${Math.abs(x.ch)}%</span></div>`).join('')}
+      ${TRENDS.map(x=>`<div class="trend-row"><span class="e ${x.ch>0?'up':'down'}" aria-hidden="true">${x.e}</span><div><b>${esc(x.t)}</b><div class="small">${esc(x.note)}</div></div><span class="pill ${x.ch>0?'up':'down'}">${x.ch>0?'↑':'↓'} ${Math.abs(x.ch)}%</span></div>`).join('')}
     </section>`;
   }
 
@@ -784,6 +867,7 @@
   }
   function render(focusKey){
     charts={};
+    document.body.dataset.theme=state.tab;
     $('#content').innerHTML=VIEWS[state.tab]();
     renderTabs();
     wireCharts();
