@@ -284,12 +284,6 @@ The mockup does not imply working ingestion, live sources, or real customer insi
 
 Wireframe files are in the adjacent DishLens_Wireframes folder: index.html provides offline screen navigation, 00-all-wireframes.png shows all four screens, and individually numbered PNG/SVG files support presentation use and editing.
 
-### Interactive HTML prototype
-
-Open index.html at the root of this project folder for the interactive prototype. It supports screen navigation, dish/context/aspect filters, searchable evidence, persistent dish corrections, competitor selection, local-area/topic filters, evidence thresholds, briefing export, and demo reset. Prototype_Previews contains desktop and mobile screenshots.
-
-All underlying records are invented fixtures. Counts recompute when filters or corrections change; they are not live customer insights. The prototype has no scraping, API integrations, AI backend, accounts, or server. Corrections and selected settings are stored only in the local browser when supported. The original static wireframes remain in DishLens_Wireframes.
-
 ## 8. Data, Architecture, and Safety
 
 ### Source-access gate
