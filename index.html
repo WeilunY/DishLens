@@ -170,9 +170,16 @@
     .dish{padding:0;overflow:hidden}
     .dish + .dish{margin-top:14px}
     .dish-head{display:grid;grid-template-columns:60px minmax(0,1fr) auto;column-gap:16px;row-gap:2px;align-items:center;padding:18px 22px;width:100%;border:0;background:none;text-align:left}
-    .dish-head .emoji,.dish-head .dish-score{grid-row:1/3}
+    .dish-head .photo,.dish-head .dish-score{grid-row:1/3}
+    .dish-head .photo{grid-column:1}.dish-head .dish-name-wrap{grid-column:2}.dish-head .dish-score{grid-column:3}
     .dish-senti{grid-column:2;display:block}
     .emoji{width:60px;height:60px;border-radius:18px;background:#FFF3E3;display:grid;place-items:center;font-size:32px}
+    .photo{position:relative;display:grid;place-items:center;overflow:hidden;background:#FFF3E3;flex:none}
+    .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .dish-head .photo{width:84px;height:84px;border-radius:20px;font-size:36px}
+    .dish-head{grid-template-columns:84px minmax(0,1fr) auto!important}
+    .mini-list .photo{width:40px;height:40px;border-radius:12px;font-size:20px}
+    .dish-hero{height:200px;border-radius:20px;margin-bottom:6px;font-size:64px}
     .dish-name{font-size:19px;font-weight:720;letter-spacing:-.2px}
     .dish-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:14.5px;margin-top:2px}
     .senti{display:flex;height:9px;border-radius:99px;overflow:hidden;gap:2px;margin-top:8px;max-width:440px}
@@ -211,7 +218,10 @@
     .daycol .d{font-size:13px;color:var(--muted)}
     .daycol.top .d{color:var(--ink);font-weight:700}
     .post{padding:0;overflow:hidden;display:flex;flex-direction:column}
-    .thumb{height:190px;display:grid;place-items:center;font-size:72px;position:relative}
+    .thumb{height:220px;display:grid;place-items:center;font-size:72px;position:relative;overflow:hidden}
+    .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0) 55%,rgba(0,0,0,.6) 100%)}
+    .thumb .plat,.thumb .views{z-index:1}
     .thumb .plat{position:absolute;top:12px;left:12px;background:rgba(0,0,0,.55);color:#fff;border-radius:999px;padding:4px 11px;font-size:12.5px;font-weight:700;backdrop-filter:blur(6px)}
     .thumb .views{position:absolute;bottom:12px;left:14px;color:#fff;font-weight:760;font-size:17px;text-shadow:0 1px 8px rgba(0,0,0,.35);display:flex;align-items:center;gap:6px}
     .thumb .views svg{width:16px;height:16px}
@@ -244,7 +254,10 @@
       .ring .center b{font-size:23px}
       .ring .center span{font-size:10.5px}
       .ring-link .pill{font-size:12px;padding:3px 8px}
-      .dish-head .emoji,.dish-head .dish-score{grid-row:auto}
+      .dish-head .photo,.dish-head .dish-score{grid-row:auto}
+      .dish-head{grid-template-columns:64px minmax(0,1fr) auto!important}
+      .dish-head .photo{width:64px;height:64px;border-radius:16px}
+      .dish-hero{height:170px}
       .dish-senti{grid-column:1/-1;margin-top:6px}
       .dish-score .mid{font-size:26px}
       .posts{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:78%;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:16px;margin:0 -16px;padding:4px 16px 12px;scrollbar-width:none}
@@ -285,7 +298,7 @@
   <main id="content" tabindex="-1"></main>
   <footer>
     <div>DishLens demo · All restaurants, reviews, ratings and posts are invented. No real accounts are connected.</div>
-    <div><a href="DishLens_PRD.md">PRD</a><a href="DishLens_Wireframes/00-all-wireframes.png" target="_blank" rel="noopener">Wireframes</a><button type="button" data-action="reset">Reset demo</button></div>
+    <div><a href="DishLens_PRD.md">PRD</a><a href="DishLens_Wireframes/00-all-wireframes.png" target="_blank" rel="noopener">Wireframes</a><a href="images/dishes/CREDITS.md">Photo credits</a><button type="button" data-action="reset">Reset demo</button></div>
   </footer>
   <div id="toast" role="status" hidden></div>
 
@@ -355,7 +368,7 @@
     {n:'Sam R.',st:2,ago:'6 days ago',t:'The spicy wontons were WAY too spicy. Nobody warned me!',reply:true}
   ];
   const DISHES=[
-    {id:'chicken',name:'Crispy Chicken',emoji:'🍗',price:14,rating:4.2,prev:3.9,mentions:142,love:68,okay:14,bad:18,
+    {id:'chicken',img:'images/dishes/chicken.jpg',name:'Crispy Chicken',emoji:'🍗',price:14,rating:4.2,prev:3.9,mentions:142,love:68,okay:14,bad:18,
       trend:series([[0,3.86],[5,3.92],[11,4.2]],12,11,.08),
       summary:'People love the crunchy coating and the spicy mayo. Complaints about soggy delivery orders dropped a lot after you switched to vented boxes. A few people still say the portion feels small for the price.',
       loves:['Crunchy coating','Spicy mayo','Juicy inside','Great for sharing'],
@@ -364,7 +377,7 @@
         {tag:'easy',tagText:'Easy fix',title:'Show “6 pieces” on the menu',text:'9 people said the portion felt small for $14. Showing the piece count up front sets the right expectation.'},
         {tag:'try',tagText:'Try it',title:'Offer extra spicy mayo for $1',text:'14 reviews asked for more sauce. An add-on keeps them happy and raises the order total.'}],
       quotes:[{t:'Still crunchy after a 20-minute delivery. The new box works!',s:'Google',st:5},{t:'Tasty, but only 6 pieces for $14 felt a bit small.',s:'DoorDash',st:3},{t:'That spicy mayo… I need it in a jar.',s:'Yelp',st:5}]},
-    {id:'noodles',name:'Sesame Noodles',emoji:'🍜',price:12,rating:4.6,prev:4.6,mentions:118,love:81,okay:11,bad:8,
+    {id:'noodles',img:'images/dishes/noodles.jpg',name:'Sesame Noodles',emoji:'🍜',price:12,rating:4.6,prev:4.6,mentions:118,love:81,okay:11,bad:8,
       trend:series([[0,4.55],[11,4.6]],12,17,.07),
       summary:'One of your most-loved dishes. Customers rave about the creamy sesame sauce and fresh herbs. The only repeated complaints: the sauce can be a bit salty, and it sometimes leaks in delivery bags.',
       loves:['Creamy sesame sauce','Fresh herbs','Great value','Big bowl'],
@@ -372,7 +385,7 @@
         {tag:'easy',tagText:'Easy fix',title:'Offer sauce on the side for delivery',text:'12 people said it was too salty or too saucy. Letting them add it themselves solves both.'},
         {tag:'easy',tagText:'Easy fix',title:'Use a tighter lid or seal the container',text:'5 delivery reviews mentioned sauce leaking into the bag.'}],
       quotes:[{t:'Best sesame noodles in Midtown, hands down.',s:'Google',st:5},{t:'Loved it, but the sauce was a little too salty for me.',s:'Uber Eats',st:4},{t:'Sauce leaked all over the bag :(',s:'DoorDash',st:3}]},
-    {id:'dumplings',name:'Pork Dumplings',emoji:'🥟',price:10,rating:4.7,prev:4.6,mentions:96,love:84,okay:10,bad:6,
+    {id:'dumplings',img:'images/dishes/dumplings.jpg',name:'Pork Dumplings',emoji:'🥟',price:10,rating:4.7,prev:4.6,mentions:96,love:84,okay:10,bad:6,
       trend:series([[0,4.58],[11,4.7]],12,19,.06),
       summary:'Your highest-rated dish. People mention the juicy filling and crispy bottoms. A few weekend diners say they waited too long for them.',
       loves:['Juicy filling','Crispy bottoms','Dipping sauce'],
@@ -380,7 +393,7 @@
         {tag:'try',tagText:'Try it',title:'Fold extra dumplings before weekend lunch',text:'7 weekend reviews mention waiting 20+ minutes. A bigger prep batch Friday–Sunday could cut the wait.'},
         {tag:'try',tagText:'Try it',title:'Feature them as your “Best rated” dish',text:'They are rated 4.7★. Put them first on your menu and on delivery apps so more people find them.'}],
       quotes:[{t:'Juicy, crispy, perfect. Order two plates.',s:'Yelp',st:5},{t:'Worth the wait, but the wait was long on Saturday.',s:'Google',st:4}]},
-    {id:'tofu',name:'Roasted Tofu Bowl',emoji:'🥗',price:15,rating:4.4,prev:4.1,mentions:64,love:72,okay:17,bad:11,
+    {id:'tofu',img:'images/dishes/tofu.jpg',name:'Roasted Tofu Bowl',emoji:'🥗',price:15,rating:4.4,prev:4.1,mentions:64,love:72,okay:17,bad:11,
       trend:series([[0,4.05],[6,4.2],[11,4.4]],12,23,.08),
       summary:'A rising favorite, especially with lunch and vegetarian customers. People like the crispy tofu and peanut dressing. The most common request is simply more tofu.',
       loves:['Crispy tofu','Peanut dressing','Healthy lunch'],
@@ -388,7 +401,7 @@
         {tag:'try',tagText:'Try it',title:'Add “extra tofu +$3” as an option',text:'11 reviews asked for more tofu. Many customers would happily pay for it.'},
         {tag:'easy',tagText:'Easy fix',title:'Label it “vegan” on delivery apps',text:'6 people asked if it was vegan. A clear label helps the right customers find it.'}],
       quotes:[{t:'My go-to healthy lunch. Wish there was a bit more tofu!',s:'Uber Eats',st:4},{t:'That peanut dressing is addictive.',s:'Google',st:5}]},
-    {id:'wontons',name:'Spicy Wontons',emoji:'🌶️',price:11,rating:3.8,prev:4.0,mentions:41,love:49,okay:12,bad:39,
+    {id:'wontons',img:'images/dishes/wontons.jpg',name:'Spicy Wontons',emoji:'🌶️',price:11,rating:3.8,prev:4.0,mentions:41,love:49,okay:12,bad:39,
       trend:series([[0,4.02],[6,3.95],[11,3.8]],12,29,.09),
       summary:'Needs attention. Some customers love the heat (it’s even going viral on TikTok), but many were surprised by how spicy it is. Delivery orders also tend to arrive lukewarm.',
       loves:['Bold chili oil','Fun to share','Great with rice'],
@@ -405,10 +418,10 @@
   const DAYS=['Fri','Sat','Sun','Mon','Tue','Wed','Thu'];
   const DAY_NAMES={Fri:'Friday',Sat:'Saturday',Sun:'Sunday',Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday'};
   const POSTS=[
-    {p:'tiktok',h:'@nycfoodbites',f:'48K followers',day:'Tue',e:'🍗',g:'linear-gradient(160deg,#FFB547,#FF6A3D)',cap:'This $14 crispy chicken in Midtown is UNREAL 🔥 listen to that crunch!!',views:92000,likes:5200,com:312,mood:'up',moodText:'Loved it'},
-    {p:'tiktok',h:'@midtownmunchies',f:'21K followers',day:'Wed',e:'🌶️',g:'linear-gradient(160deg,#FF5F6D,#C81D4E)',cap:'Trying the spicy wontons… my mouth is ON FIRE 😭 would I do it again? yes',views:38000,likes:1600,com:204,mood:'flat',moodText:'Mixed'},
-    {p:'instagram',h:'@eatwithmaya',f:'15K followers',day:'Wed',e:'🍜',g:'linear-gradient(160deg,#F9D976,#F39F86)',cap:'Cozy noodle night 🍜 that sesame sauce is everything',views:21000,likes:1400,com:96,mood:'up',moodText:'Loved it'},
-    {p:'instagram',h:'@lunchbreak.lucy',f:'6K followers',day:'Sat',e:'🥟',g:'linear-gradient(160deg,#A18CD1,#FBC2EB)',cap:'25 min wait at lunch… but these dumplings were worth it ✨',views:9800,likes:410,com:38,mood:'flat',moodText:'Mixed'}
+    {p:'tiktok',h:'@nycfoodbites',dish:'chicken',f:'48K followers',day:'Tue',e:'🍗',g:'linear-gradient(160deg,#FFB547,#FF6A3D)',cap:'This $14 crispy chicken in Midtown is UNREAL 🔥 listen to that crunch!!',views:92000,likes:5200,com:312,mood:'up',moodText:'Loved it'},
+    {p:'tiktok',h:'@midtownmunchies',dish:'wontons',f:'21K followers',day:'Wed',e:'🌶️',g:'linear-gradient(160deg,#FF5F6D,#C81D4E)',cap:'Trying the spicy wontons… my mouth is ON FIRE 😭 would I do it again? yes',views:38000,likes:1600,com:204,mood:'flat',moodText:'Mixed'},
+    {p:'instagram',h:'@eatwithmaya',dish:'noodles',f:'15K followers',day:'Wed',e:'🍜',g:'linear-gradient(160deg,#F9D976,#F39F86)',cap:'Cozy noodle night 🍜 that sesame sauce is everything',views:21000,likes:1400,com:96,mood:'up',moodText:'Loved it'},
+    {p:'instagram',h:'@lunchbreak.lucy',dish:'dumplings',f:'6K followers',day:'Sat',e:'🥟',g:'linear-gradient(160deg,#A18CD1,#FBC2EB)',cap:'25 min wait at lunch… but these dumplings were worth it ✨',views:9800,likes:410,com:38,mood:'flat',moodText:'Mixed'}
   ];
   const TRENDS=[
     {t:'Chili crisp',e:'🌶️',ch:38,note:'You already use it in Spicy Wontons'},
@@ -461,6 +474,9 @@
     return `<div class="page-head"><div><div class="icon-chip" style="background:${color}">${ICONS[icon]}</div><h1>${esc(title)}</h1><p>${esc(sub)}</p></div>${right}</div>`;
   }
   const r1=v=>(Math.round(v*10)/10).toFixed(1);
+  const DISH_BY_ID=Object.fromEntries(DISHES.map(d=>[d.id,d]));
+  // Emoji stays underneath as a fallback if the photo fails to load.
+  function photo(d,cls,alt=''){return `<span class="photo ${cls}"><span aria-hidden="true">${d.emoji}</span><img src="${d.img}" alt="${esc(alt)}" loading="lazy" onerror="this.remove()"></span>`;}
 
   /* ---------- Charts ---------- */
   let charts={}, gradId=0;
@@ -599,8 +615,8 @@
       </a>
       <a class="card" href="#dishes">
         <div class="sum-head"><span class="dotc" style="background:var(--dish)">${ICONS.dishes}</span>Top dishes &amp; AI tips<span class="chev">›</span></div>
-        <ul class="mini-list">${top.map(d=>`<li><span style="font-size:22px">${d.emoji}</span>${esc(d.name)}<span class="r">${d.rating.toFixed(1)} <span class="star">★</span></span></li>`).join('')}
-          <li><span style="font-size:22px">⚠️</span><span><b>Spicy Wontons</b> need attention</span><span class="r"><span class="pill down">${DISHES[4].rating.toFixed(1)} ★</span></span></li></ul>
+        <ul class="mini-list">${top.map(d=>`<li>${photo(d,'')}${esc(d.name)}<span class="r">${d.rating.toFixed(1)} <span class="star">★</span></span></li>`).join('')}
+          <li>${photo(DISH_BY_ID.wontons,'')}<span><b>Spicy Wontons</b> need attention ⚠️</span><span class="r"><span class="pill down">${DISHES[4].rating.toFixed(1)} ★</span></span></li></ul>
       </a>
       <a class="card" href="#apps">
         <div class="sum-head"><span class="dotc" style="background:var(--apps)">${ICONS.apps}</span>Ratings on all apps<span class="chev">›</span></div>
@@ -656,8 +672,8 @@
     const status={up:'↑ Getting better',down:'↓ Needs attention',flat:'→ Steady'}[c];
     return `<article class="card dish${open?' open':''}">
       <button type="button" class="dish-head" data-dish="${d.id}" data-k="dish-${d.id}" aria-expanded="${open}" aria-controls="dish-${d.id}">
-        <span class="emoji" aria-hidden="true">${d.emoji}</span>
-        <span style="min-width:0;display:block">
+        ${photo(d,'')}
+        <span class="dish-name-wrap" style="min-width:0;display:block">
           <span class="dish-name" style="display:block">${esc(d.name)}</span>
           <span class="dish-meta"><span>$${d.price}</span><span>·</span><span>${d.mentions} reviews</span><span class="pill ${c}">${status}</span></span>
         </span>
@@ -674,7 +690,8 @@
           ${d.fixes.map((f,k)=>`<div class="fix"><span class="num">${k+1}</span><div><b>${esc(f.title)}</b><span class="tag ${f.tag}">${f.tagText}</span><p>${esc(f.text)}</p></div></div>`).join('')}
         </div>
         <div>
-          <div class="sub-h" style="margin-top:0">What people love</div>
+          ${photo(d,'dish-hero','Photo of '+d.name)}
+          <div class="sub-h">What people love</div>
           <div class="chips">${d.loves.map(l=>`<span class="chip">💚 ${esc(l)}</span>`).join('')}</div>
           <div class="sub-h">Rating over the last 12 weeks</div>
           <div class="row between"><span class="mid" style="font-size:24px">${d.prev.toFixed(1)} → ${d.rating.toFixed(1)} <span class="star">★</span></span><span class="pill ${c}">${ARROW[c]} ${Math.abs(d.rating-d.prev).toFixed(1)} stars</span></div>
@@ -751,7 +768,7 @@
     </div>
     <div class="card-title" style="margin:28px 0 14px"><h2>Top posts about you</h2><span class="small">Sorted by views</span></div>
     <div class="grid g4 posts">${posts.map(p=>`<article class="card post">
-      <div class="thumb" style="background:${p.g}"><span class="plat">${SOCIAL[p.p].name}</span><span aria-hidden="true">${p.e}</span><span class="views">${ICONS.eye}${fmtK(p.views)}</span></div>
+      <div class="thumb" style="background:${p.g}"><span class="plat">${SOCIAL[p.p].name}</span><span aria-hidden="true">${p.e}</span><img src="${DISH_BY_ID[p.dish].img}" alt="" loading="lazy" onerror="this.remove()"><span class="views">${ICONS.eye}${fmtK(p.views)}</span></div>
       <div class="post-body"><div class="row between"><b>${esc(p.h)}</b><span class="pill ${p.mood}">${p.moodText}</span></div><div class="small">${esc(p.f)} · ${DAY_NAMES[p.day]}</div><div class="cap">${esc(p.cap)}</div><div class="stats"><span>❤️ ${fmtK(p.likes)}</span><span>💬 ${fmtK(p.com)}</span></div></div>
     </article>`).join('')}</div>
     <section class="card mt">
