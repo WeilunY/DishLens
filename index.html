@@ -245,6 +245,32 @@
     #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1C1C21;color:#fff;padding:12px 20px;border-radius:14px;z-index:40;box-shadow:0 8px 30px rgba(0,0,0,.2);font-weight:600}
 
 
+    /* ---------- Icons ---------- */
+    .hi{width:34px;height:34px;border-radius:11px;display:inline-grid;place-items:center;color:var(--c);background:color-mix(in srgb,var(--c) 14%,#fff);flex:none}
+    .hi svg{width:19px;height:19px}
+    .hi.sm{width:28px;height:28px;border-radius:9px}
+    .hi.sm svg{width:16px;height:16px}
+    .ht{display:flex;align-items:center;gap:10px}
+    .sub-h{display:flex;align-items:center;gap:9px}
+    .ic{display:inline-flex;vertical-align:-3px;margin-right:4px}
+    .ic svg{width:16px;height:16px}
+    .label .ic{color:var(--accent)}
+    .tile .tico{color:var(--tc)}
+    .tile .tico svg{width:22px;height:22px}
+    .tag{display:inline-flex!important;align-items:center;gap:4px}
+    .tag svg{width:13px;height:13px;stroke-width:2.3}
+    .src-app{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:6px;color:#fff;font-size:10px;font-weight:800;vertical-align:-4px;margin-right:4px}
+    .chart-hint .ic svg{width:14px;height:14px}
+    .post-body .stats .ic{margin-right:3px}
+    .post-body .stats svg{width:15px;height:15px}
+    .post-body .stats span:first-child .ic{color:#FF2D78}
+    .thumb .plat{display:inline-flex;align-items:center;gap:5px}
+    .thumb .plat svg{width:13px;height:13px}
+    footer a{display:inline-flex;align-items:center;gap:4px}
+    footer a svg,footer button svg{width:14px;height:14px}
+    footer button{display:inline-flex;align-items:center;gap:5px}
+    .app-card .small .ic{color:var(--faint)}
+
     /* ---------- Color theme ---------- */
     body{--accent:#FF5A36;--accent2:#FF2D78;--soft:#FFF0EA;--glow1:#FFD9C7;--glow2:#FFD3E6;
       background:radial-gradient(900px 520px at -5% -8%,var(--glow1),transparent 70%),radial-gradient(900px 520px at 105% -6%,var(--glow2),transparent 70%),#F4F3F8;background-repeat:no-repeat;min-height:100vh}
@@ -327,6 +353,8 @@
       .tabs{background:rgba(255,255,255,.96)}
       .tabs button[data-go][aria-current=page]{background:transparent;box-shadow:none;color:var(--tc)}
       .dish-score .mid{font-size:22px!important;padding:4px 9px}
+      .seg{display:flex;width:100%}
+      .seg button{flex:1 0 auto;padding:8px 10px}
     }
     @media (prefers-reduced-motion:reduce){.ring .prog{animation:none}a.card{transition:none}}
     @media (max-width:980px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(2,minmax(0,1fr))}.dish-body{grid-template-columns:1fr}.tabs button span{display:none}.tabs button{padding:8px 12px}}
@@ -382,7 +410,7 @@
   <main id="content" tabindex="-1"></main>
   <footer>
     <div>DishLens demo · All restaurants, reviews, ratings and posts are invented. No real accounts are connected.</div>
-    <div><a href="DishLens_PRD.md">PRD</a><a href="DishLens_Wireframes/00-all-wireframes.png" target="_blank" rel="noopener">Wireframes</a><a href="images/dishes/CREDITS.md">Photo credits</a><button type="button" data-action="reset">Reset demo</button></div>
+    <div><a href="DishLens_PRD.md" data-icon="doc">PRD</a><a href="DishLens_Wireframes/00-all-wireframes.png" target="_blank" rel="noopener" data-icon="list">Wireframes</a><a href="images/dishes/CREDITS.md" data-icon="image">Photo credits</a><button type="button" data-action="reset" data-icon="reset">Reset demo</button></div>
   </footer>
   <div id="toast" role="status" hidden></div>
 
@@ -403,8 +431,33 @@
     spark: svg('<path d="M12 3.5 13.9 9l5.6 1.9-5.6 1.9L12 18.4l-1.9-5.6-5.6-1.9L10.1 9z" fill="currentColor" stroke="none"/><path d="M19 3.5v3M17.5 5h3" stroke-width="1.6"/>'),
     chev: svg('<path d="m6 9 6 6 6-6"/>'),
     check: svg('<path d="m5 12.5 4.5 4.5L19 7.5" stroke-width="3"/>'),
-    eye: svg('<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>')
+    eye: svg('<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'),
+    list: svg('<path d="m4 6.5 1.5 1.5L8.5 5M4 12.5 5.5 14l3-3M4 18.5 5.5 20l3-3"/><path d="M12 7h8M12 13h8M12 19h8"/>'),
+    chat: svg('<path d="M20.5 12a8 8 0 0 1-11.7 7.1L4 20.5l1.4-4.6A8 8 0 1 1 20.5 12z"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01" stroke-width="2.6"/>'),
+    calendar: svg('<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 17h.01M12 17h.01" stroke-width="2.4"/>'),
+    smile: svg('<circle cx="12" cy="12" r="8.5"/><path d="M8.5 14.2a4.5 4.5 0 0 0 7 0"/><path d="M9 9.8h.01M15 9.8h.01" stroke-width="2.6"/>'),
+    bars: svg('<path d="M5 20V12M10 20V6M15 20v-9M20 20V4"/>'),
+    flag: svg('<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>'),
+    heart: svg('<path d="M12 20s-7.5-4.4-7.5-10A4.3 4.3 0 0 1 12 7.3 4.3 4.3 0 0 1 19.5 10C19.5 15.6 12 20 12 20z"/>'),
+    trend: svg('<path d="m3.5 16.5 6-6 4 4 7-7"/><path d="M15 7.5h5.5V13"/>'),
+    quote: svg('<path d="M10 7H6.5A2.5 2.5 0 0 0 4 9.5V12h4.5v4.5H4M20 7h-3.5A2.5 2.5 0 0 0 14 9.5V12h4.5v4.5H14"/>'),
+    tag: svg('<path d="M3.5 12.3V4.5a1 1 0 0 1 1-1h7.8l8.2 8.2a1.4 1.4 0 0 1 0 2l-6.6 6.6a1.4 1.4 0 0 1-2 0z"/><path d="M8 8h.01" stroke-width="2.8"/>'),
+    wrench: svg('<path d="M14.7 6.3a4 4 0 0 0 5 5L21 12.5 12.5 21a2.1 2.1 0 0 1-3-3L18 9.5"/><path d="M14.7 6.3 12 3.6a4.5 4.5 0 0 0-6 6l2.4 2.4"/><path d="m3 21 5-5"/>'),
+    flask: svg('<path d="M9.5 3.5h5M10.5 3.5v6L4.8 18.6A1.6 1.6 0 0 0 6.2 21h11.6a1.6 1.6 0 0 0 1.4-2.4L13.5 9.5v-6"/><path d="M7.5 15h9"/>'),
+    search: svg('<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/>'),
+    fire: svg('<path d="M12 21c-4 0-7-2.8-7-6.6 0-3.4 2.5-5.6 4-7.9.5 2 1.6 3 2.6 3.3C11.4 6 13 4 15 3c-.3 3 1 4.9 2.4 6.6A7.2 7.2 0 0 1 19 14.4C19 18.2 16 21 12 21z"/><path d="M12 21c-1.7 0-3-1.2-3-2.9 0-1.8 1.6-2.7 2.3-4.1.6 1.1 1.2 1.4 1.8 1.6.4-.8.8-1.4 1.4-1.8.4 1 .5 2.3.5 3 0 2.2-1.3 4.2-3 4.2z"/>'),
+    users: svg('<circle cx="9" cy="8.5" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 5.2a3.5 3.5 0 0 1 0 6.6M18.5 14.4A6.5 6.5 0 0 1 21.5 20"/>'),
+    edit: svg('<path d="M4 20h4L19.3 8.7a2.1 2.1 0 0 0-3-3L5 17v3z"/><path d="m14.5 7.5 3 3"/>'),
+    share: svg('<circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="m8.2 10.8 7.6-4M8.2 13.2l7.6 4"/>'),
+    hand: svg('<path d="M8.5 13V5.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V11m0-.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-.8a6 6 0 0 1-4.7-2.3L4 16.2a1.5 1.5 0 0 1 2.3-2l2.2 2"/>'),
+    doc: svg('<path d="M14 3.5H7A1.5 1.5 0 0 0 5.5 5v14A1.5 1.5 0 0 0 7 20.5h10a1.5 1.5 0 0 0 1.5-1.5V8z"/><path d="M14 3.5V8h4.5M8.5 13h7M8.5 16.5h5"/>'),
+    image: svg('<rect x="3.5" y="4.5" width="17" height="15" rx="3"/><circle cx="9" cy="10" r="1.8"/><path d="m20.5 16-5-5-8.5 8.5"/>'),
+    reset: svg('<path d="M4 12a8 8 0 1 0 2.4-5.7L4 8.5"/><path d="M4 4v4.5h4.5"/>'),
+    pin: svg('<path d="M12 21.5s7-6.3 7-12a7 7 0 0 0-14 0c0 5.7 7 12 7 12z"/><circle cx="12" cy="9.5" r="2.6"/>')
   };
+  const hi=(name,c,size='')=>`<span class="hi ${size}" style="--c:${c}">${ICONS[name]}</span>`;
+  const srcBadge=name=>{const a=Object.values(APPS).find(x=>x.name===name||x.name.startsWith(name));return a?`<span class="src-app" style="background:${a.color}">${a.letter}</span>`:'';};
+  const ic=name=>`<span class="ic">${ICONS[name]}</span>`;
 
   /* ---------- Invented demo data ---------- */
   function rng(seed){let s=seed;return()=>{s=s*16807%2147483647;return s/2147483647;};}
@@ -608,7 +661,7 @@
         <div class="scrub" hidden><div class="scrub-line"></div>${series.map(s=>`<span class="dot" style="--c:${s.color}"></span>`).join('')}<div class="tip"></div></div>
       </div>
       <div class="xlabels" aria-hidden="true">${xIdx.map(i=>`<span style="left:${X(i,n)}%">${esc(labels[i])}</span>`).join('')}</div>
-      <div class="chart-hint">Tip: touch or hover the chart to see each week.</div>
+      <div class="chart-hint">${ic('hand')}Tip: touch or hover the chart to see each week.</div>
     </div>`;
   }
   function scrubTo(plot,idx){
@@ -681,7 +734,7 @@
         <p>Great week! Your Google rating is now <b>${r1(gNow)}★</b> and still climbing. A TikTok about your <b>Crispy Chicken</b> got <b>92K views</b>. One thing to watch: people say the <b>Spicy Wontons</b> are too spicy.</p>
       </section>
       <section class="card">
-        <div class="card-title"><h2>Your to-do list</h2><span class="small">${done} of ${TODOS.length} done</span></div>
+        <div class="card-title"><h2 class="ht">${hi('list','#22B35E')}Your to-do list</h2><span class="small">${done} of ${TODOS.length} done</span></div>
         <div class="progress" aria-hidden="true"><span style="width:${done/TODOS.length*100}%"></span></div>
         ${TODOS.map(t=>`<div class="todo${state.todos[t.id]?' done':''}">
           <button type="button" class="check" data-todo="${t.id}" data-k="todo-${t.id}" aria-pressed="${!!state.todos[t.id]}" aria-label="Mark “${esc(t.text)}” as done">${ICONS.check}</button>
@@ -728,23 +781,23 @@
     return pageHead('var(--maps)','maps','Google Maps rating','How your star rating on Google has changed over time.')+`
     <section class="card">
       <div class="row between" style="align-items:flex-start">
-        <div><div class="label">Your rating now</div><div class="big">${r1(gNow)}<span class="unit star">★</span></div><div class="row" style="margin-top:8px">${starPill(d,' in '+r.short)}</div></div>
+        <div><div class="label">${ic('pin')}Your rating now</div><div class="big">${r1(gNow)}<span class="unit star">★</span></div><div class="row" style="margin-top:8px">${starPill(d,' in '+r.short)}</div></div>
         ${seg('mapsRange',Object.entries(RANGES).map(([k,v])=>[k,v.label]),'Time range')}
       </div>
       ${lineChart('maps',{labels,tipLabels,series:[{name:'',color:'#2F7BF6',values:vals}],fmt:v=>v.toFixed(2)+' ★',events:evs,aria:`Google rating went from ${vals[0].toFixed(2)} to ${vals[vals.length-1].toFixed(2)} stars over ${r.words}`})}
       <div class="insight"><span class="ico">💡</span><div>${msg}</div></div>
-      ${evs.length?`<div class="sub-h">What happened</div><ul class="events" style="margin-top:0">${evs.map(e=>`<li><span class="pin">${e.icon}</span>${esc(e.title)}<span class="when">${e.date}</span></li>`).join('')}</ul>`:''}
+      ${evs.length?`<div class="sub-h">${hi('flag','#2F7BF6','sm')}What happened</div><ul class="events" style="margin-top:0">${evs.map(e=>`<li><span class="pin">${e.icon}</span>${esc(e.title)}<span class="when">${e.date}</span></li>`).join('')}</ul>`:''}
     </section>
 
     <div class="grid g3 mt">
-      <div class="card tile" style="--t:#E6F0FF;--tc:#1F5FD1"><div class="tico">💬</div><div class="label">New reviews</div><div class="mid" style="margin-top:6px">${newRev}</div><div class="small">in ${r.words}</div></div>
-      <div class="card tile" style="--t:#E3F7FF;--tc:#0B7FAE"><div class="tico">📅</div><div class="label">Reviews per week</div><div class="mid" style="margin-top:6px">${Math.round(newRev/r.n)}</div><div class="small">on average</div></div>
-      <div class="card tile" style="--t:#E5F6EA;--tc:#138A3E"><div class="tico">😊</div><div class="label">Happy customers</div><div class="mid" style="margin-top:6px">86%</div><div class="small">gave you 4 or 5 stars this month</div></div>
+      <div class="card tile" style="--t:#E6F0FF;--tc:#1F5FD1"><div class="tico">${ICONS.chat}</div><div class="label">New reviews</div><div class="mid" style="margin-top:6px">${newRev}</div><div class="small">in ${r.words}</div></div>
+      <div class="card tile" style="--t:#E3F7FF;--tc:#0B7FAE"><div class="tico">${ICONS.calendar}</div><div class="label">Reviews per week</div><div class="mid" style="margin-top:6px">${Math.round(newRev/r.n)}</div><div class="small">on average</div></div>
+      <div class="card tile" style="--t:#E5F6EA;--tc:#138A3E"><div class="tico">${ICONS.smile}</div><div class="label">Happy customers</div><div class="mid" style="margin-top:6px">86%</div><div class="small">gave you 4 or 5 stars this month</div></div>
     </div>
 
     <div class="grid g2 mt">
-      <section class="card"><div class="card-title"><h2>Stars this month</h2></div><div class="bars-h">${STAR_SPLIT.map((p,k)=>`<div class="bar-h"><span>${5-k} <span class="star">★</span></span><div class="t"><span style="width:${p}%"></span></div><span class="p">${p}%</span></div>`).join('')}</div></section>
-      <section class="card"><div class="card-title"><h2>Newest reviews</h2><span class="small">Google Maps</span></div>
+      <section class="card"><div class="card-title"><h2 class="ht">${hi('apps','#F5A300')}Stars this month</h2></div><div class="bars-h">${STAR_SPLIT.map((p,k)=>`<div class="bar-h"><span>${5-k} <span class="star">★</span></span><div class="t"><span style="width:${p}%"></span></div><span class="p">${p}%</span></div>`).join('')}</div></section>
+      <section class="card"><div class="card-title"><h2 class="ht">${hi('chat','#2F7BF6')}Newest reviews</h2><span class="small">Google Maps</span></div>
         ${RECENT.map(v=>`<div class="review"><div class="row between"><div class="row">${stars(v.st)}<b style="font-size:15px">${esc(v.n)}</b></div><div class="row">${v.reply?'<span class="pill warn">Needs a reply</span>':''}<span class="small">${v.ago}</span></div></div><p>${esc(v.t)}</p></div>`).join('')}
       </section>
     </div>`;
@@ -758,7 +811,7 @@
         ${photo(d,'')}
         <span class="dish-name-wrap" style="min-width:0;display:block">
           <span class="dish-name" style="display:block">${esc(d.name)}</span>
-          <span class="dish-meta"><span>$${d.price}</span><span>·</span><span>${d.mentions} reviews</span><span class="pill ${c}">${status}</span></span>
+          <span class="dish-meta"><span>${ic('tag')}$${d.price}</span><span>${ic('chat')}${d.mentions} reviews</span><span class="pill ${c}">${status}</span></span>
         </span>
         <span class="dish-score"><span class="mid" style="display:block">${d.rating.toFixed(1)}<span class="unit star">★</span></span><span class="chev">${ICONS.chev}</span></span>
         <span class="dish-senti">
@@ -769,18 +822,18 @@
       ${open?`<div class="dish-body" id="dish-${d.id}">
         <div>
           <div class="ai-box"><span class="pill ai">${ICONS.spark} AI summary</span><p>${esc(d.summary)}</p><div class="ai-note">Based on ${d.mentions} reviews from Google, Yelp, DoorDash and Uber Eats in the last 3 months. AI can make mistakes, so check the reviews too.</div></div>
-          <div class="sub-h">How to make it even better</div>
-          ${d.fixes.map((f,k)=>`<div class="fix"><span class="num">${k+1}</span><div><b>${esc(f.title)}</b><span class="tag ${f.tag}">${f.tagText}</span><p>${esc(f.text)}</p></div></div>`).join('')}
+          <div class="sub-h">${hi('wrench','#FF7A00','sm')}How to make it even better</div>
+          ${d.fixes.map((f,k)=>`<div class="fix"><span class="num">${k+1}</span><div><b>${esc(f.title)}</b><span class="tag ${f.tag}">${ICONS[{keep:'check',easy:'wrench',try:'flask',check:'search'}[f.tag]]}${f.tagText}</span><p>${esc(f.text)}</p></div></div>`).join('')}
         </div>
         <div>
           ${photo(d,'dish-hero','Photo of '+d.name)}
-          <div class="sub-h">What people love</div>
+          <div class="sub-h">${hi('heart','#22B35E','sm')}What people love</div>
           <div class="chips">${d.loves.map(l=>`<span class="chip">💚 ${esc(l)}</span>`).join('')}</div>
-          <div class="sub-h">Rating over the last 12 weeks</div>
+          <div class="sub-h">${hi('trend','#2F7BF6','sm')}Rating over the last 12 weeks</div>
           <div class="row between"><span class="mid" style="font-size:24px">${d.prev.toFixed(1)} → ${d.rating.toFixed(1)} <span class="star">★</span></span><span class="pill ${c}">${ARROW[c]} ${Math.abs(d.rating-d.prev).toFixed(1)} stars</span></div>
           ${spark(d.trend,'#FF8A00',64)}
-          <div class="sub-h">What customers said</div>
-          ${d.quotes.map(q=>`<div class="quote">“${esc(q.t)}”<div class="src">${stars(q.st)} · ${esc(q.s)}</div></div>`).join('')}
+          <div class="sub-h">${hi('quote','#7C5CFF','sm')}What customers said</div>
+          ${d.quotes.map(q=>`<div class="quote">“${esc(q.t)}”<div class="src">${stars(q.st)} · ${srcBadge(q.s)}${esc(q.s)}</div></div>`).join('')}
         </div>
       </div>`:''}
     </article>`;
@@ -804,7 +857,7 @@
     return pageHead('var(--apps)','apps','Ratings on all apps','Your average star rating on each app, side by side.')+`
     <section class="card">
       <div class="row between" style="align-items:flex-start">
-        <div><div class="label">Average across all apps</div><div class="big">${r1(COMBINED[51])}<span class="unit star">★</span></div><div class="row" style="margin-top:8px">${starPill(d,' in '+r.short)}</div></div>
+        <div><div class="label">${ic('apps')}Average across all apps</div><div class="big">${r1(COMBINED[51])}<span class="unit star">★</span></div><div class="row" style="margin-top:8px">${starPill(d,' in '+r.short)}</div></div>
         ${seg('appsRange',Object.entries(RANGES).map(([k,v])=>[k,v.label]),'Time range')}
       </div>
       <div class="legend" role="group" aria-label="Show or hide apps">${Object.entries(APPS).map(([k,a])=>`<button type="button" data-app="${k}" data-k="app-${k}" aria-pressed="${state.apps[k]}" style="--c:${a.color}"><i></i>${a.name}</button>`).join('')}</div>
@@ -817,8 +870,8 @@
         <div class="mid" style="margin-top:14px">${r1(v[v.length-1])}<span class="unit star">★</span></div>
         <div style="margin-top:6px">${starPill(dd)}</div>
         ${spark(v,a.color,40)}
-        <div class="small" style="margin-top:10px">${a.reviews.toLocaleString('en-US')} ratings</div>
-        <div class="small">People mention: <b style="color:var(--ink);font-weight:600">${esc(a.note)}</b></div></div>`;}).join('')}
+        <div class="small" style="margin-top:10px">${ic('users')}${a.reviews.toLocaleString('en-US')} ratings</div>
+        <div class="small">${ic('chat')}People mention: <b style="color:var(--ink);font-weight:600">${esc(a.note)}</b></div></div>`;}).join('')}
     </div>
     <p class="small" style="margin-top:14px">All apps are shown on the same 5-star scale.</p>`;
   }
@@ -832,14 +885,14 @@
     const kpi=(label,now,prev,fmt,ico,t,tc)=>`<div class="card tile" style="--t:${t};--tc:${tc}"><div class="tico">${ico}</div><div class="label">${label}</div><div class="mid" style="margin-top:6px">${fmt(now)}</div><div style="margin-top:8px">${pctPill(now,prev)}</div></div>`;
     return pageHead('var(--social)','social','This week on TikTok & Instagram','Fri, Oct 9 – Thu, Oct 15 · posts that mention Demo Kitchen',seg('platform',[['all','Both'],['tiktok','TikTok'],['instagram','Instagram']],'Platform'))+`
     <div class="grid g4">
-      ${kpi('Posts about you',t.posts,t.prevPosts,String,'📝','#FFE6F0','#D61F63')}
-      ${kpi('Views',t.views,t.prevViews,fmtK,'👀','#FFEEDC','#C25A00')}
-      ${kpi('Likes',t.likes,t.prevLikes,fmtK,'❤️','#FDE7E7','#C8261C')}
-      ${kpi('Shares &amp; saves',t.shares,t.prevShares,fmtK,'🔁','#EEE8FF','#6233D6')}
+      ${kpi('Posts about you',t.posts,t.prevPosts,String,ICONS.edit,'#FFE6F0','#D61F63')}
+      ${kpi('Views',t.views,t.prevViews,fmtK,ICONS.eye,'#FFEEDC','#C25A00')}
+      ${kpi('Likes',t.likes,t.prevLikes,fmtK,ICONS.heart,'#FDE7E7','#C8261C')}
+      ${kpi('Shares &amp; saves',t.shares,t.prevShares,fmtK,ICONS.share,'#EEE8FF','#6233D6')}
     </div>
     <div class="grid g2 mt">
       <section class="card">
-        <div class="card-title"><h2>Posts about you, day by day</h2></div>
+        <div class="card-title"><h2 class="ht">${hi('bars','#FF2D78')}Posts about you, day by day</h2></div>
         <div class="row small">${keys.map(k=>`<span class="row" style="gap:6px"><i style="width:10px;height:10px;border-radius:3px;background:${SOCIAL[k].color};display:inline-block"></i>${SOCIAL[k].name}</span>`).join('')}</div>
         <div class="daybars" role="img" aria-label="${days.map(x=>x.d+': '+x.total).join(', ')}">${days.map(x=>`<div class="daycol${x===topDay?' top':''}"><span class="n">${x.total}</span><div class="stack" style="height:${x.total/max*72}%">${x.parts.map(p=>`<span style="height:${x.total?p.v/x.total*100:0}%;background:${SOCIAL[p.k].color}"></span>`).join('')}</div><span class="d">${x.d}</span></div>`).join('')}</div>
         <div class="insight"><span class="ico">📈</span><div>Your busiest day was <b>${DAY_NAMES[topDay.d]}</b>${topPostOnDay?`, when <b>${esc(topPostOnDay.h)}</b> posted about you`:''}.</div></div>
@@ -849,13 +902,13 @@
         <ol class="tips">${SOCIAL_TIPS.map(s=>`<li>${s}</li>`).join('')}</ol>
       </section>
     </div>
-    <div class="card-title" style="margin:28px 0 14px"><h2>Top posts about you</h2><span class="small">Sorted by views</span></div>
+    <div class="card-title" style="margin:28px 0 14px"><h2 class="ht">${hi('fire','#FF7A00')}Top posts about you</h2><span class="small">Sorted by views</span></div>
     <div class="grid g4 posts">${posts.map(p=>`<article class="card post">
-      <div class="thumb" style="background:${p.g}"><span class="plat">${SOCIAL[p.p].name}</span><span aria-hidden="true">${p.e}</span><img src="${DISH_BY_ID[p.dish].img}" alt="" loading="lazy" onerror="this.remove()"><span class="views">${ICONS.eye}${fmtK(p.views)}</span></div>
-      <div class="post-body"><div class="row between"><b>${esc(p.h)}</b><span class="pill ${p.mood}">${p.moodText}</span></div><div class="small">${esc(p.f)} · ${DAY_NAMES[p.day]}</div><div class="cap">${esc(p.cap)}</div><div class="stats"><span>❤️ ${fmtK(p.likes)}</span><span>💬 ${fmtK(p.com)}</span></div></div>
+      <div class="thumb" style="background:${p.g}"><span class="plat">${ICONS.social}${SOCIAL[p.p].name}</span><span aria-hidden="true">${p.e}</span><img src="${DISH_BY_ID[p.dish].img}" alt="" loading="lazy" onerror="this.remove()"><span class="views">${ICONS.eye}${fmtK(p.views)}</span></div>
+      <div class="post-body"><div class="row between"><b>${esc(p.h)}</b><span class="pill ${p.mood}">${p.moodText}</span></div><div class="small">${ic('users')}${esc(p.f)} · ${DAY_NAMES[p.day]}</div><div class="cap">${esc(p.cap)}</div><div class="stats"><span>${ic('heart')}${fmtK(p.likes)}</span><span>${ic('chat')}${fmtK(p.com)}</span></div></div>
     </article>`).join('')}</div>
     <section class="card mt">
-      <div class="card-title"><h2>Trending near you</h2><span class="small">Midtown East · food posts this week vs last week</span></div>
+      <div class="card-title"><h2 class="ht">${hi('trend','#22B35E')}Trending near you</h2><span class="small">${ic('pin')}Midtown East · food posts this week vs last week</span></div>
       ${TRENDS.map(x=>`<div class="trend-row"><span class="e ${x.ch>0?'up':'down'}" aria-hidden="true">${x.e}</span><div><b>${esc(x.t)}</b><div class="small">${esc(x.note)}</div></div><span class="pill ${x.ch>0?'up':'down'}">${x.ch>0?'↑':'↓'} ${Math.abs(x.ch)}%</span></div>`).join('')}
     </section>`;
   }
@@ -897,6 +950,7 @@
     else if(b.dataset.action==='reset'){state.todos={};try{localStorage.removeItem(STORE);}catch(err){}render();toast('Demo reset.');}
   });
   window.addEventListener('hashchange',()=>{state.tab=routeFromHash();render();window.scrollTo(0,0);$('#content').focus({preventScroll:true});});
+  document.querySelectorAll('footer [data-icon]').forEach(el=>el.insertAdjacentHTML('afterbegin',ICONS[el.dataset.icon]));
   state.tab=routeFromHash();
   render();
   </script>
